@@ -17,6 +17,7 @@
                 <a href="/foods" class="nav-item nav-link">Food</a>
                 <a href="/signup" class="nav-item nav-link active">Signup</a>
                 <a href="/login" class="nav-item nav-link">Login</a>
+                <a href="/logout" class="nav-item nav-link">Logout</a>
                 <a href="/contact" class="nav-item nav-link">Contact</a>
             </div>
             <a href="/" class="btn btn-primary py-2 px-4">Restaurants</a>
@@ -52,45 +53,61 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" name="name" id="uname" placeholder="Your Name">
+                                    <input type="text" class="form-control" name="name" id="uname"
+                                        placeholder="Your Name" required>
                                     <label for="uname">Username</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email">
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        placeholder="Your Email" required>
                                     <label for="email">Your Email</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" name="mobile" id="mobile" placeholder="Your mobile no.">
+                                    <input type="number" class="form-control" name="mobile" id="mobile"
+                                        placeholder="Your mobile no." required>
                                     <label for="mobile">Your Mobile</label>
                                 </div>
                             </div>
-                            <div class="col-12">
+                            <div class="col-md-6">
                                 <div class="form-floating">
-                                    <select name="utype" id="pet-select" class="form-control bg-white">
+                                    <select name="utype" id="pet-select" class="form-control bg-white" required>
                                         <option value="">User Type</option>
                                         <option value="Customer">Customer</option>
                                         <option value="Foodprovider">Foodprovider</option>
                                         <option value="Delivery">Driver</option>
-                                      </select>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input type="password" class="form-control" name="pwd" id="pwd" placeholder="Your Password">
+                                    <input type="password" class="form-control" name="pwd" id="pwd"
+                                        placeholder="Your Password" required>
                                     <label for="pwd">Password</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input type="password" class="form-control" name="pwdc" id="pwdc" placeholder="Your Password (confirm)">
+                                    <input type="password" class="form-control" name="pwdc" id="pwdc"
+                                        placeholder="Your Password (confirm)" required>
                                     <label for="pwdc">Password (confirm)</label>
                                 </div>
                             </div>
                             <p>Already have an account? <a href="/login">login</a></p>
+
+                            <!-- Messages Start -->
+                            {% if messages %}
+                            <ul class="messages list-unstyled">
+                                {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }} text-danger" {% endif %}>{{ message }}</li>
+                                    {% endfor %}
+                            </ul>
+                            {% endif %}
+                            <!-- Messages End -->
+
                             <div class="col-12">
                                 <button class="btn btn-primary w-100 py-3" type="submit">Signup</button>
                             </div>

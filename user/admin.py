@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Address
+from .models import User, Address, Contact
 
 
 # Register User model
@@ -11,3 +11,8 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
     list_display = ['user', 'state', 'city', 'area']
+
+# Register Contact model
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'subject', 'message']

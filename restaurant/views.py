@@ -1,3 +1,6 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+# Function to get all restaurant data
+def restaurant(request):
+    return render(request, 'foodprovider/restaurant.html') 

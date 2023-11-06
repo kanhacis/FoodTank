@@ -24,3 +24,10 @@ class Address(models.Model):
 
     def __str__(self):
         return self.city
+    
+# Contact Model
+class Contact(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255)
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
