@@ -1,0 +1,73 @@
+app-User
+    - Abstract user
+    - mobile
+    - user_type
+    
+   -Address
+    - user (fk)
+    - state
+    - city
+    - area
+    - zipcode
+    - landmark
+    - category (home or work) 
+    
+app-Restaurant
+    - user (fk)
+    - name 
+    - city
+    - address
+    - mobile
+    - is_varified
+    - veg_or_nonveg 
+    - no_of_chefs
+    - start_date 
+    - img1
+    - img2
+    - img3
+    - img4
+    
+   -Cuisine
+    - restaurant (fk)
+    - cuisine
+    
+app-Menu
+    - restaurant (fk)
+    - name 
+    - desp..
+    - type
+    - price
+    - img1 
+    
+   -Review
+    - user (fk)
+    - menu (fk)
+    - rating 
+    - description
+    - date (optional)
+    
+==================================
+    
+app-Order
+    - order_id
+    - restaurant (fk)
+    - is_confirmed
+    - estimated_time
+    - driver (fk)
+    
+   -OrderItem
+    - item (fk -- menu)
+    - order (fk)
+    - quantity 
+    
+app-Driver
+    - User (fk)
+    - is_varified
+    
+app-Bag
+    - User (one-to-one) 
+    
+   -BagItem
+    - bag (fk)
+    - item (Menu --> fk)
+    - quantity
