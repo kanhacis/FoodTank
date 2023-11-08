@@ -1,12 +1,19 @@
 from django.shortcuts import render, redirect
 from .models import User, Contact
 from django.contrib import messages
+from menu.models import Menu
 from django.contrib.auth import authenticate, login, logout
-
+from django.contrib.auth.decorators import login_required
 
 # Home
 def home(request):
-    return render(request, 'home.html')
+    # Get all food data from Menu model
+    menu = Menu.objects.all()
+
+    context = {
+        'menus':menu
+    }
+    return render(request, 'home.html', context)
 
 # Foods
 def food(request):
@@ -41,7 +48,7 @@ def signup(request):
             new_user = User.objects.create(username=name, email=email, mobile=mobile, user_type=user_type)
             new_user.set_password(password1)
             new_user.save()
-            return redirect('/login')
+            return redirect('/login/')
         else:
             message = messages.error(request, 'Password and confirm password is not match.')
 
@@ -52,20 +59,18 @@ def Login(request):
     if request.method == 'POST':
         uname = request.POST['name']
         pwd = request.POST['password']
-        utype = request.POST['utype']
-
-        print(uname, pwd, utype) 
+        utype = request.POST['utype'] 
 
         user = authenticate(request, username=uname, password=pwd)
 
         if user is not None:
             if utype == "Customer" and user.user_type == "Customer":
                 login(request, user)
-                return redirect('/foods')
+                return redirect('/foods/')
                 
             elif utype == "Foodprovider" and user.user_type == "Foodprovider":
                 login(request, user)
-                return redirect('/foodprovider/restaurant')
+                return redirect('/foodprovider/dashboard/')
                 
             elif utype == "Driver" and user.user_type == "Driver":
                 login(request, user)
@@ -80,6 +85,7 @@ def Login(request):
     return render(request, 'account/login.html')
 
 # Function to logout user
+@login_required(login_url='/login/')
 def Logout(request):
     logout(request)
     return redirect('/')

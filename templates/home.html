@@ -15,21 +15,13 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0 pe-4">
                     <a href="/" class="nav-item nav-link active">Home</a>
-                    <a href="/foods" class="nav-item nav-link">Food</a>
-                    <!-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu m-0">
-                            <a href="booking.html" class="dropdown-item">Booking</a>
-                            <a href="team.html" class="dropdown-item">Our Team</a>
-                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                        </div>
-                    </div> -->
-                    <a href="/signup" class="nav-item nav-link">Signup</a>
-                    <a href="/login" class="nav-item nav-link">Login</a>
-                    <a href="/logout" class="nav-item nav-link">Logout</a>
-                    <a href="/contact" class="nav-item nav-link">Contact</a>
+                    <a href="/foods/" class="nav-item nav-link">Food</a>
+                    <a href="/signup/" class="nav-item nav-link">Signup</a>
+                    <a href="/login/" class="nav-item nav-link">Login</a>
+                    <a href="/logout/" class="nav-item nav-link">Logout</a>
+                    <a href="/contact/" class="nav-item nav-link">Contact</a>
                 </div>
-                <a href="/foods" class="btn btn-primary py-2 px-4">Order Now</a>
+                <a href="/foods/" class="btn btn-primary py-2 px-4">Order Now</a>
             </div>
         </nav>
 
@@ -41,7 +33,7 @@
                         <p class="text-white animated slideInLeft mb-4 pb-2">Tempor erat elitr rebum at clita. Diam
                             dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed
                             stet lorem sit clita duo justo magna dolore erat amet</p>
-                        <a href="" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Book A Table</a>
+                        <a href="/foodprovider/restaurant/" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Restaurants</a>
                     </div>
                     <div class="col-lg-6 text-center text-lg-end overflow-hidden">
                         <img class="img-fluid" src="{% static 'img/hero.png' %}" alt="">
@@ -52,9 +44,51 @@
     </div>
     <!-- Navbar & Hero End -->
 
-    <!-- Include Restaurant Page (start) -->
-    {% include 'foodprovider/restaurant.html' %}
-    <!-- Include Restaurant Page (end) -->
+    <!-- Foods start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h5 class="section-title ff-secondary text-center text-primary fw-normal">Our Services</h5>
+                <h1 class="mb-5">Explore Our Services</h1>
+            </div>
+            <div class="row g-4">
+                {% for menu in menus %}
+                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="service-item rounded pt-3">
+                            <div class="p-4">
+                                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s" src="{{menu.img1.url}}" alt="">
+                                <h5 class="mt-2">{{menu.name}}</h5>
+                                <p>{{menu.price}}</p>
+                                <p>{{menu.description}}</p>
+
+                                <a href="#" class="btn btn-danger">Order</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- Foods end -->
+
+    <!-- Calculating the year differences -->
+    <script>
+        // JavaScript code to calculate and display the year difference
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get all the elements with class "year-difference"
+            const yearDifferenceElements = document.querySelectorAll('.year-difference');
+
+            // Loop through each element and calculate the year difference
+            yearDifferenceElements.forEach(function (element) {
+                const year = parseInt(element.textContent);
+                const currentYear = new Date().getFullYear();
+                const yearDifference = currentYear - year;
+
+                // Update the content of the element with the year difference
+                element.textContent = yearDifference;
+            });
+        });
+    </script>
 </div>
 
 {% endblock content %}

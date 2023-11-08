@@ -15,10 +15,11 @@ class Restaurant(models.Model):
     city = models.CharField(max_length=255)
     address = models.TextField()
     mobile = models.CharField(max_length=15)
+    desc = models.TextField(blank=True, null=True)
     is_verified = models.BooleanField(default=False)
     veg_or_nonveg = models.CharField(max_length=255, choices=VEG_OR_NONVEG_CHOICES)
     no_of_chefs = models.PositiveIntegerField()
-    start_date = models.DateField()
+    start_date = models.DateField(blank=True, null=True)
     
     img1 = models.ImageField(upload_to='restaurant_images/', null=True, blank=True)
     img2 = models.ImageField(upload_to='restaurant_images/', null=True, blank=True)

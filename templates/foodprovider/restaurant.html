@@ -1,61 +1,168 @@
-{% block restaurant %} 
+{% extends '../base.html' %}
+{% block content %}
 {% load static %}
 
-<div class="container-xxl py-5">
-    <div class="container">
-        <div class="row g-5 align-items-center">
-            <div class="col-lg-6">
-                <div class="row g-3">
-                    <div class="col-6 text-start">
-                        <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s"
-                            src="{% static 'img/about-1.jpg' %}">
-                    </div>
-                    <div class="col-6 text-start">
-                        <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s"
-                            src="{% static 'img/about-2.jpg' %}" style="margin-top: 25%;">
-                    </div>
-                    <div class="col-6 text-end">
-                        <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s"
-                            src="{% static 'img/about-3.jpg' %}">
-                    </div>
-                    <div class="col-6 text-end">
-                        <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s"
-                            src="{% static 'img/about-4.jpg' %}">
-                    </div>
-                </div>
+<!-- Navbar & Hero Start -->
+<div class="container-xxl position-relative p-0">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+        <a href="" class="navbar-brand p-0">
+            <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>FoodTank</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0 pe-4">
+                <a href="/" class="nav-item nav-link">Home</a>
+                <a href="/foods" class="nav-item nav-link">Food</a>
+                <a href="/signup" class="nav-item nav-link">Signup</a>
+                <a href="/login" class="nav-item nav-link">Login</a>
+                <a href="/logout" class="nav-item nav-link">Logout</a>
+                <a href="/contact" class="nav-item nav-link">Contact</a>
             </div>
-            <div class="col-lg-6">
-                <h5 class="section-title ff-secondary text-start text-primary fw-normal">About Us</h5>
-                <h1 class="mb-4">Welcome to <i class="fa fa-utensils text-primary me-2"></i>Restoran</h1>
-                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
-                    eos erat ipsum et lorem et sit, sed stet lorem sit.</p>
-                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
-                    eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet
-                </p>
-                <div class="row g-4 mb-4">
-                    <div class="col-sm-6">
-                        <div class="d-flex align-items-center border-start border-5 border-primary px-3">
-                            <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">15</h1>
-                            <div class="ps-4">
-                                <p class="mb-0">Years of</p>
-                                <h6 class="text-uppercase mb-0">Experience</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="d-flex align-items-center border-start border-5 border-primary px-3">
-                            <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">50</h1>
-                            <div class="ps-4">
-                                <p class="mb-0">Popular</p>
-                                <h6 class="text-uppercase mb-0">Master Chefs</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
-            </div>
+            <a href="/home" class="btn btn-primary py-2 px-4 active">Restaurants</a>
+        </div>
+    </nav>
+
+    <div class="container-xxl py-5 bg-dark hero-header mb-5">
+        <div class="container text-center my-5 pt-5 pb-4">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Top Restaurants</h1>
         </div>
     </div>
 </div>
+<!-- Navbar & Hero End -->
 
-{% endblock restaurant %}
+{% for restaurant in restaurants %} 
+    {% if forloop.counter|divisibleby:2 %}
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6">
+                    <h5 class="section-title ff-secondary text-start text-primary fw-normal">About Us</h5>
+                    <h1 class="mb-4">Welcome to <i class="fa fa-utensils text-primary me-2"></i>{{restaurant.name}}</h1>
+                    <p class="mb-4">{{restaurant.desc}}</p>
+                    <div class="row g-4 mb-4">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center border-start border-5 border-primary px-3">
+                                <h1 class="flex-shrink-0 display-5 text-primary mb-0 date" data-toggle="counter-up"><span
+                                        class="year-difference">{{ restaurant.start_date|date:"Y" }}</span></h1>
+                                <div class="ps-4">
+                                    <p class="mb-0">Years of</p>
+                                    <h6 class="text-uppercase mb-0">Experience</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center border-start border-5 border-primary px-3">
+                                <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">
+                                    {{restaurant.no_of_chefs}}</h1>
+                                <div class="ps-4">
+                                    <p class="mb-0">Popular</p>
+                                    <h6 class="text-uppercase mb-0">Master Chefs</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row g-3">
+                        <div class="col-6 text-start">
+                            <img class="img-fluid rounded h-100 w-100 wow zoomIn" data-wow-delay="0.1s"
+                                src="{{restaurant.img1.url}}">
+                        </div>
+                        <div class="col-6 text-start">
+                            <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s"
+                                src="{{restaurant.img2.url}}" style="margin-top: 25%;">
+                        </div>
+                        <div class="col-6 text-end">
+                            <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s"
+                                src="{{restaurant.img3.url}}">
+                        </div>
+                        <div class="col-6 text-end">
+                            <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s"
+                                src="{{restaurant.img4.url}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6">
+                    <div class="row g-3">
+                        <div class="col-6 text-start">
+                            <img class="img-fluid rounded h-100 w-100 wow zoomIn" data-wow-delay="0.1s"
+                                src="{{restaurant.img1.url}}">
+                        </div>
+                        <div class="col-6 text-start">
+                            <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s"
+                                src="{{restaurant.img2.url}}" style="margin-top: 25%;">
+                        </div>
+                        <div class="col-6 text-end">
+                            <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s"
+                                src="{{restaurant.img3.url}}">
+                        </div>
+                        <div class="col-6 text-end">
+                            <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s"
+                                src="{{restaurant.img4.url}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h5 class="section-title ff-secondary text-start text-primary fw-normal">About Us</h5>
+                    <h1 class="mb-4">Welcome to <i class="fa fa-utensils text-primary me-2"></i>{{restaurant.name}}</h1>
+                    <p class="mb-4">{{restaurant.desc}}</p>
+                    <div class="row g-4 mb-4">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center border-start border-5 border-primary px-3">
+                                <h1 class="flex-shrink-0 display-5 text-primary mb-0 date" data-toggle="counter-up"><span
+                                        class="year-difference">{{ restaurant.start_date|date:"Y" }}</span></h1>
+                                <div class="ps-4">
+                                    <p class="mb-0">Years of</p>
+                                    <h6 class="text-uppercase mb-0">Experience</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center border-start border-5 border-primary px-3">
+                                <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">
+                                    {{restaurant.no_of_chefs}}</h1>
+                                <div class="ps-4">
+                                    <p class="mb-0">Popular</p>
+                                    <h6 class="text-uppercase mb-0">Master Chefs</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}
+
+<!-- Calculating the year differences -->
+<script>
+    // JavaScript code to calculate and display the year difference
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get all the elements with class "year-difference"
+        const yearDifferenceElements = document.querySelectorAll('.year-difference');
+
+        // Loop through each element and calculate the year difference
+        yearDifferenceElements.forEach(function (element) {
+            const year = parseInt(element.textContent);
+            const currentYear = new Date().getFullYear();
+            const yearDifference = currentYear - year;
+
+            // Update the content of the element with the year difference
+            element.textContent = yearDifference;
+        });
+    });
+</script> 
+{% endblock content %} 
