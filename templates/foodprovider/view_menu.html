@@ -13,11 +13,11 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0 pe-4">
                 <a href="/" class="nav-item nav-link">Home</a>
-                <a href="/foods" class="nav-item nav-link active">Food</a>
-                <a href="/signup" class="nav-item nav-link">Signup</a>
-                <a href="/login" class="nav-item nav-link">Login</a>
-                <a href="/logout" class="nav-item nav-link">Logout</a>
-                <a href="/contact" class="nav-item nav-link">Contact</a>
+                <a href="/foods/" class="nav-item nav-link active">Food</a>
+                <a href="/signup/" class="nav-item nav-link">Signup</a>
+                <a href="/login/" class="nav-item nav-link">Login</a>
+                <a href="/logout/" class="nav-item nav-link">Logout</a>
+                <a href="/contact/" class="nav-item nav-link">Contact</a>
             </div>
             <a href="/foodprovider/restaurant/" class="btn btn-primary py-2 px-4">Restaurants</a>
         </div>
@@ -25,10 +25,11 @@
 
     <div class="container-xxl py-5 bg-dark hero-header mb-5">
         <div class="container text-center my-5 pt-5 pb-4">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">Dashboard</h1>
+            <h1 class="display-3 text-white mb-3 animated slideInDown">View Menu</h1>
             <p class="text-white mb-3 animated slideInDown">Welcome {{request.user}}</p>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb justify-content-center text-uppercase">
+                    <li class="breadcrumb-item"><a href="/foodprovider/dashboard/">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="/foodprovider/addRestaurant/">Add Restaurant</a></li>
                     <li class="breadcrumb-item"><a href="/foodprovider/addMenu/">Add Menu</a></li>
                 </ol>
@@ -44,31 +45,27 @@
         <thead>
           <tr>
             <th scope="col">Id</th>
-            <th scope="col">Restaurant Name</th>
-            <th scope="col">Restaurant City</th>
-            <th scope="col">Restaurant Type</th>
-            <th scope="col">Total Chefs</th>
-            <th scope="col">All Restaurants Actions</th>
+            <th scope="col">Menu Name</th>
+            <th scope="col">Menu Type</th>
+            <th scope="col">Menu Price</th>
+            <th scope="col">All Menus Actions</th>
           </tr>
         </thead>
         
-        {% for restaurant in my_restaurant %}
-        <tbody>
-            <tr>
-              <th scope="row">{{forloop.counter}}</th>
-              <td>{{restaurant.name}}</td>
-              <td>{{restaurant.city}}</td>
-              <td>{{restaurant.veg_or_nonveg}}</td>
-              <td>{{restaurant.no_of_chefs}}</td>
-              <td>
-                <a href="#" class="btn btn-primary">Edit</a>
-                <a href="/foodprovider/deleteRestaurant/{{restaurant.id}}" class="btn btn-danger" 
-                    onclick="return confirm('Are you sure? You are deleting your added restaurant')">Delete</a>
-                <a href="/foodprovider/addMenu/" class="btn btn-success">Add Menu</a>
-                <a href="/foodprovider/viewMenu/{{restaurant.id}}" class="btn btn-info">View Menu</a>
-              </td>
-            </tr>
-          </tbody>
+        {% for menu_item in all_menus %}
+            <tbody>
+                <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{menu_item.name}}</td>
+                <td>{{menu_item.type}}</td>
+                <td>{{menu_item.price}}</td>
+                <td>
+                    <a href="#" class="btn btn-primary">Edit</a>
+                    <a href="/foodprovider/deleteMenu/{{menu_item.id}}" class="btn btn-danger" 
+                        onclick="return confirm('Are you sure? You are deleting your added menu item.')">Delete</a>
+                </td>
+                </tr>
+            </tbody>
         {% endfor %}
 
     </table>

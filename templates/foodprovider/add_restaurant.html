@@ -30,8 +30,8 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb justify-content-center text-uppercase">
                     <li class="breadcrumb-item"><a href="/foodprovider/addRestaurant/">Add Restaurant</a></li>
-                    <li class="breadcrumb-item"><a href="#">Add Menu</a></li>
-                    <li class="breadcrumb-item"><a href="/foodprovider/restaurant/">View</a></li>
+                    <li class="breadcrumb-item"><a href="/foodprovider/dashboard/">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="/foodprovider/addMenu/">Add Menu</a></li>
                 </ol>
             </nav>
         </div>
@@ -55,7 +55,7 @@
                             <!-- Restaurant username start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" name="uname" id="uname" value="{{request.user}}" required disabled>
+                                    <input type="text" class="form-control" name="uname" id="uname" value="{{request.user}}" required>
                                 </div>
                             </div>
                             <!-- Restaurant username end -->

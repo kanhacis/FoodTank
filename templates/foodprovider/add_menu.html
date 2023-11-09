@@ -1,0 +1,139 @@
+{% extends '../base.html' %}
+{% block content %}
+
+<!-- Navbar & Hero Start -->
+<div class="container-xxl position-relative p-0">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+        <a href="" class="navbar-brand p-0">
+            <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>FoodTank</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0 pe-4">
+                <a href="/" class="nav-item nav-link">Home</a>
+                <a href="/foods" class="nav-item nav-link active">Food</a>
+                <a href="/signup" class="nav-item nav-link">Signup</a>
+                <a href="/login" class="nav-item nav-link">Login</a>
+                <a href="/logout" class="nav-item nav-link">Logout</a>
+                <a href="/contact" class="nav-item nav-link">Contact</a>
+            </div>
+            <a href="/foodprovider/restaurant/" class="btn btn-primary py-2 px-4">Restaurants</a>
+        </div>
+    </nav>
+
+    <div class="container-xxl py-5 bg-dark hero-header mb-5">
+        <div class="container text-center my-5 pt-5 pb-4">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Add Menus</h1>
+            <p class="text-white mb-3 animated slideInDown">Welcome {{request.user}}</p>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center text-uppercase">
+                    <li class="breadcrumb-item"><a href="/foodprovider/addRestaurant/">Add Restaurant</a></li>
+                    <li class="breadcrumb-item"><a href="/foodprovider/addMenu/">Add Menu</a></li>
+                    <li class="breadcrumb-item"><a href="/foodprovider/dashboard/">Dashboard</a></li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Navbar & Hero End -->
+
+<!-- Add Menu Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Add menu's</h5>
+            <h1 class="mb-5">Thanks for choosing us.</h1>
+        </div>
+        <div class="row g-4 d-flex justify-content-center" >
+            <div class="col-md-6">
+                <div class="wow fadeInUp" data-wow-delay="0.2s">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <!-- Restaurant name start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select name="rname" id="pet-select" class="form-control bg-white" required>
+                                        <option value="">Select Restaurant</option>
+                                        {% for rname in restaurant_name %}
+                                            <option value="{{rname}}">{{rname}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Restaurant name end -->
+
+                            <!-- Menu name start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="mname" id="mname" placeholder="Your Restaurant City" required>
+                                    <label for="mname">Menu Name</label>
+                                </div>
+                            </div>
+                            <!-- Menu name end -->
+
+                            <!-- Menu type start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select name="mtype" id="pet-select" class="form-control bg-white" required>
+                                        <option value="">Menu Type</option>
+                                            <option value="Sweet">Sweet</option>
+                                            <option value="Paneer">Paneer</option>
+                                            <option value="Dinner">Dinner</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Menu type end -->
+
+                            <!-- Menu price start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" name="mprice" id="mprice" placeholder="Your Restaurant Address" required>
+                                    <label for="mprice">Menu Price</label>
+                                </div>
+                            </div>
+                            <!-- Menu price end -->
+
+                            <!-- Menu image-1 start -->
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="file" class="form-control" name="mimg1" id="mimg1" placeholder="Subject" required>
+                                    <label for="mimg1">Image 1</label>
+                                </div>
+                            </div>
+                            <!-- Menu image-1 end -->
+
+                            <!-- Menu description start -->
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="Describe your menu" name="mdesc" id="mdesc"
+                                        style="height: 150px"></textarea>
+                                    <label for="mdesc">Menu description</label>
+                                </div>
+                            </div>
+                            <!-- Menu description end -->
+
+                            <!-- Messages Start -->
+                            {% if messages %}
+                            <ul class="messages list-unstyled">
+                                {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }} text-success" {% endif %}>{{ message }}</li>
+                                    {% endfor %}
+                            </ul>
+                            {% endif %}
+                            <!-- Messages End -->
+
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit">Create Restaurant</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Menu End -->
+{% endblock content %}
