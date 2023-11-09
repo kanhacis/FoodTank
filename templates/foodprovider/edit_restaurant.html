@@ -24,12 +24,12 @@
 
     <div class="container-xxl py-5 bg-dark hero-header mb-5">
         <div class="container text-center my-5 pt-5 pb-4">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">Add Restaurant</h1>
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Edit Restaurant</h1>
             <p class="text-white mb-3 animated slideInDown">Welcome {{request.user}}</p>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb justify-content-center text-uppercase">
-                    <li class="breadcrumb-item"><a href="/foodprovider/addRestaurant/">Add Restaurant</a></li>
                     <li class="breadcrumb-item"><a href="/foodprovider/dashboard/">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="/foodprovider/addRestaurant/">Add Restaurant</a></li>
                     <li class="breadcrumb-item"><a href="/foodprovider/addMenu/">Add Menu</a></li>
                 </ol>
             </nav>
@@ -42,7 +42,7 @@
 <div class="container-xxl py-5">
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Add restaurant</h5>
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Edit restaurant</h5>
             <h1 class="mb-5">Thanks for choosing us.</h1>
         </div>
         <div class="row g-4 d-flex justify-content-center" >
@@ -62,7 +62,7 @@
                             <!-- Restaurant name start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" name="rname" id="rname" placeholder="Your Restaurant Name" required>
+                                    <input type="text" class="form-control" name="rname" id="rname" value="{{restaurant.name}}" placeholder="Your Restaurant Name" required>
                                     <label for="rname">Restaurant Name</label>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                             <!-- Restaurant city start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" name="rcity" id="rcity" placeholder="Your Restaurant City" required>
+                                    <input type="text" class="form-control" name="rcity" id="rcity" value="{{restaurant.city}}" placeholder="Your Restaurant City" required>
                                     <label for="rcity">Restaurant City</label>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                             <!-- Restaurant address start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" name="raddress" id="raddress" placeholder="Your Restaurant Address" required>
+                                    <input type="text" class="form-control" name="raddress" id="raddress" value="{{restaurant.address}}" placeholder="Your Restaurant Address" required>
                                     <label for="raddress">Restaurant Address</label>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                             <!-- Restaurant mobile start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" name="rmobile" id="rmobile" placeholder="Your Restaurant Mobile">
+                                    <input type="number" class="form-control" name="rmobile" id="rmobile" value="{{restaurant.mobile}}" placeholder="Your Restaurant Mobile">
                                     <label for="rmobile">Restaurant Mobile</label>
                                 </div>
                             </div>
@@ -99,6 +99,7 @@
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <select name="veg" id="veg" class="form-control bg-white">
+                                        <option value="{{restaurant.veg_or_nonveg}}">{{restaurant.veg_or_nonveg}}</option>
                                         <option value="Both">Both</option>
                                         <option value="Vegiterian">Vegiterian</option>
                                         <option value="Non-Vegiterian">Non-Vegiterian</option>
@@ -110,7 +111,7 @@
                             <!-- Restaurant number of chefs start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" name="nchefs" id="nchefs" placeholder="Number Of Chefs" required>
+                                    <input type="number" class="form-control" name="nchefs" id="nchefs" value="{{restaurant.no_of_chefs}}" placeholder="Number Of Chefs" required>
                                     <label for="nchefs">Number Of Chefs</label>
                                 </div>
                             </div>
@@ -119,7 +120,7 @@
                             <!-- Restaurant start_date start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="date" class="form-control" name="rdate" id="rdate" placeholder="Your Restaurant Mobile" required>
+                                    <input type="date" class="form-control" name="rdate" id="rdate" value="{{restaurant.start_date}}" placeholder="Your Restaurant Mobile" required>
                                     <label for="rdate">Restaurant Date</label>
                                 </div>
                             </div>
@@ -128,7 +129,7 @@
                             <!-- Restaurant image 1 start -->
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input type="file" class="form-control" name="rimg1" id="rimg1" placeholder="Subject" required>
+                                    <input type="file" class="form-control" name="rimg1" id="rimg1" value="{{restaurant.img1}}" placeholder="Subject" required>
                                     <label for="rimg1">Image 1</label>
                                 </div>
                             </div>
@@ -165,7 +166,7 @@
                             <div class="col-12">
                                 <div class="form-floating">
                                     <textarea class="form-control" placeholder="Describe your restaurant" name="desc" id="desc"
-                                        style="height: 150px"></textarea>
+                                        style="height: 150px">{{restaurant.desc}}</textarea>
                                     <label for="desc">About Restaurant</label>
                                 </div>
                             </div>

@@ -13,7 +13,6 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0 pe-4">
                 <a href="/" class="nav-item nav-link">Home</a>
-                <a href="/foods/" class="nav-item nav-link active">Food</a>
                 <a href="/signup/" class="nav-item nav-link">Signup</a>
                 <a href="/login/" class="nav-item nav-link">Login</a>
                 <a href="/logout/" class="nav-item nav-link">Logout</a>
@@ -60,7 +59,7 @@
                 <td>{{menu_item.type}}</td>
                 <td>{{menu_item.price}}</td>
                 <td>
-                    <a href="#" class="btn btn-primary">Edit</a>
+                    <a href="/foodprovider/editMenu/{{menu_item.id}}" class="btn btn-primary">Edit</a>
                     <a href="/foodprovider/deleteMenu/{{menu_item.id}}" class="btn btn-danger" 
                         onclick="return confirm('Are you sure? You are deleting your added menu item.')">Delete</a>
                 </td>

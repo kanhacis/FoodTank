@@ -5,19 +5,18 @@ from menu.models import Menu
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-# Home
+# Define the home view function
 def home(request):
     # Get all food data from Menu model
     menu = Menu.objects.all()
 
+    # Prepare the context to pass data to the template
     context = {
-        'menus':menu
+        'menus': menu  # 'menus' key will be accessible in the template as a variable
     }
-    return render(request, 'home.html', context)
 
-# Foods
-def food(request):
-    return render(request, 'foods.html')
+    # Render the 'home.html' template with the provided context
+    return render(request, 'home.html', context)
 
 # Contact
 def contact(request):

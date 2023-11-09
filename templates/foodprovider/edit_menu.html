@@ -24,13 +24,13 @@
 
     <div class="container-xxl py-5 bg-dark hero-header mb-5">
         <div class="container text-center my-5 pt-5 pb-4">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">Add Menus</h1>
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Edit Menu</h1>
             <p class="text-white mb-3 animated slideInDown">Welcome {{request.user}}</p>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb justify-content-center text-uppercase">
+                    <li class="breadcrumb-item"><a href="/foodprovider/dashboard/">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="/foodprovider/addRestaurant/">Add Restaurant</a></li>
                     <li class="breadcrumb-item"><a href="/foodprovider/addMenu/">Add Menu</a></li>
-                    <li class="breadcrumb-item"><a href="/foodprovider/dashboard/">Dashboard</a></li>
                 </ol>
             </nav>
         </div>
@@ -42,8 +42,8 @@
 <div class="container-xxl py-5">
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Add menu's</h5>
-            <h1 class="mb-5">Thanks for choosing us.</h1>
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Edit menu's</h5>
+            <h1 class="mb-5">Restaurant : {{menu_item.restaurant}}</h1>
         </div>
         <div class="row g-4 d-flex justify-content-center" >
             <div class="col-md-6">
@@ -51,23 +51,10 @@
                     <form method="POST">
                         {% csrf_token %}
                         <div class="row g-3">
-                            <!-- Restaurant name start -->
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <select name="rname" id="pet-select" class="form-control bg-white" required>
-                                        <option value="">Select Restaurant</option>
-                                        {% for rname in restaurant_name %}
-                                            <option value="{{rname}}">{{rname}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <!-- Restaurant name end -->
-
                             <!-- Menu name start -->
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" name="mname" id="mname" placeholder="Your Restaurant City" required>
+                                    <input type="text" class="form-control" name="mname" id="mname" value="{{menu_item.name}}" placeholder="Your Restaurant City" required>
                                     <label for="mname">Menu Name</label>
                                 </div>
                             </div>
@@ -77,7 +64,7 @@
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <select name="mtype" id="pet-select" class="form-control bg-white" required>
-                                        <option value="">Menu Type</option>
+                                        <option value="{{menu_item.type}}">{{menu_item.type}}</option>
                                             <option value="Sweet">Sweet</option>
                                             <option value="Paneer">Paneer</option>
                                             <option value="Dinner">Dinner</option>
@@ -89,7 +76,7 @@
                             <!-- Menu price start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" name="mprice" id="mprice" placeholder="Your Restaurant Address" required>
+                                    <input type="number" class="form-control" name="mprice" id="mprice" value="{{menu_item.price}}" placeholder="Your Restaurant Address" required>
                                     <label for="mprice">Menu Price</label>
                                 </div>
                             </div>
@@ -108,7 +95,7 @@
                             <div class="col-12">
                                 <div class="form-floating">
                                     <textarea class="form-control" placeholder="Describe your menu" name="mdesc" id="mdesc"
-                                        style="height: 150px"></textarea>
+                                        style="height: 150px">{{menu_item.description}}</textarea>
                                     <label for="mdesc">Menu description</label>
                                 </div>
                             </div>
