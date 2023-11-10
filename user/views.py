@@ -1,18 +1,29 @@
 from django.shortcuts import render, redirect
-from .models import User, Contact
-from django.contrib import messages
+from .models import User, Contact 
+from django.contrib import messages 
 from menu.models import Menu
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout 
+from django.contrib.auth.decorators import login_required 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
+
 
 # Define the home view function
 def home(request):
     # Get all food data from Menu model
     menu = Menu.objects.all()
-
+    p = Paginator(menu, 8)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = p.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = p.page(1)
+    except EmptyPage:
+        page_obj = p.page(p.num_pages)
+    
     # Prepare the context to pass data to the template
     context = {
-        'menus': menu  # 'menus' key will be accessible in the template as a variable
+        'menus': menu,  # 'menus' key will be accessible in the template as a variable
+        'page_obj': page_obj
     }
 
     # Render the 'home.html' template with the provided context
@@ -33,23 +44,42 @@ def contact(request):
             
     return render(request, 'contact.html')
 
-# Function to signup user
-def signup(request):
-    if request.method == 'POST':
-        name = request.POST['name']
-        email = request.POST['email']
-        mobile = request.POST['mobile']
-        user_type = request.POST['utype']
-        password1 = request.POST['pwd']
-        password2 = request.POST['pwdc']
+# Function to signup user 
+def signup(request): 
+    if request.method == 'POST': 
+        name = request.POST.get('name') 
+        email = request.POST.get('email') 
+        mobile = request.POST.get('mobile') 
+        user_type = request.POST.get('utype') 
+        password1 = request.POST.get('pwd') 
+        password2 = request.POST.get('pwdc') 
 
+        if User.objects.filter(username=name).exists():
+            messages.error(request, "Account with this username is already exist.")
+            return redirect('/signup/')
+        
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Account with this email is already exist.")
+            return redirect('/signup/')
+
+        if User.objects.filter(mobile=mobile):
+            messages.error(request, "Account with this mobile number is alread exist.")
+            return redirect('/signup/')
+
+        # Additional checks (e.g., password strength)
+        if len(password1) < 4:
+            messages.error(request, 'Password should be at least 8 characters long.')
+            return render(request, 'account/signup.html')
+            
         if password1 == password2:
             new_user = User.objects.create(username=name, email=email, mobile=mobile, user_type=user_type)
             new_user.set_password(password1)
             new_user.save()
             return redirect('/login/')
         else:
-            message = messages.error(request, 'Password and confirm password is not match.')
+            # Error handling for password mismatch
+            messages.error(request, 'Password and confirm password do not match.')
+            return render(request, 'account/signup.html')
 
     return render(request, 'account/signup.html')
 
@@ -65,7 +95,7 @@ def Login(request):
         if user is not None:
             if utype == "Customer" and user.user_type == "Customer":
                 login(request, user)
-                return redirect('/foods/')
+                return redirect('/')
                 
             elif utype == "Foodprovider" and user.user_type == "Foodprovider":
                 login(request, user)

@@ -3,26 +3,11 @@
 {% load static %}
 
 <div class="container-xxl bg-white p-0">
-    <!-- Navbar & Hero Start -->
+    <!-- Hero Start -->
     <div class="container-xxl position-relative p-0">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
-            <a href="" class="navbar-brand p-0">
-                <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>FoodTank</h1>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="fa fa-bars"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto py-0 pe-4">
-                    <a href="/" class="nav-item nav-link active">Home</a>
-                    <a href="/signup/" class="nav-item nav-link">Signup</a>
-                    <a href="/login/" class="nav-item nav-link">Login</a>
-                    <a href="/logout/" class="nav-item nav-link">Logout</a>
-                    <a href="/contact/" class="nav-item nav-link">Contact</a>
-                </div>
-                <a href="/foods/" class="btn btn-primary py-2 px-4">Order Now</a>
-            </div>
-        </nav>
+        <!-- Navbar include start -->
+            {% include 'navbar.html' %}
+        <!-- Navbar include end -->
 
         <div class="container-xxl py-5 bg-dark hero-header mb-5">
             <div class="container my-5 py-5">
@@ -41,31 +26,40 @@
             </div>
         </div>
     </div>
-    <!-- Navbar & Hero End -->
+    <!-- Hero End -->
 
     <!-- Foods start -->
-    <div class="container-xxl py-5">
+    <div class="container-xxl py-5" id="food">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h5 class="section-title ff-secondary text-center text-primary fw-normal">Our Services</h5>
                 <h1 class="mb-5">Explore Our Services</h1>
             </div>
             <div class="row g-4">
-                {% for menu in menus %}
+                {% for menu in page_obj.object_list %}
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="service-item rounded pt-3">
                             <div class="p-4">
-                                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s" src="{{menu.img1.url}}" alt="">
+                                <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s" src="{{menu.img1.url}}" style="height: 200px; margin-top: -15px;">
                                 <h5 class="mt-2">{{menu.name}}</h5>
-                                <p>{{menu.price}}</p>
-                                <p>{{menu.description}}</p>
+                                <p>₹{{menu.price}}</p>
+                                <p class="text" style="display: block; width: 250px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{menu.description}}</p>
 
-                                <a href="#" class="btn btn-danger">Order</a>
+                                <a href="#" class="btn btn-danger">Add to bag</a>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
+            <div class="pagination mt-2">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{page_obj.previous_page_number}}" class="previous-btn">&lt;</a>
+                {% endif %}
+                <span>{{page_obj.number}}</span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{page_obj.next_page_number}}" class="next-btn">&gt;</a>
+                {% endif %}
+            </div>            
         </div>
     </div>
     <!-- Foods end -->

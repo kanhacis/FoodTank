@@ -2,27 +2,11 @@
 {% block content %}
 {% load static %}
 
-<!-- Navbar & Hero Start -->
+<!-- Hero Start -->
 <div class="container-xxl position-relative p-0">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
-        <a href="" class="navbar-brand p-0">
-            <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>FoodTank</h1>
-            <!-- <img src="img/logo.png" alt="Logo"> -->
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="fa fa-bars"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto py-0 pe-4">
-                <a href="/" class="nav-item nav-link">Home</a>
-                <a href="/signup/" class="nav-item nav-link">Signup</a>
-                <a href="/login/" class="nav-item nav-link">Login</a>
-                <a href="/logout/" class="nav-item nav-link">Logout</a>
-                <a href="/contact/" class="nav-item nav-link active">Contact</a>
-            </div>
-            <a href="/" class="btn btn-primary py-2 px-4">Order Now</a>
-        </div>
-    </nav>
+    <!-- Navbar include start -->
+        {% include 'navbar.html' %}
+    <!-- Navbar include end -->
 
     <div class="container-xxl py-5 bg-dark hero-header mb-5">
         <div class="container text-center my-5 pt-5 pb-4">
@@ -30,7 +14,7 @@
         </div>
     </div>
 </div>
-<!-- Navbar & Hero End -->
+<!-- Hero End -->
 
 
 <!-- Contact Start -->
@@ -70,26 +54,29 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required>
+                                    <input type="text" class="form-control" name="name" id="name"
+                                        placeholder="Your Name" required>
                                     <label for="name">Your Name</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        placeholder="Your Email" required>
                                     <label for="email">Your Email</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                                    <input type="text" class="form-control" name="subject" id="subject"
+                                        placeholder="Subject" required>
                                     <label for="subject">Subject</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Leave a message here" name="message" id="message"
-                                        style="height: 150px"></textarea>
+                                    <textarea class="form-control" placeholder="Leave a message here" name="message"
+                                        id="message" style="height: 150px"></textarea>
                                     <label for="message">Message</label>
                                 </div>
                             </div>
@@ -98,7 +85,8 @@
                             {% if messages %}
                             <ul class="messages list-unstyled">
                                 {% for message in messages %}
-                                <li{% if message.tags %} class="{{ message.tags }} text-success" {% endif %}>{{ message }}</li>
+                                <li{% if message.tags %} class="{{ message.tags }} text-success" {% endif %}>{{ message
+                                    }}</li>
                                     {% endfor %}
                             </ul>
                             {% endif %}

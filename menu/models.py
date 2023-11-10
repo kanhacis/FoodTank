@@ -11,6 +11,7 @@ class Menu(models.Model):
     description = models.TextField()
     type = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    available = models.BooleanField(blank=True, default=True)
     img1 = models.ImageField(upload_to='menu_images/', null=True, blank=True)
 
     def __str__(self):

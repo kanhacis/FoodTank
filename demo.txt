@@ -62,14 +62,12 @@ app-Order
     
 app-Driver
     - User (fk)
-    - is_varified
-    
+    - is_varified    
+
 app-Bag
     - User (one-to-one) 
-    
+
    -BagItem
     - bag (fk)
     - item (Menu --> fk)
-    - quantity
-
-
+    - quantity 
