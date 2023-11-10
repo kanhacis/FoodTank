@@ -16,7 +16,7 @@
 </div>
 <!-- Navbar & Hero End -->
 
-{% for restaurant in restaurants %} 
+{% for restaurant in page_obj %} 
     {% if forloop.counter|divisibleby:2 %}
     <div class="container-xxl py-5">
         <div class="container">
@@ -130,6 +130,16 @@
     </div>
     {% endif %}
 {% endfor %}
+
+<div class="container d-flex justify-content-end pagination mt-4">
+    {% if page_obj.has_previous %}
+        <a href="?page={{page_obj.previous_page_number}}" class="btn btn-primary">Previous</a>
+    {% endif %}
+    <span>&nbsp;&nbsp;</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{page_obj.next_page_number}}" class="btn btn-primary">Next</a>
+    {% endif %}
+</div> 
 
 <!-- Calculating the year differences -->
 <script>

@@ -11,7 +11,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 def home(request):
     # Get all food data from Menu model
     menu = Menu.objects.all()
-    p = Paginator(menu, 8)
+    p = Paginator(menu, 4)
     page_number = request.GET.get('page')
     try:
         page_obj = p.get_page(page_number)
@@ -57,7 +57,7 @@ def signup(request):
         if User.objects.filter(username=name).exists():
             messages.error(request, "Account with this username is already exist.")
             return redirect('/signup/')
-        
+
         if User.objects.filter(email=email).exists():
             messages.error(request, "Account with this email is already exist.")
             return redirect('/signup/')
@@ -70,12 +70,12 @@ def signup(request):
         if len(password1) < 4:
             messages.error(request, 'Password should be at least 8 characters long.')
             return render(request, 'account/signup.html')
-            
+
         if password1 == password2:
             new_user = User.objects.create(username=name, email=email, mobile=mobile, user_type=user_type)
             new_user.set_password(password1)
             new_user.save()
-            return redirect('/login/')
+            return redirect('/login/') 
         else:
             # Error handling for password mismatch
             messages.error(request, 'Password and confirm password do not match.')
@@ -113,8 +113,8 @@ def Login(request):
 
     return render(request, 'account/login.html')
 
-# Function to logout user
-@login_required(login_url='/login/')
-def Logout(request):
-    logout(request)
+# Function to logout user 
+@login_required(login_url='/login/') 
+def Logout(request): 
+    logout(request) 
     return redirect('/')

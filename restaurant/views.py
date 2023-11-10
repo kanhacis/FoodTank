@@ -3,6 +3,7 @@ from .models import Restaurant
 from django.contrib import messages
 from user.models import User
 from menu.models import Menu
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 # Function (foodprovider dashboard)
@@ -205,9 +206,19 @@ def deleteMenu(request, id):
 def restaurant(request):
     # get all restaurant data
     rst = Restaurant.objects.all()
+    p = Paginator(rst, 4)
+    page_number = request.GET.get('page')
+
+    try:
+        page_obj = p.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = p.page(1)
+    except EmptyPage:
+        page_obj = p.page(p.num_pages)
 
     context = {
         'restaurants':rst,
+        'page_obj': page_obj
     }
     return render(request, 'foodprovider/restaurant.html', context) 
 

@@ -64,10 +64,27 @@ app-Driver
     - User (fk)
     - is_varified    
 
-app-Bag
+app-Bag 
     - User (one-to-one) 
 
-   -BagItem
-    - bag (fk)
-    - item (Menu --> fk)
+   -BagItem 
+    - bag (fk) 
+    - item (Menu --> fk) 
     - quantity 
+
+
+
+
+
+Task Name :- FoodTank Website (Django)
+Task Name :- Learn PHP
+
+Time sheet filled : Yes
+
+Work Done Today:-
+    1. Fix some bugs in authentication.
+    2. Improve the code quanlity.
+    3. Add pagination functionality in restaurants and foodItems.
+
+Day Start Time: 12:10
+Day End Time:  06:50 
