@@ -34,15 +34,18 @@ def view_bag(request):
 
     sum = 0 
     count = 0 
-    for i in bag_items: 
-        a = i.item.price * i.quantity
-        sum += a
-        count += 1
+    
 
     if request.method == "POST":
         for data in bag_items:
             data.quantity = request.POST.get(f"{data.id}")
             data.save()
+
+    for i in bag_items: 
+        qunt = int(i.quantity)
+        price = int(i.item.price)
+        sum += qunt * price
+        count += 1
         
     context = { 
         'bag' : user_bag, 

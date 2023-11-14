@@ -8,7 +8,7 @@ from .models import Menu
 # Add Menu Function
 def addMenu(request):
     # Check if the user is authenticated, if not, redirect them to the login page
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
         return redirect("/login/")
     
     rest_user = User.objects.get(username=request.user)
@@ -39,7 +39,7 @@ def addMenu(request):
 # View Menu
 def viewMenu(request, id):
     # Check if the user is authenticated, if not, redirect them to the login page
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
         return redirect("/login/")
     
     # get restaurant name
@@ -57,7 +57,7 @@ def viewMenu(request, id):
 # Edit Menu
 def editMenu(request, id):
     # Check if the user is authenticated, if not, redirect them to the login page
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
         return redirect("/login/")
     
     menu_item = Menu.objects.get(id=id)
@@ -86,7 +86,7 @@ def editMenu(request, id):
 # Delete Menu
 def deleteMenu(request, id):
     # Check if the user is authenticated, if not, redirect them to the login page
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
         return redirect("/login/")
     
     # get a single menu item

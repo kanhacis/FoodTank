@@ -35,7 +35,7 @@ def restaurant(request):
 # Foodprovider dashboard
 def dashboard(request):
     # Check if the user is authenticated, if not, redirect them to the login page
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
         return redirect("/login/")
     
     # Get the restaurant admin user object based on the currently logged-in user
@@ -55,7 +55,7 @@ def dashboard(request):
 # Add restaurants
 def addRestaurant(request):
     # Check if the user is authenticated, if not, redirect them to the login page
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
         return redirect("/login/")
     
     if request.method == 'POST':
@@ -87,7 +87,7 @@ def addRestaurant(request):
 # Edit restaurant
 def editRestaurant(request, id):
     # Check if the user is authenticated, if not, redirect them to the login page
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
         return redirect("/login/")
     
     restaurant = Restaurant.objects.get(id=id)
@@ -132,7 +132,7 @@ def editRestaurant(request, id):
 # Delete restaurant
 def deleteRestaurant(request, id):
     # Check if the user is authenticated, if not, redirect them to the login page
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
         return redirect("/login/")
     
     restaurant = Restaurant.objects.get(id=id)

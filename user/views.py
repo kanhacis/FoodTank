@@ -35,6 +35,12 @@ def home(request):
     # Render the 'home.html' template with the provided context
     return render(request, 'home.html', context)
 
+# Profile
+def profile(request):
+    # user = User.objects.get(username=request.user)
+    # print(user.username)
+    return render(request, 'account/profile.html')
+
 # Contact
 def contact(request):
     if request.method == 'POST':
@@ -81,7 +87,12 @@ def signup(request):
             new_user = User.objects.create(username=name, email=email, mobile=mobile, user_type=user_type)
             new_user.set_password(password1)
             new_user.save()
-            return redirect('/login/') 
+
+            if user_type == "Customer":
+                return redirect('/profile/')
+            else:
+                return redirect('/login/')
+
         else:
             # Error handling for password mismatch
             messages.error(request, 'Password and confirm password do not match.')
