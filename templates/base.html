@@ -32,7 +32,24 @@
     <!-- Template Stylesheet -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
+<style>
+    /* Custom CSS for the search bar width */
+    .custom-search-bar {
+      width: 50%; 
+      margin: auto; 
+    }
 
+    /* Hide the default spinner arrows for number input */
+    /* input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    } */
+/* 
+    input[type="number"] {
+        -moz-appearance: textfield; 
+    } */
+  </style>
 <body>
     {% block content %} {% endblock content %}
     

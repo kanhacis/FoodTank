@@ -34,8 +34,17 @@
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h5 class="section-title ff-secondary text-center text-primary fw-normal">Our Services</h5>
                 <h1 class="mb-5">Explore Our Services</h1>
+
+                <!-- Search bar start -->
+                <form method="get">
+                    <div class="custom-search-bar">
+                        <input class="form-control rounded-pill bg-dark text-white" type="text" name="search-food" placeholder="Search Foods...">
+                    </div>
+                </form>
+                <!-- Search bar end -->
+
             </div>
-            <div class="row g-4">
+            <div class="row g-4 mt-2">
                 {% for menu in page_obj.object_list %}
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="service-item rounded pt-3">
@@ -45,7 +54,7 @@
                                 <p>₹{{menu.price}}</p>
                                 <p class="text" style="display: block; width: 250px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{menu.description}}</p>
 
-                                <a href="#" class="btn btn-danger">Add to bag</a>
+                                <a href="/bag/add-to-bag/{{menu.id}}" class="btn btn-danger">Add to bag</a>
                             </div>
                         </div>
                     </div>

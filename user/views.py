@@ -9,20 +9,26 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Define the home view function
 def home(request):
-    # Get all food data from Menu model
-    menu = Menu.objects.all()
-    p = Paginator(menu, 4)
+    if request.method == 'GET':
+        food_name = request.GET.get('search-food')
+        if food_name:
+            food = Menu.objects.filter(name__icontains=food_name)
+        else:
+            food = Menu.objects.all()
+
+    p = Paginator(food, 8)
     page_number = request.GET.get('page')
     try:
         page_obj = p.get_page(page_number)
+
     except PageNotAnInteger:
         page_obj = p.page(1)
+
     except EmptyPage:
         page_obj = p.page(p.num_pages)
     
     # Prepare the context to pass data to the template
     context = {
-        'menus': menu,  # 'menus' key will be accessible in the template as a variable
         'page_obj': page_obj
     }
 
