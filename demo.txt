@@ -46,6 +46,14 @@ app-Menu
     - description
     - date (optional)
     
+app-Bag 
+    - User (one-to-one) 
+
+   -BagItem 
+    - bag (fk) 
+    - item (Menu --> fk) 
+    - quantity 
+    
 ==================================
     
 app-Order
@@ -62,12 +70,21 @@ app-Order
     
 app-Driver
     - User (fk)
-    - is_varified    
+    - is_varified     
 
-app-Bag 
-    - User (one-to-one) 
 
-   -BagItem 
-    - bag (fk) 
-    - item (Menu --> fk) 
-    - quantity  
+==========================================
+
+
+Task Name :- FoodTank Website (Django) / PHP
+
+Time sheet filled : Yes
+
+Work Done Today:-
+    1. Improve search functionality.
+    2. Showing restaurants based on user city.
+    3. Trying to setup php mysql database.
+
+
+Day Start Time: 12:10
+Day End Time:  08:55

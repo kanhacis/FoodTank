@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import User, Contact 
+from .models import User, Contact, Address
 from django.contrib import messages 
+from restaurant.models import Restaurant
 from menu.models import Menu
 from django.contrib.auth import authenticate, login, logout 
 from django.contrib.auth.decorators import login_required 
@@ -9,24 +10,34 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Define the home view function
 def home(request):
+    city = Address.objects.get(user=request.user)
+    rest = Restaurant.objects.filter(city=city.city)
+    
     if request.method == 'GET':
-        food_name = request.GET.get('search-food')
-        if food_name:
-            food = Menu.objects.filter(name__icontains=food_name)
+        food_name_restaurant = request.GET.get('search-food-restaurant')
+        if food_name_restaurant:
+            # Check if the search term corresponds to a restaurant
+            restaurant = Restaurant.objects.filter(name__icontains=food_name_restaurant).first()
+            if restaurant:
+                # If it's a restaurant, filter menus by that restaurant
+                food_restaurant = Menu.objects.filter(restaurant=restaurant, restaurant__in=rest)
+            else:
+                # If it's not a restaurant, assume it's a food item and filter menus by name
+                food_restaurant = Menu.objects.filter(name__icontains=food_name_restaurant, restaurant__in=rest)
         else:
-            food = Menu.objects.all()
+            # If no search term provided, show all menus
+            food_restaurant = Menu.objects.filter(restaurant__in=rest)
 
-    p = Paginator(food, 8)
+    # Pagination
+    p = Paginator(food_restaurant, 8)
     page_number = request.GET.get('page')
     try:
         page_obj = p.get_page(page_number)
-
     except PageNotAnInteger:
         page_obj = p.page(1)
-
     except EmptyPage:
         page_obj = p.page(p.num_pages)
-    
+
     # Prepare the context to pass data to the template
     context = {
         'page_obj': page_obj
@@ -37,9 +48,30 @@ def home(request):
 
 # Profile
 def profile(request):
-    # user = User.objects.get(username=request.user)
-    # print(user.username)
-    return render(request, 'account/profile.html')
+    user = request.user
+    address, created = Address.objects.get_or_create(user=user)
+
+    if request.method == "POST":
+        state = request.POST.get('state')
+        city = request.POST.get('city')
+        area = request.POST.get('area')
+        zipcode = request.POST.get('zipcode')
+        category = request.POST.get('category')
+
+        address.user = user
+        address.state = state
+        address.city = city
+        address.area = area
+        address.zipcode = zipcode
+        address.category = category
+        address.save()
+        message = messages.success(request, "Your profile is completed.")
+    
+    context = {
+        'user_profile' : user,
+        'user_address' : address
+    }
+    return render(request, 'account/profile.html', context)
 
 # Contact
 def contact(request):

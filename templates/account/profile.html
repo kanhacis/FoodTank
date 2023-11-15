@@ -29,52 +29,68 @@
                     <form method="POST">
                         {% csrf_token %}
                         <div class="row g-3">
+                            <!-- User name start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" name="name" id="uname"
+                                    <input type="text" class="form-control" value="{{user_profile.username}}" name="name" id="uname"
                                         placeholder="Your Name" required>
                                     <label for="uname">Username</label>
                                 </div>
                             </div>
+                            <!-- User name end -->
+
+                            <!-- Email start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" name="email" id="email"
+                                    <input type="email" class="form-control" value="{{user_profile.email}}" name="email" id="email"
                                         placeholder="Your Email" required>
                                     <label for="email">Your Email</label>
                                 </div>
                             </div>
+                            <!-- Email end -->
+
+                            <!-- First name start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" name="mobile" id="mobile"
+                                    <input type="text" class="form-control" value="{{user_profile.first_name}}" name="fname" id="fname"
+                                        placeholder="Your First Name" required>
+                                    <label for="fname">First Name</label>
+                                </div>
+                            </div>
+                            <!-- First name end -->
+
+                            <!-- Last name start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" value="{{user_profile.last_name}}" name="lname" id="lname"
+                                        placeholder="Your Last Name" required>
+                                    <label for="lname">Last Name</label>
+                                </div>
+                            </div>
+                            <!-- Last name end -->
+
+                            <!-- Mobile start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" value="{{user_profile.mobile}}" name="mobile" id="mobile"
                                         placeholder="Your mobile no." required>
                                     <label for="mobile">Your Mobile</label>
                                 </div>
                             </div>
+                            <!-- Mobile end -->
+
+                            <!-- User type start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <select name="utype" id="pet-select" class="form-control bg-white" required>
-                                        <option value="">User Type</option>
+                                        <option value="{{user_profile.user_type}}">{{user_profile.user_type}}</option>
                                         <option value="Customer">Customer</option>
                                         <option value="Foodprovider">Foodprovider</option>
                                         <option value="Delivery">Driver</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <input type="password" class="form-control" name="pwd" id="pwd"
-                                        placeholder="Your Password" required>
-                                    <label for="pwd">Password</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <input type="password" class="form-control" name="pwdc" id="pwdc"
-                                        placeholder="Your Password (confirm)" required>
-                                    <label for="pwdc">Password (confirm)</label>
-                                </div>
-                            </div>
-                            <p>Already have an account? <a href="/login">login</a></p>
+                            <!-- User type end -->
 
                             <!-- Messages Start -->
                             {% if messages %}
@@ -101,51 +117,58 @@
                     <form method="POST">
                         {% csrf_token %}
                         <div class="row g-3">
+                            <!-- State start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" name="name" id="uname"
-                                        placeholder="Your Name" required>
-                                    <label for="uname">Username</label>
+                                    <input type="text" class="form-control" value="{{user_address.state}}" name="state" id="state"
+                                        placeholder="Your State" required>
+                                    <label for="state">State</label>
                                 </div>
                             </div>
+                            <!-- State end -->
+
+                            <!-- City start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" name="email" id="email"
-                                        placeholder="Your Email" required>
-                                    <label for="email">Your Email</label>
+                                    <input type="text" class="form-control" value="{{user_address.city}}" name="city" id="city"
+                                        placeholder="Your City" required>
+                                    <label for="city">Your City</label>
                                 </div>
                             </div>
+                            <!-- City end -->
+
+                            <!-- Area start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" name="mobile" id="mobile"
-                                        placeholder="Your mobile no." required>
-                                    <label for="mobile">Your Mobile</label>
+                                    <input type="text" class="form-control" value="{{user_address.area}}" name="area" id="area"
+                                        placeholder="Your Area" required>
+                                    <label for="area">Your Area</label>
                                 </div>
                             </div>
+                            <!-- Area end -->
+
+                            <!-- Zipcode start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <select name="utype" id="pet-select" class="form-control bg-white" required>
-                                        <option value="">User Type</option>
-                                        <option value="Customer">Customer</option>
-                                        <option value="Foodprovider">Foodprovider</option>
-                                        <option value="Delivery">Driver</option>
+                                    <input type="number" class="form-control" value="{{user_address.zipcode}}" name="zipcode" id="zipcode"
+                                        placeholder="Your Zipcode" required>
+                                    <label for="zipcode">Your Zipcode</label>
+                                </div>
+                            </div>
+                            <!-- Zipcode end -->
+
+                            <!-- Category start -->
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <select name="category" id="category" class="form-control bg-white" required>
+                                        <option value="{{user_address.category}}">{{user_address.category}}</option>
+                                        <option value="Home">Home</option>
+                                        <option value="Work">Work</option>
                                     </select>
+                                    <label for="category">Address category</label>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <input type="password" class="form-control" name="pwd" id="pwd"
-                                        placeholder="Your Password" required>
-                                    <label for="pwd">Password</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <input type="password" class="form-control" name="pwdc" id="pwdc"
-                                        placeholder="Your Password (confirm)" required>
-                                    <label for="pwdc">Password (confirm)</label>
-                                </div>
-                            </div>
+                            <!-- Category end -->
 
                             <!-- Messages Start -->
                             {% if messages %}
@@ -170,3 +193,27 @@
 </div>
 
 {% endblock %}
+
+
+
+
+
+<!-- Password start -->
+<!-- <div class="col-12">
+    <div class="form-floating">
+        <input type="password" class="form-control" name="pwd" id="pwd"
+            placeholder="Your Password" required>
+        <label for="pwd">Password</label>
+    </div>
+</div> -->
+<!-- Password end -->
+
+<!-- Confirm password start -->
+<!-- <div class="col-12">
+    <div class="form-floating">
+        <input type="password" class="form-control" name="pwdc" id="pwdc"
+            placeholder="Your Password (confirm)" required>
+        <label for="pwdc">Password (confirm)</label>
+    </div>
+</div> -->
+<!-- Confirm password end -->

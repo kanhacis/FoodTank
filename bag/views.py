@@ -21,7 +21,7 @@ def add_to_bag(request, id):
         bag_item.quantity += 1
         bag_item.save()
 
-    return redirect('/') 
+    return redirect('/foodprovider/restaurant_info/{}'.format(menu_item.restaurant.id)) 
 
 # View Bag Items
 def view_bag(request):

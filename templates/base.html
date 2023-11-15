@@ -39,16 +39,19 @@
       margin: auto; 
     }
 
-    /* Hide the default spinner arrows for number input */
-    /* input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    } */
-/* 
-    input[type="number"] {
-        -moz-appearance: textfield; 
-    } */
+   /* Styles for the div */
+   .visible-div {
+      padding: 20px;
+      position: relative;
+    }
+
+    /* Styles for the close button */
+    .close-button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+    }
   </style>
 <body>
     {% block content %} {% endblock content %}
@@ -69,5 +72,13 @@
 
     <!-- Template Javascript -->
     <script src="{% static 'js/main.js' %}"></script>
+
+    <!-- For message alert -->
+    <script>
+      function hideDiv() {
+        var div = document.getElementById('myDiv');
+        div.style.display = 'none';
+      }
+  </script>
 </body>
 </html>

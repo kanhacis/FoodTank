@@ -38,7 +38,7 @@
                 <!-- Search bar start -->
                 <form method="get">
                     <div class="custom-search-bar">
-                        <input class="form-control rounded-pill bg-dark text-white" type="text" name="search-food" placeholder="Search Foods...">
+                        <input class="form-control rounded-pill bg-dark text-white" type="text" name="search-food-restaurant" placeholder="Search foods & restaurants...">
                     </div>
                 </form>
                 <!-- Search bar end -->
@@ -51,10 +51,12 @@
                             <div class="p-4">
                                 <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s" src="{{menu.img1.url}}" style="height: 200px; margin-top: -15px;">
                                 <h5 class="mt-2">{{menu.name}}</h5>
+                                <p>{{menu.restaurant}}</p>
                                 <p>₹{{menu.price}}</p>
                                 <p class="text" style="display: block; width: 250px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{menu.description}}</p>
 
-                                <a href="/bag/add-to-bag/{{menu.id}}" class="btn btn-danger">Add to bag</a>
+                                <!-- <a href="/bag/add-to-bag/{{menu.id}}" class="btn btn-danger">Add to bag</a> -->
+                                <a href="/foodprovider/restaurant_info/{{menu.restaurant.id}}" class="btn btn-danger">Go &#8594;</a>
                             </div>
                         </div>
                     </div>
