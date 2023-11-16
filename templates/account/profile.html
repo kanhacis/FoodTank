@@ -5,7 +5,7 @@
 <!-- Hero Start -->
 <div class="container-xxl position-relative p-0">
     <!-- Navbar include start -->
-        {% include 'navbar.html' %}
+    {% include 'navbar.html' %}
     <!-- Navbar include end -->
 
     <div class="container-xxl py-5 bg-dark hero-header mb-5">
@@ -20,20 +20,22 @@
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
             <h5 class="section-title ff-secondary text-center text-primary fw-normal">Profile</h5>
-            <h1 class="mb-5">Update your profile</h1>
+            <h1 class="mb-5">Complete your profile</h1>
         </div>
         <div class="row g-4">
-            <!-- User Profile start -->
-            <div class="col-md-6">
+
+            <!-- User Address start -->
+            <div class="col-md-6 container">
                 <div class="wow fadeInUp" data-wow-delay="0.2s">
                     <form method="POST">
                         {% csrf_token %}
                         <div class="row g-3">
+
                             <!-- User name start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" value="{{user_profile.username}}" name="name" id="uname"
-                                        placeholder="Your Name" required>
+                                    <input type="text" class="form-control" value="{{user_profile.username}}"
+                                        name="name" id="uname" placeholder="Your Name" required disabled>
                                     <label for="uname">Username</label>
                                 </div>
                             </div>
@@ -42,8 +44,8 @@
                             <!-- Email start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" value="{{user_profile.email}}" name="email" id="email"
-                                        placeholder="Your Email" required>
+                                    <input type="email" class="form-control" value="{{user_profile.email}}" name="email"
+                                        id="email" placeholder="Your Email" required>
                                     <label for="email">Your Email</label>
                                 </div>
                             </div>
@@ -52,8 +54,8 @@
                             <!-- First name start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" value="{{user_profile.first_name}}" name="fname" id="fname"
-                                        placeholder="Your First Name" required>
+                                    <input type="text" class="form-control" value="{{user_profile.first_name}}"
+                                        name="fname" id="fname" placeholder="Your First Name" required>
                                     <label for="fname">First Name</label>
                                 </div>
                             </div>
@@ -62,8 +64,8 @@
                             <!-- Last name start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" value="{{user_profile.last_name}}" name="lname" id="lname"
-                                        placeholder="Your Last Name" required>
+                                    <input type="text" class="form-control" value="{{user_profile.last_name}}"
+                                        name="lname" id="lname" placeholder="Your Last Name" required>
                                     <label for="lname">Last Name</label>
                                 </div>
                             </div>
@@ -72,8 +74,8 @@
                             <!-- Mobile start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" value="{{user_profile.mobile}}" name="mobile" id="mobile"
-                                        placeholder="Your mobile no." required>
+                                    <input type="number" class="form-control" value="{{user_profile.mobile}}"
+                                        name="mobile" id="mobile" placeholder="Your mobile no." required>
                                     <label for="mobile">Your Mobile</label>
                                 </div>
                             </div>
@@ -92,36 +94,11 @@
                             </div>
                             <!-- User type end -->
 
-                            <!-- Messages Start -->
-                            {% if messages %}
-                            <ul class="messages list-unstyled">
-                                {% for message in messages %}
-                                <li{% if message.tags %} class="{{ message.tags }} text-danger" {% endif %}>{{ message }}</li>
-                                    {% endfor %}
-                            </ul>
-                            {% endif %}
-                            <!-- Messages End -->
-
-                            <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Add</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- User Profile end -->
-
-            <!-- User Address start -->
-            <div class="col-md-6">
-                <div class="wow fadeInUp" data-wow-delay="0.2s">
-                    <form method="POST">
-                        {% csrf_token %}
-                        <div class="row g-3">
                             <!-- State start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" value="{{user_address.state}}" name="state" id="state"
-                                        placeholder="Your State" required>
+                                    <input type="text" class="form-control" value="{{user_address.state}}" name="state"
+                                        id="state" placeholder="Your State" required>
                                     <label for="state">State</label>
                                 </div>
                             </div>
@@ -130,8 +107,8 @@
                             <!-- City start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" value="{{user_address.city}}" name="city" id="city"
-                                        placeholder="Your City" required>
+                                    <input type="text" class="form-control" value="{{user_address.city}}" name="city"
+                                        id="city" placeholder="Your City" required>
                                     <label for="city">Your City</label>
                                 </div>
                             </div>
@@ -140,8 +117,8 @@
                             <!-- Area start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" value="{{user_address.area}}" name="area" id="area"
-                                        placeholder="Your Area" required>
+                                    <input type="text" class="form-control" value="{{user_address.area}}" name="area"
+                                        id="area" placeholder="Your Area" required>
                                     <label for="area">Your Area</label>
                                 </div>
                             </div>
@@ -150,8 +127,8 @@
                             <!-- Zipcode start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" value="{{user_address.zipcode}}" name="zipcode" id="zipcode"
-                                        placeholder="Your Zipcode" required>
+                                    <input type="number" class="form-control" value="{{user_address.zipcode}}"
+                                        name="zipcode" id="zipcode" placeholder="Your Zipcode" required>
                                     <label for="zipcode">Your Zipcode</label>
                                 </div>
                             </div>
@@ -174,46 +151,25 @@
                             {% if messages %}
                             <ul class="messages list-unstyled">
                                 {% for message in messages %}
-                                <li{% if message.tags %} class="{{ message.tags }} text-danger" {% endif %}>{{ message }}</li>
-                                    {% endfor %}
+                                    <li {% if message.tags %} class="{{ message.tags }} text-success" {% endif %}>
+                                        {{ message}}
+                                    </li>
+                                {% endfor %}
                             </ul>
                             {% endif %}
                             <!-- Messages End -->
 
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Add</button>
+                                <button class="btn btn-primary w-100 py-3" type="submit">Update</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
             <!-- User Address end -->
+
         </div>
     </div>
 </div>
 
 {% endblock %}
-
-
-
-
-
-<!-- Password start -->
-<!-- <div class="col-12">
-    <div class="form-floating">
-        <input type="password" class="form-control" name="pwd" id="pwd"
-            placeholder="Your Password" required>
-        <label for="pwd">Password</label>
-    </div>
-</div> -->
-<!-- Password end -->
-
-<!-- Confirm password start -->
-<!-- <div class="col-12">
-    <div class="form-floating">
-        <input type="password" class="form-control" name="pwdc" id="pwdc"
-            placeholder="Your Password (confirm)" required>
-        <label for="pwdc">Password (confirm)</label>
-    </div>
-</div> -->
-<!-- Confirm password end -->

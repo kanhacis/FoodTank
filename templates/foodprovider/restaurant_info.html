@@ -31,10 +31,10 @@
             <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
                 <li class="nav-item">
                     <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
-                        <i class="fa fa-coffee fa-2x text-primary"></i>
+                        <i class="bi bi-menu-button-wide-fill fa-2x text-primary"></i>
                         <div class="ps-3">
-                            <small class="text-body">Popular</small>
-                            <h6 class="mt-n1 mb-0">Sweets</h6>
+                            <small class="text-body">All Menu</small>
+                            <h6 class="mt-n1 mb-0">Foods</h6>
                         </div>
                     </a>
                 </li>
@@ -61,7 +61,6 @@
                 <div id="tab-1" class="tab-pane fade show p-0 active">
                     <div class="row g-4">
                         {% for menu in rest_id_menus %}
-                            {% if menu.type == "Sweet" %}
                                 <div class="col-lg-6">
                                     <div class="d-flex align-items-center">
                                         <img class="flex-shrink-0 img-fluid rounded" src="{{menu.img1.url}}" alt="" style="width: 80px; height: 80px;">
@@ -78,14 +77,13 @@
                                         </div>
                                     </div>
                                 </div>
-                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>
                 <div id="tab-2" class="tab-pane fade show p-0">
                     <div class="row g-4">
                         {% for menu in rest_id_menus %}
-                            {% if menu.type == "Panner" %}
+                            {% if menu.type == "Paneer" %}
                                 <div class="col-lg-6">
                                     <div class="d-flex align-items-center">
                                         <img class="flex-shrink-0 img-fluid rounded" src="{{menu.img1.url}}" alt="" style="width: 80px; height: 80px;">

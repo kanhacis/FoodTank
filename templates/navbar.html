@@ -19,6 +19,9 @@
 
             <a href="/contact/" class="nav-item nav-link">Contact</a>
         </div>
-        <a href="/bag/view_bag/" class="btn btn-primary py-2 px-4">Your Bag</a>
+        
+        {% if user.is_authenticated and user.user_type == "Customer" %}
+            <a href="/bag/view_bag/" class="btn btn-primary py-2 px-4">Your Bag</a>
+        {% endif %}
     </div>
 </nav>

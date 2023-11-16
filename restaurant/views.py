@@ -8,14 +8,16 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 # View restaurant
 def restaurant(request):
-    city = Address.objects.get(user=request.user)
-    
-    if request.method == 'GET':
-        restaurant_name = request.GET.get('search-restaurant')
-        if restaurant_name:
-            restaurant = Restaurant.objects.filter(name__icontains=restaurant_name, city=city.city)
-        else:
-            restaurant = Restaurant.objects.filter(city=city.city)
+    try:
+        city = Address.objects.get(user=request.user)
+        if request.method == 'GET':
+            restaurant_name = request.GET.get('search-restaurant')
+            if restaurant_name:
+                restaurant = Restaurant.objects.filter(name__icontains=restaurant_name, city=city.city)
+            else:
+                restaurant = Restaurant.objects.filter(city=city.city)
+    except:
+        restaurant = Restaurant.objects.all()
 
     p = Paginator(restaurant, 4)
     page_number = request.GET.get('page')

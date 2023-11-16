@@ -41,14 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    
     # My apps
     'user',
     'restaurant',
     'menu',
-    # 'order',
     'bag',
-    'driver',
+    # 'driver',
+    # 'order',
 ]
 
 # below codes are for static files
@@ -133,7 +133,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+
 STATIC_URL = 'static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR,'static'),
+)
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

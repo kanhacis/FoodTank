@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import User, Contact, Address
 from django.contrib import messages 
 from restaurant.models import Restaurant
-from menu.models import Menu
+from menu.models import Menu, Review
 from django.contrib.auth import authenticate, login, logout 
 from django.contrib.auth.decorators import login_required 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
@@ -10,23 +10,35 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Define the home view function
 def home(request):
-    city = Address.objects.get(user=request.user)
-    rest = Restaurant.objects.filter(city=city.city)
-    
-    if request.method == 'GET':
-        food_name_restaurant = request.GET.get('search-food-restaurant')
-        if food_name_restaurant:
-            # Check if the search term corresponds to a restaurant
-            restaurant = Restaurant.objects.filter(name__icontains=food_name_restaurant).first()
-            if restaurant:
+    try:
+        # Retrieve the user's city based on their address
+        city = Address.objects.get(user=request.user)
+        
+        # Get all restaurants in the user's city
+        rest = Restaurant.objects.filter(city=city.city)
+        
+        # Check if the request method is GET
+        if request.method == 'GET':
+            # Get the search term from the request
+            food_name_restaurant = request.GET.get('search-food-restaurant')
+            
+            # Check if a search term is provided
+            if food_name_restaurant:
+                # Check if the search term corresponds to a restaurant
+                restaurant = Restaurant.objects.filter(name__icontains=food_name_restaurant).first()
+                
                 # If it's a restaurant, filter menus by that restaurant
-                food_restaurant = Menu.objects.filter(restaurant=restaurant, restaurant__in=rest)
+                if restaurant:
+                    food_restaurant = Menu.objects.filter(restaurant=restaurant, restaurant__in=rest)
+                else:
+                    # If it's not a restaurant, assume it's a food item and filter menus by name
+                    food_restaurant = Menu.objects.filter(name__icontains=food_name_restaurant, restaurant__in=rest)
             else:
-                # If it's not a restaurant, assume it's a food item and filter menus by name
-                food_restaurant = Menu.objects.filter(name__icontains=food_name_restaurant, restaurant__in=rest)
-        else:
-            # If no search term provided, show all menus
-            food_restaurant = Menu.objects.filter(restaurant__in=rest)
+                # If no search term provided, show all menus for restaurants in the user's city
+                food_restaurant = Menu.objects.filter(restaurant__in=rest)
+    except Exception as e:
+        # Handle any exceptions, when user is not loged in then show all menu items to anonymous user
+        food_restaurant = Menu.objects.all()
 
     # Pagination
     p = Paginator(food_restaurant, 8)
@@ -43,7 +55,6 @@ def home(request):
         'page_obj': page_obj
     }
 
-    # Render the 'home.html' template with the provided context
     return render(request, 'home.html', context)
 
 # Profile
@@ -52,20 +63,28 @@ def profile(request):
     address, created = Address.objects.get_or_create(user=user)
 
     if request.method == "POST":
+        email = request.POST.get('email')
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+
         state = request.POST.get('state')
         city = request.POST.get('city')
         area = request.POST.get('area')
         zipcode = request.POST.get('zipcode')
         category = request.POST.get('category')
 
-        address.user = user
+        user.first_name = fname
+        user.last_name = lname
+        user.email = email
+       
         address.state = state
         address.city = city
         address.area = area
         address.zipcode = zipcode
         address.category = category
-        address.save()
-        message = messages.success(request, "Your profile is completed.")
+        address.save() # save data in address model
+        user.save() # save data in user model
+        message = messages.info(request, "Your profile is completed.")
     
     context = {
         'user_profile' : user,

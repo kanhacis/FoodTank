@@ -81,10 +81,9 @@ Task Name :- FoodTank Website (Django) / PHP
 Time sheet filled : Yes
 
 Work Done Today:-
-    1. Improve search functionality.
-    2. Showing restaurants based on user city.
-    3. Trying to setup php mysql database.
+    1. Scrape the swiggy restaurant data.
+    2. Add functionality : Allow only verified restaurant, handle AnonymousUser
+    3. Complete user-address / profile completion.
 
-
-Day Start Time: 12:10
-Day End Time:  08:55
+Day Start Time: 12:05
+Day End Time:  09:00

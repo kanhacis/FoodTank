@@ -3,45 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-  <title>Hide Div Example</title>
+  <title>Add Class Example</title>
   <style>
-    /* Styles for the div */
-    .visible-div {
-      padding: 20px;
-      border: 1px solid #ccc;
-      position: relative;
-    }
-
-    /* Styles for the close button */
-    .close-button {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      cursor: pointer;
+    .highlight {
+      color: red;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-<!-- The div with the cross button -->
-<div class="visible-div" id="myDiv">
-  <span class="close-button" onclick="hideDiv()">✖</span>
-  <div class="alert alert-danger" role="alert">
-    A simple danger alert—check it out!
-  </div>
-</div>
+<a href="#" id="test" onclick="{addClass()}" class="nav-item">Home</a>
 
-<!-- JavaScript to handle hiding the div -->
 <script>
-  function hideDiv() {
-    var div = document.getElementById('myDiv');
-    div.style.display = 'none';
+  // JavaScript function to add a class to an HTML element
+  function addClass() {
+    var element = document.getElementById("test");
+    element.classList.add("highlight");
   }
+  
+  // Call the function to add the class when the page loads (for demonstration purposes)
+  
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 </body>
 </html>
