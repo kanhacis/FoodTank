@@ -63,7 +63,11 @@
                                 <h5 class="mt-2">{{menu.name}}</h5>
                                 <p>{{menu.restaurant}}</p>
                                 <p>₹{{menu.price}}</p>
-                                <p>{{menu.rating}}</p>
+                                {% if menu.average_rating %}
+                                    <p>{{menu.average_rating|floatformat:0}} <span style="color: orange;">&#9733;</span></p>
+                                {% else %}
+                                    <p><span style="color: orange;">&#9734;</span></p>
+                                {% endif %}
                                 <p class="text" style="display: block; width: 250px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{menu.description}}</p>
 
                                 <!-- <a href="/bag/add-to-bag/{{menu.id}}" class="btn btn-danger">Add to bag</a> -->

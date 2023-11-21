@@ -76,15 +76,16 @@ app-Driver
 ==========================================
 
 
-Task Name :- FoodTank Website (Django)
+Task Name :- FoodTank Website (Django) / PHP
 
 Time sheet filled : Yes
 
 Work Done Today:-
     1. Working with notification functionality.
-    2. Add some more search filters & upload restaurants data.
-    3. Fix image upload problem.
-    4. JQuery : Start learning (Check Selectors & Events)
+    2. Display ratings in each food items.
+    3. JQuery : Learn some more Events-effects and animation.
+    4. Setup phpmyadmin.
+    5. Create registration pages (PHP task).
 
 Day Start Time: 12:10
 Day End Time:  09:00

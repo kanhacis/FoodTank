@@ -6,72 +6,81 @@ from menu.models import Menu, Review
 from django.contrib.auth import authenticate, login, logout 
 from django.contrib.auth.decorators import login_required 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
+from django.db.models import Avg
 
 
-# Define the home view function
+# Home
 def home(request):
     try:
-        # Retrieve the user's city based on their address
-        city = Address.objects.get(user=request.user)
-        
-        # Get all restaurants in the user's city
-        rest = Restaurant.objects.filter(city=city.city)
-        
-        # Check if the request method is GET
-        if request.method == 'GET':
-            # Get the search term from the request (either food name or restaurant name)
-            food_name_restaurant = request.GET.get('search-food-restaurant')
+        if request.user.is_authenticated:
+            # Retrieve the user's city based on their address
+            city = Address.objects.get(user=request.user)
 
-            # Get the price > equals to and price < equals to
-            price_greater_than = request.GET.get('gte')
-            price_less_than = request.GET.get('lte')
-            
-            # Check if a search term is provided
-            if food_name_restaurant:
-                # Check if the search term corresponds to a restaurant
-                restaurant = Restaurant.objects.filter(name__icontains=food_name_restaurant).first()
+            # Get all restaurants in the user's city
+            rest = Restaurant.objects.filter(city=city.city)
+        else:
+            # Show all menu items to anonymous users
+            rest = Restaurant.objects.all()
 
-                # If it's a restaurant, filter menus by that restaurant
-                if restaurant:
-                    food_restaurant = Menu.objects.filter(restaurant=restaurant, restaurant__in=rest)
+        # Get the search term from the request (either food name or restaurant name)
+        food_name_restaurant = request.GET.get('search-food-restaurant')
+        price_greater_than = request.GET.get('gte')
+        price_less_than = request.GET.get('lte')
 
-                else:
-                    # If it's not a restaurant, assume it's a food item and filter menus by name
-                    food_restaurant = Menu.objects.filter(name__icontains=food_name_restaurant, restaurant__in=rest)
-            
-            elif price_greater_than:
-                food_restaurant = Menu.objects.filter(price__gte=price_greater_than.split()[-1])
+        # Build the base queryset
+        food_restaurant = Menu.objects.filter(restaurant__in=rest)
 
-            elif price_less_than:
-                food_restaurant = Menu.objects.filter(price__lte=price_less_than.split()[-1])
+        # Apply filters based on user input
+        if food_name_restaurant:
+            # Check if the search term corresponds to a restaurant
+            restaurant = Restaurant.objects.filter(name__icontains=food_name_restaurant).first()
 
+            # If it's a restaurant, filter menus by that restaurant
+            if restaurant:
+                food_restaurant = food_restaurant.filter(restaurant=restaurant)
             else:
-                # If no search term provided, show all menus for restaurants in the user's city
-                food_restaurant = Menu.objects.filter(restaurant__in=rest)
-    except Exception as e:
-        # Handle any exceptions, when user is not loged in then show all menu items to anonymous user
-        food_restaurant = Menu.objects.filter(review__isnull=False).distinct()
-        
-       
-    # Pagination
-    p = Paginator(food_restaurant, 8)
-    page_number = request.GET.get('page')
-    try:
-        page_obj = p.get_page(page_number)
-    except PageNotAnInteger:
-        page_obj = p.page(1)
-    except EmptyPage:
-        page_obj = p.page(p.num_pages)
+                # If it's not a restaurant, assume it's a food item and filter menus by name
+                food_restaurant = food_restaurant.filter(name__icontains=food_name_restaurant)
 
-    # Prepare the context to pass data to the template
-    context = {
-        'page_obj': page_obj
-    }
+        elif price_greater_than:
+            food_restaurant = food_restaurant.filter(price__gte=price_greater_than.split()[-1])
+
+        elif price_less_than:
+            food_restaurant = food_restaurant.filter(price__lte=price_less_than.split()[-1])
+
+        # Add average rating to each menu item
+        food_restaurant = food_restaurant.annotate(average_rating=Avg('review__rating'))
+
+        # Pagination
+        paginator = Paginator(food_restaurant, 8)
+        page_number = request.GET.get('page')
+        try:
+            page_obj = paginator.get_page(page_number)
+        except (PageNotAnInteger, EmptyPage):
+            page_obj = paginator.page(1)
+
+        # Prepare the context to pass data to the template
+        context = {
+            'page_obj': page_obj
+        }
+
+        for i in page_obj:
+            print(i.average_rating)
+
+    except Address.DoesNotExist:
+        # Handle the case where the user does not have an associated address
+        context = {
+            'page_obj': Menu.objects.none()
+        }
 
     return render(request, 'home.html', context)
 
+
 # Profile
 def profile(request):
+    if not request.user.is_authenticated:
+        return redirect("/login/")
+    
     user = request.user
     address, created = Address.objects.get_or_create(user=user)
 
@@ -199,3 +208,4 @@ def Login(request):
 def Logout(request): 
     logout(request) 
     return redirect('/')
+
