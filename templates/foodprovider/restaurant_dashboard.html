@@ -1,5 +1,6 @@
 {% extends '../base.html' %}
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <!-- Navbar Start -->
 <div class="container-xxl position-relative p-0">
@@ -37,26 +38,41 @@
         </thead>
         
         {% for restaurant in my_restaurant %}
-        <tbody>
-            <tr>
-              <th scope="row">{{forloop.counter}}</th>
-              <td>{{restaurant.name}}</td>
-              <td>{{restaurant.city}}</td>
-              <td>{{restaurant.veg_or_nonveg}}</td>
-              <td>{{restaurant.no_of_chefs}}</td>
-              <td>
-                <a href="/foodprovider/editRestaurant/{{restaurant.id}}" class="btn btn-primary">Edit</a>
-                <a href="/foodprovider/deleteRestaurant/{{restaurant.id}}" class="btn btn-danger" 
-                    onclick="return confirm('Are you sure? You are deleting your added restaurant')">Delete</a>
-                <a href="/foodprovider/addMenu/" class="btn btn-success">Add Menu</a>
-                <a href="/foodprovider/viewMenu/{{restaurant.id}}" class="btn btn-info">View Menu</a>
-              </td>
-            </tr>
-          </tbody>
+          {% if restaurant.is_verified == True %}
+          <tbody>
+              <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{restaurant.name}}</td>
+                <td>{{restaurant.city}}</td>
+                <td>{{restaurant.veg_or_nonveg}}</td>
+                <td>{{restaurant.no_of_chefs}}</td>
+                <td>
+                  <a href="/foodprovider/editRestaurant/{{restaurant.id}}" class="btn btn-primary">Edit</a>
+                  <a href="/foodprovider/deleteRestaurant/{{restaurant.id}}" class="btn btn-danger" 
+                      onclick="return confirm('Are you sure? You are deleting your added restaurant')">Delete</a>
+                  <a href="/foodprovider/addMenu/" class="btn btn-success">Add Menu</a>
+                  <a href="/foodprovider/viewMenu/{{restaurant.id}}" class="btn btn-info">View Menu</a>
+                </td>
+              </tr>
+            </tbody>
+
+          {% else %}
+            <div class="alert alert-info myAlert" role="alert">
+              {{restaurant.name}} is not verified yet.
+            </div>
+          {% endif %}
         {% endfor %}
 
     </table>
 </div>
 <!-- Restaurant data end -->
+
+<script>
+  $(document).ready(function(){
+    $(".myAlert").click(function(){
+      $(this).hide();
+    });
+  });
+</script>
 
 {% endblock content %}

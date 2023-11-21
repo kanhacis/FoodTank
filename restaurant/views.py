@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Restaurant
+from .models import Restaurant, Notification
 from django.contrib import messages
 from user.models import User, Address
 from menu.models import Menu
@@ -105,7 +105,7 @@ def editRestaurant(request, id):
         veg = request.POST.get('veg')
         nchefs = request.POST.get('nchefs')
         rdate = request.POST.get('rdate')
-        rimg1 = request.FILES.get('rimg1')
+        rimg1 = request.FILES.get('postImg')
         rimg2 = request.FILES.get('rimg2')
         rimg3 = request.FILES.get('rimg3')
         rimg4 = request.FILES.get('rimg4')
@@ -157,3 +157,8 @@ def restaurant_info(request, id):
     }
 
     return render(request, 'foodprovider/restaurant_info.html', context) 
+
+# Code for notification
+def admin_notifications(request):
+    admin_notifications = Notification.objects.filter(receiver=request.user, is_read=False)
+    return render(request, 'admin_notifications.html', {'notifications': admin_notifications})

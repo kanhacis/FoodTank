@@ -19,27 +19,40 @@ def home(request):
         
         # Check if the request method is GET
         if request.method == 'GET':
-            # Get the search term from the request
+            # Get the search term from the request (either food name or restaurant name)
             food_name_restaurant = request.GET.get('search-food-restaurant')
+
+            # Get the price > equals to and price < equals to
+            price_greater_than = request.GET.get('gte')
+            price_less_than = request.GET.get('lte')
             
             # Check if a search term is provided
             if food_name_restaurant:
                 # Check if the search term corresponds to a restaurant
                 restaurant = Restaurant.objects.filter(name__icontains=food_name_restaurant).first()
-                
+
                 # If it's a restaurant, filter menus by that restaurant
                 if restaurant:
                     food_restaurant = Menu.objects.filter(restaurant=restaurant, restaurant__in=rest)
+
                 else:
                     # If it's not a restaurant, assume it's a food item and filter menus by name
                     food_restaurant = Menu.objects.filter(name__icontains=food_name_restaurant, restaurant__in=rest)
+            
+            elif price_greater_than:
+                food_restaurant = Menu.objects.filter(price__gte=price_greater_than.split()[-1])
+
+            elif price_less_than:
+                food_restaurant = Menu.objects.filter(price__lte=price_less_than.split()[-1])
+
             else:
                 # If no search term provided, show all menus for restaurants in the user's city
                 food_restaurant = Menu.objects.filter(restaurant__in=rest)
     except Exception as e:
         # Handle any exceptions, when user is not loged in then show all menu items to anonymous user
-        food_restaurant = Menu.objects.all()
-
+        food_restaurant = Menu.objects.filter(review__isnull=False).distinct()
+        
+       
     # Pagination
     p = Paginator(food_restaurant, 8)
     page_number = request.GET.get('page')
@@ -140,7 +153,7 @@ def signup(request):
             new_user.save()
 
             if user_type == "Customer":
-                return redirect('/profile/')
+                return redirect('/login/')
             else:
                 return redirect('/login/')
 

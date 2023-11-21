@@ -23,7 +23,7 @@
 </div>
 <!-- Navbar & Hero End -->
 
-<!-- Add Restaurant Start -->
+<!-- Edit Restaurant Start -->
 <div class="container-xxl py-5">
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -33,7 +33,7 @@
         <div class="row g-4 d-flex justify-content-center" >
             <div class="col-md-6">
                 <div class="wow fadeInUp" data-wow-delay="0.2s">
-                    <form method="POST">
+                    <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row g-3">
                             <!-- Restaurant username start -->
@@ -114,7 +114,7 @@
                             <!-- Restaurant image 1 start -->
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input type="file" class="form-control" name="rimg1" id="rimg1" value="{{restaurant.img1}}" placeholder="Subject" required>
+                                    <input type="file" class="form-control" name="postImg" id="rimg1" value="{{restaurant.img1}}" placeholder="Subject" required>
                                     <label for="rimg1">Image 1</label>
                                 </div>
                             </div>
@@ -176,6 +176,6 @@
         </div>
     </div>
 </div>
-<!-- Add Restaurant End -->
+<!-- Edit Restaurant End -->
 {% endblock content %}
 

@@ -38,9 +38,19 @@
                 <!-- Search bar start -->
                 <form method="get">
                     <div class="custom-search-bar">
-                        <input class="form-control rounded-pill bg-dark text-white" type="text" name="search-food-restaurant" placeholder="Search foods & restaurants...">
+                        <input type="text" class="form-control rounded-pill bg-dark text-white" name="search-food-restaurant" placeholder="Search foods & restaurants...">
                     </div>
                 </form>
+
+                <div class="d-flex justify-content-center">
+                    <form method="get">
+                        <input type="submit" class="btn rounded-pill mt-2 btn-dark" value="₹ > 120" name="gte">
+                    </form>&nbsp;
+    
+                    <form method="get">
+                        <input type="submit" class="btn rounded-pill mt-2 btn-dark" value="₹ < 120" name="lte">
+                    </form>
+                </div>
                 <!-- Search bar end -->
 
             </div>
@@ -53,6 +63,7 @@
                                 <h5 class="mt-2">{{menu.name}}</h5>
                                 <p>{{menu.restaurant}}</p>
                                 <p>₹{{menu.price}}</p>
+                                <p>{{menu.rating}}</p>
                                 <p class="text" style="display: block; width: 250px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{menu.description}}</p>
 
                                 <!-- <a href="/bag/add-to-bag/{{menu.id}}" class="btn btn-danger">Add to bag</a> -->

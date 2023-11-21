@@ -76,14 +76,17 @@ app-Driver
 ==========================================
 
 
-Task Name :- FoodTank Website (Django) / PHP
+Task Name :- FoodTank Website (Django)
 
 Time sheet filled : Yes
 
 Work Done Today:-
-    1. Scrape the swiggy restaurant data.
-    2. Add functionality : Allow only verified restaurant, handle AnonymousUser
-    3. Complete user-address / profile completion.
+    1. Working with notification functionality.
+    2. Add some more search filters & upload restaurants data.
+    3. Fix image upload problem.
+    4. JQuery : Start learning (Check Selectors & Events)
 
-Day Start Time: 12:05
+Day Start Time: 12:10
 Day End Time:  09:00
+
+
