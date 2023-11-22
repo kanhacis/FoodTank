@@ -163,8 +163,8 @@ def signup(request):
 
             if user_type == "Customer":
                 return redirect('/login/')
-            else:
-                return redirect('/login/')
+            elif user_type == "Foodprovider":
+                return redirect('/foodprovider/adminSignin/')
 
         else:
             # Error handling for password mismatch
@@ -176,27 +176,27 @@ def signup(request):
 # Function to login user
 def Login(request):
     if request.method == 'POST':
-        uname = request.POST['name']
-        pwd = request.POST['password']
-        utype = request.POST['utype'] 
+        uname = request.POST.get('name')
+        pwd = request.POST.get('password')
+        # utype = request.POST['utype'] 
 
         user = authenticate(request, username=uname, password=pwd)
-
+        
         if user is not None:
-            if utype == "Customer" and user.user_type == "Customer":
+            if user.user_type == "Customer":
                 login(request, user)
                 return redirect('/')
                 
-            elif utype == "Foodprovider" and user.user_type == "Foodprovider":
+            elif user.user_type == "Foodprovider":
                 login(request, user)
                 return redirect('/foodprovider/dashboard/')
                 
-            elif utype == "Driver" and user.user_type == "Driver":
+            elif user.user_type == "Driver":
                 login(request, user)
                 return redirect('/')  # Need to set the correct path
                 
-            else:
-                message = messages.error(request, 'You are not authorized to log in as a {}.'.format(utype))
+            # else:
+            #     message = messages.error(request, 'You are not authorized to log in as a {}.'.format(utype))
         else:
             message = messages.error(request, 'Invalid username or password. Please try again.')
 

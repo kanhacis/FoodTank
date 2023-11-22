@@ -1,0 +1,78 @@
+{% extends '../base2.html' %}
+{% block content %}
+
+<div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Sign Up Start -->
+    <div class="container-fluid">
+        <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <a href="index.html" class="">
+                            <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>DarkPan</h3>
+                        </a>
+                        <h3>Sign Up</h3>
+                    </div>
+
+                    <form action="/signup/" method="POST">
+                        {% csrf_token %}
+
+                        <!-- Username start -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="name" id="username" placeholder="jhondoe">
+                            <label for="username">Username</label>
+                        </div>
+
+                        <!-- Email start -->
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com">
+                            <label for="email">Email address</label>
+                        </div>
+
+                        <!-- Mobile start -->
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" name="mobile" id="mobile" placeholder="800 800 8001">
+                            <label for="mobile">Mobile</label>
+                        </div>
+
+                        <!-- User-type admin start -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="utype" id="utype" value="Foodprovider" hidden>
+                            <label for="utype">User type</label>
+                        </div>
+
+                        <!-- Password start -->
+                        <div class="form-floating mb-4">
+                            <input type="password" class="form-control" name="pwd" id="floatingPassword"
+                                placeholder="Password">
+                            <label for="floatingPassword">Password</label>
+                        </div>
+
+                        <!-- Password confirmation start -->
+                        <div class="form-floating mb-4">
+                            <input type="password" class="form-control" name="pwdc" id="floatingPassword"
+                                placeholder="Password">
+                            <label for="floatingPassword">Confirm password</label>
+                        </div>
+                        <!-- Password confirmation end -->
+
+                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Sign Up</button>
+                        <p class="text-center mb-0">Already have an Account? <a href="/foodprovider/adminSignin/">Sign In</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Sign Up End -->
+</div>
+{% endblock content %}

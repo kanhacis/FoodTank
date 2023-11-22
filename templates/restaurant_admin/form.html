@@ -1,0 +1,117 @@
+{% extends '../base2.html' %}
+{% block content %}
+
+<div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Sidebar Start -->
+    {% include './sidebar.html' %}
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        {% include './navbar.html' %}
+        <!-- Navbar End -->
+
+
+        <!-- Form Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="row g-4">
+                <div class="col-sm-12 col-xl-6">
+                    <div class="bg-secondary rounded h-100 p-4">
+                        <h6 class="mb-4">Restaurant Information</h6>
+                        
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xl-6">
+                    <div class="bg-secondary rounded h-100 p-4">
+                        <h6 class="mb-4">Restaurant Images</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid pt-4 px-4">
+            <div class="row bg-secondary rounded align-items-center justify-content-center mx-0">
+                <div class="container-fluid pt-4 px-4">
+                    <form action="#">
+                        <div class="row g-4">
+                            <div class="col-sm-12 col-xl-6">
+                                <div class="bg-secondary rounded h-100 p-4">
+                                    <div class="form-floating mb-3">
+                                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                                        <label for="floatingInput">Email address</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                                        <label for="floatingPassword">Password</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                                            <option selected>Open this select menu</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                        <label for="floatingSelect">Works with selects</label>
+                                    </div>
+                                    <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                                            style="height: 150px;"></textarea>
+                                        <label for="floatingTextarea">Comments</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xl-6">
+                                <div class="bg-secondary rounded h-100 p-4">
+                                    <div class="mb-3">
+                                        <label for="formFile" class="form-label">Default file input example</label>
+                                        <input class="form-control bg-dark" type="file" id="formFile">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+                                        <input class="form-control bg-dark" type="file" id="formFileMultiple" multiple>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="formFileSm" class="form-label">Small file input example</label>
+                                        <input class="form-control form-control-sm bg-dark" id="formFileSm" type="file">
+                                    </div>
+                                    <div>
+                                        <label for="formFileLg" class="form-label">Large file input example</label>
+                                        <input class="form-control form-control-lg bg-dark" id="formFileLg" type="file">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding-left: 23px;">
+                            <button type="submit" class="btn btn-primary py-3 mb-4">Create restaurant</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Form End -->
+
+    </div>
+    <!-- Content End -->
+</div>
+
+<script>
+    $(function () { 
+        $('.nav-item').ready(function () { 
+            $('#addrestaurant').addClass('active');
+         });
+     })
+</script>
+{% endblock content %}

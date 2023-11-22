@@ -81,13 +81,12 @@ Task Name :- FoodTank Website (Django) / PHP
 Time sheet filled : Yes
 
 Work Done Today:-
-    1. Working with notification functionality.
-    2. Display ratings in each food items.
-    3. JQuery : Learn some more Events-effects and animation.
-    4. Setup phpmyadmin.
-    5. Create registration pages (PHP task).
+    1. Setup admin dashboard.
+    2. JQuery : Checkout the JQuery library JQuery-UI
+    3. PHP : Add basic functionality in login form.
 
-Day Start Time: 12:10
+Day Start Time: 12:05
 Day End Time:  09:00
 
 
+Setup admin dashboard & Checkout the JQuery library JQuery-UI

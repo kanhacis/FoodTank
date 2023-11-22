@@ -6,6 +6,15 @@ from menu.models import Menu
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
+# Admin signup page
+def adminSignup(request):
+    return render(request, 'restaurant_admin/signup.html')
+
+# Admin login page
+def adminSignin(request):
+    return render(request, 'restaurant_admin/signin.html')
+
+
 # View restaurant
 def restaurant(request):
     try:
@@ -54,7 +63,8 @@ def dashboard(request):
     }
 
     # Render the restaurant dashboard template with the context data
-    return render(request, 'foodprovider/restaurant_dashboard.html', context)
+    # return render(request, 'foodprovider/restaurant_dashboard.html', context)
+    return render(request, 'restaurant_admin/index.html')
 
 # Add restaurants
 def addRestaurant(request):
@@ -86,7 +96,9 @@ def addRestaurant(request):
         restaurant.save()
         message = messages.success(request, 'Restaurant created successfully!')
 
-    return render(request, 'foodprovider/add_restaurant.html')
+    # return render(request, 'foodprovider/add_restaurant.html')
+    return render(request, 'restaurant_admin/form.html')
+
 
 # Edit restaurant
 def editRestaurant(request, id):
