@@ -44,10 +44,11 @@ def home(request):
 
         elif price_greater_than:
             food_restaurant = food_restaurant.filter(price__gte=price_greater_than.split()[-1])
+            url = price_greater_than
 
         elif price_less_than:
             food_restaurant = food_restaurant.filter(price__lte=price_less_than.split()[-1])
-
+            url = price_less_than
         # Add average rating to each menu item
         food_restaurant = food_restaurant.annotate(average_rating=Avg('review__rating'))
 
@@ -61,7 +62,8 @@ def home(request):
 
         # Prepare the context to pass data to the template
         context = {
-            'page_obj': page_obj
+            'page_obj': page_obj,
+            # 'url' : url
         }
 
         for i in page_obj:
@@ -75,7 +77,6 @@ def home(request):
 
     return render(request, 'home.html', context)
 
-
 # Profile
 def profile(request):
     if not request.user.is_authenticated:
@@ -86,33 +87,43 @@ def profile(request):
 
     if request.method == "POST":
         email = request.POST.get('email')
-        fname = request.POST.get('fname')
-        lname = request.POST.get('lname')
+        fname = request.POST.get('fname') 
+        lname = request.POST.get('lname') 
 
-        state = request.POST.get('state')
-        city = request.POST.get('city')
-        area = request.POST.get('area')
+        state = request.POST.get('state') 
+        city = request.POST.get('city') 
+        area = request.POST.get('area') 
         zipcode = request.POST.get('zipcode')
         category = request.POST.get('category')
+        mobile = request.POST.get('mobile')
 
         user.first_name = fname
         user.last_name = lname
         user.email = email
+        user.mobile = mobile
        
         address.state = state
         address.city = city
         address.area = area
         address.zipcode = zipcode
         address.category = category
+
         address.save() # save data in address model
         user.save() # save data in user model
+
         message = messages.info(request, "Your profile is completed.")
     
     context = {
         'user_profile' : user,
         'user_address' : address
     }
-    return render(request, 'account/profile.html', context)
+    if request.user.user_type == "Customer":
+        return render(request, 'account/profile.html', context)
+    elif request.user.user_type == "Foodprovider":
+        context['resturant_data'] = Restaurant.objects.filter(user=request.user)
+        return render(request, 'restaurant_admin/profile.html', context)
+    else:
+        return render(request, 'account/profile.html', context)
 
 # Contact
 def contact(request):
@@ -206,6 +217,10 @@ def Login(request):
 # Function to logout user 
 @login_required(login_url='/login/') 
 def Logout(request): 
-    logout(request) 
-    return redirect('/')
+    if request.user.user_type == "Customer":
+        logout(request) 
+        return redirect('/')
+    else:
+        logout(request) 
+        return redirect('/foodprovider/adminSignin/')
 

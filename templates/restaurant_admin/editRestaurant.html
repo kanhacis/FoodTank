@@ -1,0 +1,191 @@
+{% extends '../base2.html' %}
+{% block content %}
+
+<div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Sidebar Start -->
+    {% include './sidebar.html' %}
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        {% include './navbar.html' %}
+        <!-- Navbar End -->
+
+
+        <!-- Form Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="row g-4">
+                <div class="col-sm-12 col-xl-6">
+                    <div class="bg-secondary rounded h-100 p-4">
+                        <h6 class="mb-4">Restaurant Information</h6>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xl-6">
+                    <div class="bg-secondary rounded h-100 p-4">
+                        <h6 class="mb-4">Restaurant Images</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid pt-4 px-4">
+            <div class="row bg-secondary rounded align-items-center justify-content-center mx-0">
+                <div class="container-fluid pt-4 px-4">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row g-4">
+                            <div class="col-sm-12 col-xl-6">
+                                <div class="bg-secondary rounded h-100 p-4">
+                                    <!-- Username & restaurant name start -->
+                                    <div class="row">
+                                        <div class="form-floating mb-3 col-xl-6">
+                                            <input type="text" class="form-control" name="uname" id="username"
+                                                value="{{restaurant.user}}" placeholder="admin" required>
+                                            <label for="username" class="mx-2">Admin</label>
+                                        </div>
+
+                                        <div class="form-floating mb-3 col-xl-6">
+                                            <input type="text" class="form-control" name="rname" id="rname"
+                                                value="{{restaurant.name}}" placeholder="Restaurant name" required>
+                                            <label for="rname" class="mx-2">Restaurant name</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Restaurant city & mobile start -->
+                                    <div class="row">
+                                        <div class="form-floating mb-3 col-xl-6">
+                                            <input type="text" class="form-control" name="rcity" id="city"
+                                                value="{{restaurant.city}}" placeholder="Restaurant city" required>
+                                            <label for="city" class="mx-2">Restaurant city</label>
+                                        </div>
+
+                                        <div class="form-floating mb-3 col-xl-6">
+                                            <input type="number" class="form-control" name="rmobile" id="rmobile"
+                                                value="{{restaurant.mobile}}" placeholder="Restaurant name" required>
+                                            <label for="rmobile" class="mx-2">Restaurant mobile</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Restaurant address & chefs start -->
+                                    <div class="row">
+                                        <div class="form-floating mb-3 col-xl-6">
+                                            <input type="text" class="form-control" name="raddress" id="address"
+                                                value="{{restaurant.address}}" placeholder="Restaurant address" required>
+                                            <label for="address" class="mx-2">Restaurant address</label>
+                                        </div>
+
+                                        <div class="form-floating mb-3 col-xl-6">
+                                            <input type="number" class="form-control" name="nchefs" id="nchefs"
+                                                value="{{restaurant.no_of_chefs}}" placeholder="Restaurant nchefs" required>
+                                            <label for="nchefs" class="mx-2">Number of chefs</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Restaurant type -->
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="rtype" name="rtype"
+                                            aria-label="Floating label select example" required>
+                                            <option value="{{restaurant.veg_or_nonveg}}" selected>{{restaurant.veg_or_nonveg}}</option>
+                                            <option value="Vegiterian">Vegiterian</option>
+                                            <option value="Non-Vegiterian">Non-Vegiterian</option>
+                                            <option value="Both">Both</option>
+                                        </select>
+                                        <label for="rtype">Restaurant type</label>
+                                    </div>
+
+                                    <!-- Restaurant date -->
+                                    <div class="form-floating mb-3">
+                                        <input type="date" class="form-control" name="rdate" id="rdate"
+                                            value="{{restaurant.start_date}}" placeholder="Restaurant date" required>
+                                        <label for="rdate">Restaurant date</label>
+                                    </div>
+
+                                    <!-- Restaurant description start -->
+                                    <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Leave a comment here" name="desc"
+                                            id="desc" style="height: 150px;" required>{{restaurant.desc}}</textarea>
+                                        <label for="desc">Description</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-xl-6">
+                                <div class="bg-secondary">
+                                    <div class="row">
+                                        <div class="col-xl-3">
+                                            <!-- <img src="{{restaurant.img1.url}}" alt=""> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-secondary rounded h-100 p-4">
+                                    <!-- Imgage 1 -->
+                                    <div class="mb-3">
+                                        <label for="img1" class="form-label">Image 1</label>
+                                        <input type="file" class="form-control bg-dark" name="rimg1" id="img1" required>
+                                    </div>
+
+                                    <!-- Image 2 -->
+                                    <div class="mb-3">
+                                        <label for="img2" class="form-label">Image 2</label>
+                                        <input type="file" class="form-control bg-dark" name="rimg2" id="img2" required>
+                                    </div>
+
+                                    <!-- Image 3 -->
+                                    <div class="mb-3">
+                                        <label for="img3" class="form-label">Image 3</label>
+                                        <input type="file" class="form-control bg-dark" name="rimg3" id="img3" required>
+                                    </div>
+
+                                    <!-- Image 4 -->
+                                    <div class="mb-3">
+                                        <label for="img4" class="form-label">Image 4</label>
+                                        <input type="file" class="form-control bg-dark" name="rimg4" id="img4" required>
+                                    </div>
+
+                                    <!-- Messages Start -->
+                                    {% if messages %}
+                                        <ul class="messages list-unstyled">
+                                            {% for message in messages %}
+                                                <li{% if message.tags %} class="{{ message.tags }} text-success" {% endif %}>{{ message }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                    <!-- Messages End -->
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div style="padding-left: 23px;">
+                            <button type="submit" class="btn btn-primary py-3 mb-4">Create restaurant</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Form End -->
+
+    </div>
+    <!-- Content End -->
+</div>
+
+<script>
+    $(function () {
+        $('.nav-item').ready(function () {
+            $('#addrestaurant').addClass('active');
+        });
+    })
+</script>
+{% endblock content %}

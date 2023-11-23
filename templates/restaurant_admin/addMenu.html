@@ -1,0 +1,92 @@
+{% extends '../base2.html' %}
+{% block content %}
+
+<style>
+    input{
+        height: 50px;
+    }
+</style>
+
+<div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Sidebar Start -->
+    {% include './sidebar.html' %}
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        {% include './navbar.html' %}
+        <!-- Navbar End -->
+
+
+        <!-- Form Start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="row bg-secondary rounded align-items-center justify-content-center mx-0">
+                <div class="bg-secondary rounded h-100 pt-4">
+                    <h5 class="mb-4">Add Menu's</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid pt-4 px-4">
+            <div class="row bg-secondary rounded align-items-center justify-content-center mx-0">
+                <div class="container-fluid pt-4 px-4 d-flex justify-content-center">
+
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row" style="width: 720px;">
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" name="fname" id="firstname" value="{{user_profile.first_name}}" placeholder="firstname">
+                                <label for="firstname" class="mx-2">First Name</label>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" name="fname" id="firstname" value="{{user_profile.first_name}}" placeholder="firstname">
+                                <label for="firstname" class="mx-2">First Name</label>
+                            </div>
+                        </div>
+
+                        <div class="row" style="width: 720px;">
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" name="fname" id="firstname" value="{{user_profile.first_name}}" placeholder="firstname">
+                                <label for="firstname" class="mx-2">First Name</label>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" name="fname" id="firstname" value="{{user_profile.first_name}}" placeholder="firstname">
+                                <label for="firstname" class="mx-2">First Name</label>
+                            </div>
+                        </div>
+
+                        
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <!-- Form End -->
+
+    </div>
+    <!-- Content End -->
+</div>
+
+<script>
+    $(function () {
+        $('.nav-item').ready(function () {
+            $('#addrestaurant').addClass('active');
+        });
+    })
+</script>
+{% endblock content %}

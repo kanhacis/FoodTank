@@ -10,9 +10,32 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 def adminSignup(request):
     return render(request, 'restaurant_admin/signup.html')
 
+
 # Admin login page
 def adminSignin(request):
     return render(request, 'restaurant_admin/signin.html')
+
+
+# Admin dashboard
+def dashboard(request):
+    # Check if the user is authenticated, if not, redirect them to the login page
+    if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
+        return redirect("/foodprovider/adminSignin/")
+    
+    # Get the restaurant admin user object based on the currently logged-in user
+    restaurant_admin = User.objects.get(username=request.user)
+
+    # Retrieve the restaurant data associated with the admin user
+    restaurant_data = Restaurant.objects.filter(user=restaurant_admin)
+
+    # Create a context dictionary with the restaurant data to pass to the template
+    context = {
+        'my_restaurant' : restaurant_data
+    }
+
+    # Render the restaurant dashboard template with the context data
+    # return render(request, 'foodprovider/restaurant_dashboard.html', context)
+    return render(request, 'restaurant_admin/index.html', context)
 
 
 # View restaurant
@@ -45,59 +68,41 @@ def restaurant(request):
     }
     return render(request, 'foodprovider/restaurant.html', context)
 
-# Foodprovider dashboard
-def dashboard(request):
-    # Check if the user is authenticated, if not, redirect them to the login page
-    if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
-        return redirect("/login/")
-    
-    # Get the restaurant admin user object based on the currently logged-in user
-    restaurant_admin = User.objects.get(username=request.user)
-
-    # Retrieve the restaurant data associated with the admin user
-    restaurant_data = Restaurant.objects.filter(user=restaurant_admin)
-
-    # Create a context dictionary with the restaurant data to pass to the template
-    context = {
-        'my_restaurant' : restaurant_data
-    }
-
-    # Render the restaurant dashboard template with the context data
-    # return render(request, 'foodprovider/restaurant_dashboard.html', context)
-    return render(request, 'restaurant_admin/index.html')
 
 # Add restaurants
 def addRestaurant(request):
     # Check if the user is authenticated, if not, redirect them to the login page
     if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
-        return redirect("/login/")
+        return redirect("/foodprovider/adminSignin/")
     
     if request.method == 'POST':
         # Get the restaurant data from the add_restaurant.html template
         uname = request.POST.get('uname')
-        rname = request.POST.get('rname','')
+        rname = request.POST.get('rname')
         rcity = request.POST.get('rcity')
-        raddress = request.POST.get('raddress')
+        raddress = request.POST.get('raddress') 
         rmobile = request.POST.get('rmobile')
-        veg = request.POST.get('veg')
-        nchefs = request.POST.get('nchefs')
-        rdate = request.POST.get('rdate')
+        rtype = request.POST.get('rtype') 
+        nchefs = request.POST.get('nchefs') 
+        rdate = request.POST.get('rdate') 
         rimg1 = request.FILES.get('rimg1')
         rimg2 = request.FILES.get('rimg2')
         rimg3 = request.FILES.get('rimg3')
         rimg4 = request.FILES.get('rimg4')
         desc = request.POST.get('desc')
 
+        print(uname, rname, raddress, rimg1)
+
         user_obj = User.objects.get(username=uname)
 
         restaurant = Restaurant.objects.create(user=user_obj, name=rname, city=rcity, 
-                                address=raddress, mobile=rmobile, veg_or_nonveg=veg, no_of_chefs=nchefs,
+                                address=raddress, mobile=rmobile, veg_or_nonveg=rtype, no_of_chefs=nchefs,
                                 start_date=rdate, img1=rimg1, img2=rimg2, img3=rimg3, img4=rimg4, desc=desc)
         restaurant.save()
         message = messages.success(request, 'Restaurant created successfully!')
 
     # return render(request, 'foodprovider/add_restaurant.html')
-    return render(request, 'restaurant_admin/form.html')
+    return render(request, 'restaurant_admin/addRestaurant.html')
 
 
 # Edit restaurant
@@ -114,7 +119,7 @@ def editRestaurant(request, id):
         rcity = request.POST.get('rcity')
         raddress = request.POST.get('raddress')
         rmobile = request.POST.get('rmobile')
-        veg = request.POST.get('veg')
+        rtype = request.POST.get('rtype')
         nchefs = request.POST.get('nchefs')
         rdate = request.POST.get('rdate')
         rimg1 = request.FILES.get('postImg')
@@ -128,7 +133,7 @@ def editRestaurant(request, id):
         restaurant.city = rcity
         restaurant.address = raddress
         restaurant.mobile = rmobile
-        restaurant.veg_or_nonveg = veg
+        restaurant.veg_or_nonveg = rtype
         restaurant.no_of_chefs = nchefs
         restaurant.start_date = rdate
         restaurant.img1 = rimg1
@@ -143,7 +148,9 @@ def editRestaurant(request, id):
     context = {
         'restaurant' : restaurant
     }
-    return render(request, 'foodprovider/edit_restaurant.html', context)
+    # return render(request, 'foodprovider/edit_restaurant.html', context)
+    return render(request, 'restaurant_admin/editRestaurant.html', context)
+
 
 # Delete restaurant
 def deleteRestaurant(request, id):
@@ -154,6 +161,7 @@ def deleteRestaurant(request, id):
     restaurant = Restaurant.objects.get(id=id)
     restaurant.delete()
     return redirect('/foodprovider/dashboard/')  
+
 
 # Individual Restaurant Information
 def restaurant_info(request, id):
@@ -169,6 +177,7 @@ def restaurant_info(request, id):
     }
 
     return render(request, 'foodprovider/restaurant_info.html', context) 
+
 
 # Code for notification
 def admin_notifications(request):

@@ -87,6 +87,3 @@ Work Done Today:-
 
 Day Start Time: 12:05
 Day End Time:  09:00
-
-
-Setup admin dashboard & Checkout the JQuery library JQuery-UI

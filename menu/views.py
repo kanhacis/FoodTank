@@ -34,7 +34,7 @@ def addMenu(request):
     context = {
         'restaurant_name' : restaurant_name
     }
-    return render(request, 'foodprovider/add_menu.html', context)
+    return render(request, 'restaurant_admin/addMenu.html', context)
 
 # View Menu
 def viewMenu(request, id):

@@ -1,0 +1,205 @@
+{% extends '../base2.html' %}
+{% block content %}
+
+<div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Sidebar Start -->
+    {% include './sidebar.html' %}
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        {% include './navbar.html' %}
+        <!-- Navbar End -->
+
+        <!-- Profile start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="row bg-secondary rounded align-items-center justify-content-center mx-0">
+                <div class="bg-secondary rounded h-100 pt-4">
+                    <h3 class="mb-4">Welcome {{request.user.username}}</h3>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container-fluid pt-4 px-4">
+            <div class="row bg-secondary rounded align-items-center justify-content-center mx-0">
+                <div class="bg-secondary rounded h-100 p-4">
+                    <form action="/profile/" method="POST">
+                        {% csrf_token %}
+                    <h3 class="mb-4">Personal Information</h3>
+                    <p> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, qui!</p>
+
+                    <!-- First & Last name start -->
+                    <div class="row">
+                        <div class="form-floating mb-3 col-md-6">
+                            <input type="text" class="form-control" name="fname" id="firstname" value="{{user_profile.first_name}}" placeholder="firstname">
+                            <label for="firstname" class="mx-2">First Name</label>
+                        </div>
+
+                        <div class="form-floating mb-3 col-md-6">
+                            <input type="text" class="form-control" name="lname" id="lastname" value="{{user_profile.last_name}}" placeholder="lastname">
+                            <label for="lastname" class="mx-2">Last Name</label>
+                        </div>
+                    </div>
+
+                    <!-- Email & Category -->
+                    <div class="row">
+                        <div class="form-floating mb-3 col-md-6">
+                            <input type="email" class="form-control" name="email" id="email"  value="{{user_profile.email}}" placeholder="Email">
+                            <label for="email" class="mx-2">Email</label>
+                        </div>
+
+                        <div class="form-floating mb-3 col-md-6">
+                            <select class="form-select" id="category" name="category"
+                                aria-label="Floating label select example" required>
+                                <option value="{{user_address.category}}">{{user_address.category}}</option>
+                                <option value="Home">Home</option>
+                                <option value="Work">Work</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- State & City & Area & Zipcode start -->
+                    <div class="row">
+                        <div class="form-floating mb-3 col-md-3">
+                            <input type="text" class="form-control" name="state" id="state" value="{{user_address.state}}" placeholder="State">
+                            <label for="state" class="mx-2">State</label>
+                        </div>
+
+                        <div class="form-floating mb-3 col-md-3">
+                            <input type="text" class="form-control" name="city" id="city" value="{{user_address.city}}" placeholder="City">
+                            <label for="city" class="mx-2">City</label>
+                        </div>
+
+                        <div class="form-floating mb-3 col-md-3">
+                            <input type="text" class="form-control" name="area" id="area" value="{{user_address.area}}" placeholder="area">
+                            <label for="area" class="mx-2">Area</label>
+                        </div>
+
+                        <div class="form-floating mb-3 col-md-3">
+                            <input type="number" class="form-control" name="zipcode" id="zip" value="{{user_address.zipcode}}" placeholder="Zip Code">
+                            <label for="zip" class="mx-2">Zip Code</label>
+                        </div>
+                        
+                    </div>
+                    <!-- State & City & Area & Zipcode end -->
+
+                    <!-- Mobile start -->
+                    <div class="row">
+                        <div class="form-floating mb-3 col-md-12">
+                            <input type="number" class="form-control" name="mobile" id="mobile" value="{{user_profile.mobile}}" placeholder="Mobile">
+                            <label for="mobile" class="mx-2">Mobile</label>
+                        </div>
+                    </div>
+                    <!-- Mobile end -->
+
+                    <!-- Messages Start -->
+                    {% if messages %}
+                    <ul class="messages list-unstyled">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }} text-success" {% endif %} id="message">{{ message }}</li>
+                            {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <!-- Messages End -->
+
+                    <button type="submit" class="btn btn-primary">Add Information</button>
+                </div>
+            </div>
+        </div>
+        <!-- Profile end -->
+
+        <!-- Restaurant information start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="row bg-secondary rounded align-items-center justify-content-center mx-0">
+                <div class="bg-secondary rounded h-100 pt-4">
+                    <h3 class="mb-4">My Restaurants</h3> 
+
+                    <div class="col-sm-12 col-xl-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <table class="table bg-dark">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">City</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">Mobile</th>
+                                        <th scope="col">Action</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for data in resturant_data %}
+                                        {% if data.is_verified == True %}
+                                            <tr>
+                                                <th scope="row">{{forloop.counter}}</th>
+                                                <td>{{data.name}}</td>
+                                                <td>{{data.city}}</td>
+                                                <td>{{data.address}}</td>
+                                                <td>{{data.mobile}}</td>
+                                                <td>
+                                                    <button type="submit" class="btn btn-primary"><a href="/foodprovider/editRestaurant/{{data.id}}" class="text-white">Update</a></button>
+
+                                                    <button type="submit" class="btn btn-primary"><a href="/foodprovider/addMenu/" class="text-white">Add menu</a></button>
+                                                </td>
+                                                <td>Verified</td>
+                                            </tr>
+
+                                        {% else %}
+                                            <tr>
+                                                <th scope="row">{{forloop.counter}}</th>
+                                                <td><del>{{data.name}}</del></td>
+                                                <td><del>{{data.city}}</del></td>
+                                                <td><del>{{data.address}}</del></td>
+                                                <td><del>{{data.mobile}}</del></td>
+                                                <td>
+                                                    <button type="submit" class="btn btn-primary"><a href="/foodprovider/editRestaurant/{{data.id}}" class="text-white">Update</a></button>
+                                                    <button type="submit" class="btn btn-primary" disabled><a href="#" class="text-white">Add menu</a></button>
+                                                </td>
+                                                <td>Not Verified</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Restaurant information end -->
+    </div>
+    <!-- Content End -->
+</div>
+
+<script>
+    $(function () {
+        $('.nav-item').ready(function () {
+            $('#profile').addClass('active');
+        });
+    });
+
+    $(function () {
+        $('.messages').ready(function () {
+            $('#message').show();
+
+            setTimeout(function () {
+                $('#message').hide(500);
+            }, 3000);
+        });
+    });
+
+</script>
+{% endblock content %}
