@@ -1,0 +1,74 @@
+{% extends '../base2.html' %}
+{% block content %}
+
+<style>
+    input {
+        height: 50px;
+    }
+</style>
+
+<div class="container-fluid position-relative d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Sidebar Start -->
+    {% include './sidebar.html' %}
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        {% include './navbar.html' %}
+        <!-- Navbar End -->
+
+        <!-- View menu start -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="row bg-secondary rounded align-items-start justify-content-center mx-0">
+                <div class="col-sm-12 col-xl-12">
+                    <div class="bg-secondary rounded h-100 p-4">
+                        <table class="table bg-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Cuisine</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for data in all_menus %}
+                                <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{data.name}}</td>
+                                    <td>{{data.price}}</td>
+                                    <td>{{data.type}}</td>
+                                    <td>{{data.cuisine}}</td>
+                                    <td>
+                                        <button type="submit" class="btn btn-primary"><a
+                                                href="#"
+                                                class="text-white">Update</a></button>
+                                        <button type="submit" class="btn btn-primary"><a href="#"
+                                                class="text-white">Delete</a></button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Content End -->
+</div>
+{% endblock content %}

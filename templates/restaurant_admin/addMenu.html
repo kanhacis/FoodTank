@@ -2,7 +2,7 @@
 {% block content %}
 
 <style>
-    input{
+    input {
         height: 50px;
     }
 </style>
@@ -41,38 +41,88 @@
 
         <div class="container-fluid pt-4 px-4">
             <div class="row bg-secondary rounded align-items-center justify-content-center mx-0">
-                <div class="container-fluid pt-4 px-4 d-flex justify-content-center">
-
+                <div class="container-fluid pt-4 px-4">
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
 
-                        <div class="row" style="width: 720px;">
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control" name="fname" id="firstname" value="{{user_profile.first_name}}" placeholder="firstname">
-                                <label for="firstname" class="mx-2">First Name</label>
-                            </div>
+                        <div class="row g-4">
+                            <div class="col-sm-12 col-xl-6">
+                                <div class="bg-secondary rounded h-100 p-4">
+                                    <!-- Restaurant & menu name start -->
+                                    <div class="row">
+                                        <div class="form-floating mb-3 col-xl-6">
+                                            <select class="form-select" id="rname" name="rname"
+                                                aria-label="Floating label select example" required>
+                                                <option selected>Select restaurant</option>
+                                                {% for rname in restaurant_name %}
+                                                <option value="{{rname}}">{{rname}}</option>
+                                                {% endfor %}
+                                            </select>
 
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control" name="fname" id="firstname" value="{{user_profile.first_name}}" placeholder="firstname">
-                                <label for="firstname" class="mx-2">First Name</label>
+                                            <label for="rname" class="mx-2">Restaurant name</label>
+                                        </div>
+
+                                        <div class="form-floating mb-3 col-xl-6">
+                                            <input type="text" class="form-control" name="mname" id="mname"
+                                                placeholder="Restaurant name" required>
+                                            <label for="mname" class="mx-2">Menu name</label>
+                                        </div>
+                                    </div>
+                                    <!-- Restaurant & menu name end -->
+
+                                    <!-- Menu type & price start -->
+                                    <div class="row">
+                                        <div class="form-floating mb-3 col-xl-6">
+                                            <select class="form-select" id="mtype" name="mtype"
+                                                aria-label="Floating label select example" required>
+                                                <option selected>Open this select menu</option>
+                                                <option value="Sweet">Sweet</option>
+                                                <option value="Paneer">Paneer</option>
+                                                <option value="Dinner">Dinner</option>
+                                            </select>
+                                            <label for="mtype" class="mx-2">Menu type</label>
+                                        </div>
+
+                                        <div class="form-floating mb-3 col-xl-6">
+                                            <input type="number" class="form-control" name="mprice" id="mprice"
+                                                placeholder="Restaurant name" required>
+                                            <label for="mprice" class="mx-2">Menu price</label>
+                                        </div>
+                                    </div>
+                                    <!-- Menu type & price end -->
+
+                                    <!-- Menu image start -->
+                                    <div class="mb-3">
+                                        <label for="img1" class="form-label">Image 1</label>
+                                        <input type="file" class="form-control bg-dark" name="mimg1" id="img1" required>
+                                    </div>
+                                    <!-- Menu image end -->
+
+                                    <!-- Restaurant description start -->
+                                    <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Leave a comment here" name="mdesc"
+                                            id="desc" style="height: 150px;" required></textarea>
+                                        <label for="desc">Description</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row" style="width: 720px;">
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control" name="fname" id="firstname" value="{{user_profile.first_name}}" placeholder="firstname">
-                                <label for="firstname" class="mx-2">First Name</label>
-                            </div>
+                        <!-- Messages Start -->
+                        {% if messages %}
+                            <ul class="messages list-unstyled">
+                                {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }} text-success" {% endif %}>{{ message }}
+                                    </li>
+                                    {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <!-- Messages End -->
 
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control" name="fname" id="firstname" value="{{user_profile.first_name}}" placeholder="firstname">
-                                <label for="firstname" class="mx-2">First Name</label>
-                            </div>
+                        <div style="padding-left: 23px;">
+                            <button type="submit" class="btn btn-primary py-3 mb-4">Add menu</button>
                         </div>
-
-                        
                     </form>
-
                 </div>
             </div>
         </div>

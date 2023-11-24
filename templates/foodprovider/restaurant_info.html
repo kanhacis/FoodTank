@@ -26,8 +26,32 @@
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
             <h5 class="section-title ff-secondary text-center text-primary fw-normal">Food Menu</h5>
             <h1 class="mb-5">Most Popular Items</h1>
+
+            <!-- Search bar start -->
+            <form method="get">
+                <div class="custom-search-bar">
+                    <input type="text" class="form-control rounded-pill bg-dark text-white" name="search-food-cuisine" placeholder="Search foods & cuisine...">
+                </div>
+            </form>
+
+            <div class="d-flex justify-content-center my-3">
+                <form method="get">
+                    <label for="under">Under 120</label>
+                    <input type="radio" name="price" value="120" id="under">
+
+                    <label for="above">Under 240</label>
+                    <input type="radio" name="price" value="240" id="above">
+
+                    <label for="reset">Reset</label>
+                    <input type="radio" name="price" value="" id="reset">
+
+                    <input type="submit" class="btn btn-primary btn-sm" value="apply">
+                </form>
+            </div>
+            <!-- Search bar end -->
+
         </div>
-        <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
+        <div class="tab-class text-center wow fadeInUp my-4" data-wow-delay="0.1s">
             <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
                 <li class="nav-item">
                     <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
@@ -72,6 +96,9 @@
                                             <div class="d-flex justify-content-between border-bottom pb-2">
                                                 <small class="fst-italic">{{menu.description}}</small>&nbsp;&nbsp;
                                                 <span class="text-primary"><a href="/bag/add-to-bag/{{menu.id}}" class="btn btn-primary">Add</a></span>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <small class="fst-italic text-primary"><a href="#">Want to rate us?</a></small>&nbsp;&nbsp;
                                             </div>
                                         </div>
                                     </div>

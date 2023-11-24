@@ -136,8 +136,8 @@
                                         <th scope="col">City</th>
                                         <th scope="col">Address</th>
                                         <th scope="col">Mobile</th>
-                                        <th scope="col">Action</th>
                                         <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -149,12 +149,12 @@
                                                 <td>{{data.city}}</td>
                                                 <td>{{data.address}}</td>
                                                 <td>{{data.mobile}}</td>
+                                                <td>Verified</td>
                                                 <td>
                                                     <button type="submit" class="btn btn-primary"><a href="/foodprovider/editRestaurant/{{data.id}}" class="text-white">Update</a></button>
-
                                                     <button type="submit" class="btn btn-primary"><a href="/foodprovider/addMenu/" class="text-white">Add menu</a></button>
+                                                    <button type="submit" class="btn btn-primary"><a href="/foodprovider/viewMenu/{{data.id}}" class="text-white">View menu</a></button>
                                                 </td>
-                                                <td>Verified</td>
                                             </tr>
 
                                         {% else %}
@@ -164,11 +164,12 @@
                                                 <td><del>{{data.city}}</del></td>
                                                 <td><del>{{data.address}}</del></td>
                                                 <td><del>{{data.mobile}}</del></td>
+                                                <td>Not Verified</td>
                                                 <td>
                                                     <button type="submit" class="btn btn-primary"><a href="/foodprovider/editRestaurant/{{data.id}}" class="text-white">Update</a></button>
                                                     <button type="submit" class="btn btn-primary" disabled><a href="#" class="text-white">Add menu</a></button>
+                                                    <button type="submit" class="btn btn-primary" disabled><a href="#" class="text-white">View menu</a></button>
                                                 </td>
-                                                <td>Not Verified</td>
                                             </tr>
                                         {% endif %}
                                     {% endfor %}

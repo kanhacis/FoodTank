@@ -51,7 +51,7 @@ def restaurant(request):
     except:
         restaurant = Restaurant.objects.all()
 
-    p = Paginator(restaurant, 4)
+    p = Paginator(restaurant, 10)
     page_number = request.GET.get('page')
 
     try:
@@ -169,8 +169,37 @@ def restaurant_info(request, id):
     if not request.user.is_authenticated:
         return redirect("/login/")
     
-    rest_id = Restaurant.objects.get(id=id)
-    rest_id_menus = Menu.objects.filter(restaurant=rest_id)
+    try:
+        if request.method == "GET":
+            food = request.GET.get('search-food-cuisine')
+            price = request.GET.get('price')
+            ftype = request.GET.get('ftype')
+           
+            rest_id = Restaurant.objects.get(id=id)
+            if food:
+                rest_id_menus = Menu.objects.filter(restaurant=rest_id, name__icontains=food)
+
+                if not rest_id_menus:
+                    rest_id_menus = Menu.objects.filter(restaurant=rest_id, cuisine__icontains=food)
+
+            elif price:
+                rest_id_menus = Menu.objects.filter(restaurant=rest_id, price__lte=price)
+
+            elif ftype:
+                rest_id_menus = Menu.objects.filter(restaurant=rest_id, type__icontains=ftype)
+
+            else:
+                rest_id_menus = Menu.objects.filter(restaurant=rest_id)
+
+            context = {
+                'rest_id' : rest_id,
+                'rest_id_menus' : rest_id_menus
+            }
+
+    except:
+        rest_id = Restaurant.objects.get(id=id)
+        rest_id_menus = Menu.objects.filter(restaurant=rest_id)
+
     context = {
         'rest_id' : rest_id,
         'rest_id_menus' : rest_id_menus

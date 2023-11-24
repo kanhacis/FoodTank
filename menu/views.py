@@ -52,7 +52,8 @@ def viewMenu(request, id):
         "all_menus" : all_menus
     }
 
-    return render(request, 'foodprovider/view_menu.html', context)
+    # return render(request, 'foodprovider/view_menu.html', context)
+    return render(request, 'restaurant_admin/viewMenu.html', context)
 
 # Edit Menu
 def editMenu(request, id):

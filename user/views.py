@@ -24,8 +24,10 @@ def home(request):
 
         # Get the search term from the request (either food name or restaurant name)
         food_name_restaurant = request.GET.get('search-food-restaurant')
-        price_greater_than = request.GET.get('gte')
-        price_less_than = request.GET.get('lte')
+
+        price = request.GET.get('price')
+        url = ""
+        rest_url = ""
 
         # Build the base queryset
         food_restaurant = Menu.objects.filter(restaurant__in=rest)
@@ -38,17 +40,17 @@ def home(request):
             # If it's a restaurant, filter menus by that restaurant
             if restaurant:
                 food_restaurant = food_restaurant.filter(restaurant=restaurant)
+                rest_url = restaurant
+                rest_url = rest_url
+                
             else:
                 # If it's not a restaurant, assume it's a food item and filter menus by name
                 food_restaurant = food_restaurant.filter(name__icontains=food_name_restaurant)
 
-        elif price_greater_than:
-            food_restaurant = food_restaurant.filter(price__gte=price_greater_than.split()[-1])
-            url = price_greater_than
+        elif price:
+            food_restaurant = food_restaurant.filter(price__lte=price)
+            url = price
 
-        elif price_less_than:
-            food_restaurant = food_restaurant.filter(price__lte=price_less_than.split()[-1])
-            url = price_less_than
         # Add average rating to each menu item
         food_restaurant = food_restaurant.annotate(average_rating=Avg('review__rating'))
 
@@ -63,11 +65,9 @@ def home(request):
         # Prepare the context to pass data to the template
         context = {
             'page_obj': page_obj,
-            # 'url' : url
+            'url' : url,
+            'rest_url':rest_url
         }
-
-        for i in page_obj:
-            print(i.average_rating)
 
     except Address.DoesNotExist:
         # Handle the case where the user does not have an associated address
@@ -220,7 +220,11 @@ def Logout(request):
     if request.user.user_type == "Customer":
         logout(request) 
         return redirect('/')
+    elif request.user.user_type == "Foodprovider":
+        logout(request)
+        return redirect('/foodprovider/adminSignin/')
     else:
         logout(request) 
-        return redirect('/foodprovider/adminSignin/')
+        return redirect('/')
+    
 
