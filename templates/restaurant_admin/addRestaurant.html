@@ -23,7 +23,6 @@
         {% include './navbar.html' %}
         <!-- Navbar End -->
 
-
         <!-- Form Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="row g-4">
@@ -62,6 +61,7 @@
                                             <label for="rname" class="mx-2">Restaurant name</label>
                                         </div>
                                     </div>
+                                    <!-- Username & restaurant name end -->
 
                                     <!-- Restaurant city & mobile start -->
                                     <div class="row">
@@ -76,6 +76,7 @@
                                             <label for="rmobile" class="mx-2">Restaurant mobile</label>
                                         </div>
                                     </div>
+                                    <!-- Restaurant city & mobile end -->
 
                                     <!-- Restaurant address & chefs start -->
                                     <div class="row">
@@ -90,6 +91,7 @@
                                             <label for="nchefs" class="mx-2">Number of chefs</label>
                                         </div>
                                     </div>
+                                    <!-- Restaurant address & chefs end -->
 
                                     <!-- Restaurant type -->
                                     <div class="form-floating mb-3">
@@ -103,12 +105,13 @@
                                         <label for="rtype">Restaurant type</label>
                                     </div>
 
-                                    <!-- Restaurant date -->
+                                    <!-- Restaurant date start -->
                                     <div class="form-floating mb-3">
                                         <input type="date" class="form-control" name="rdate" id="rdate"
                                             placeholder="Restaurant date" required>
                                         <label for="rdate">Restaurant date</label>
                                     </div>
+                                    <!-- Restaurant date end -->
 
                                     <!-- Restaurant description start -->
                                     <div class="form-floating">
@@ -116,8 +119,11 @@
                                             id="desc" style="height: 150px;" required></textarea>
                                         <label for="desc">Description</label>
                                     </div>
+                                    <!-- Restaurant description end -->
                                 </div>
                             </div>
+
+                            <!-- Images section start -->
                             <div class="col-sm-12 col-xl-6">
                                 <div class="bg-secondary rounded h-100 p-4">
                                     <!-- Imgage 1 -->
@@ -154,13 +160,15 @@
                                     {% endif %}
                                     <!-- Messages End -->
                                 </div>
-                                
                             </div>
+                            <!-- Images section end -->
                         </div>
 
+                        <!-- Create restaurant button start -->
                         <div style="padding-left: 23px;">
                             <button type="submit" class="btn btn-primary py-3 mb-4">Create restaurant</button>
                         </div>
+                        <!-- Create restaurant button end -->
                     </form>
                 </div>
             </div>

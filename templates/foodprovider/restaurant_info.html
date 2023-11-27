@@ -9,10 +9,10 @@
 
     <div class="container-xxl py-5 bg-dark hero-header mb-5">
         <div class="container text-center my-5 pt-5 pb-4">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">{{rest_id.name}}</h1>
+            <h1 class="display-3 text-white mb-3 animated slideInDown">{{restId.name}}</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb justify-content-center text-uppercase">
-                    <li class="breadcrumb-item"><a href="tel:{{rest_id.mobile}}"><i class="fa fa-phone fa-2x text-primary"></i></a></li>
+                    <li class="breadcrumb-item"><a href="tel:{{restId.mobile}}"><i class="fa fa-phone fa-2x text-primary"></i></a></li>
                 </ol>
             </nav>
         </div>
@@ -37,13 +37,13 @@
             <div class="d-flex justify-content-center my-3">
                 <form method="get">
                     <label for="under">Under 120</label>
-                    <input type="radio" name="price" value="120" id="under">
+                    <input type="radio" name="price" value="120" id="under" {% if price %}{% if price == '120' %}checked{% endif %}{% endif %}>
 
                     <label for="above">Under 240</label>
-                    <input type="radio" name="price" value="240" id="above">
+                    <input type="radio" name="price" value="240" id="above" {% if price %}{% if price == '240' %}checked{% endif %}{% endif %}>
 
                     <label for="reset">Reset</label>
-                    <input type="radio" name="price" value="" id="reset">
+                    <input type="radio" name="price" value="" id="reset" {% if not price %}checked{% endif %}>
 
                     <input type="submit" class="btn btn-primary btn-sm" value="apply">
                 </form>
@@ -84,7 +84,7 @@
             <div class="tab-content">
                 <div id="tab-1" class="tab-pane fade show p-0 active">
                     <div class="row g-4">
-                        {% for menu in rest_id_menus %}
+                        {% for menu in restIdMenus %}
                                 <div class="col-lg-6">
                                     <div class="d-flex align-items-center">
                                         <img class="flex-shrink-0 img-fluid rounded" src="{{menu.img1.url}}" alt="" style="width: 80px; height: 80px;">

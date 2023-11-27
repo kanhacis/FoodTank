@@ -17,11 +17,9 @@
     </div>
     <!-- Spinner End -->
 
-
     <!-- Sidebar Start -->
     {% include './sidebar.html' %}
     <!-- Sidebar End -->
-
 
     <!-- Content Start -->
     <div class="content">
@@ -91,6 +89,16 @@
                                     </div>
                                     <!-- Menu type & price end -->
 
+                                    <!-- Menu cuisine start -->
+                                    <div class="row">
+                                        <div class="form-floating mb-3 col-xl-12">
+                                            <input type="text" class="form-control" name="mcuisine" id="mcuisine"
+                                                placeholder="Cuisine" required>
+                                            <label for="mcuisine" class="mx-2">Cuisine</label>
+                                        </div>
+                                    </div>
+                                    <!-- Menu cuisine end -->
+
                                     <!-- Menu image start -->
                                     <div class="mb-3">
                                         <label for="img1" class="form-label">Image 1</label>
@@ -98,12 +106,13 @@
                                     </div>
                                     <!-- Menu image end -->
 
-                                    <!-- Restaurant description start -->
+                                    <!-- Menu description start -->
                                     <div class="form-floating">
                                         <textarea class="form-control" placeholder="Leave a comment here" name="mdesc"
                                             id="desc" style="height: 150px;" required></textarea>
                                         <label for="desc">Description</label>
                                     </div>
+                                    <!-- Menu description end -->
                                 </div>
                             </div>
                         </div>
@@ -112,16 +121,17 @@
                         {% if messages %}
                             <ul class="messages list-unstyled">
                                 {% for message in messages %}
-                                <li{% if message.tags %} class="{{ message.tags }} text-success" {% endif %}>{{ message }}
-                                    </li>
-                                    {% endfor %}
+                                    <li{% if message.tags %} class="{{ message.tags }} text-success" {% endif %}>{{ message }}</li>
+                                {% endfor %}
                             </ul>
                         {% endif %}
                         <!-- Messages End -->
 
+                        <!-- Add menu button start -->
                         <div style="padding-left: 23px;">
                             <button type="submit" class="btn btn-primary py-3 mb-4">Add menu</button>
                         </div>
+                        <!-- Add menu button end -->
                     </form>
                 </div>
             </div>
@@ -131,12 +141,4 @@
     </div>
     <!-- Content End -->
 </div>
-
-<script>
-    $(function () {
-        $('.nav-item').ready(function () {
-            $('#addrestaurant').addClass('active');
-        });
-    })
-</script>
 {% endblock content %}

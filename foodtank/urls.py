@@ -20,11 +20,17 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # Include user app
     path("", include('user.urls')),
     
+    # Include restaurant app
     path("foodprovider/", include('restaurant.urls')),
-    path("foodprovider/", include('menu.urls')),
 
+    # Include menu app
+    path("menu/", include('menu.urls')),
+
+    # Include bag app
     path("bag/", include('bag.urls')),
 ]
 if settings.DEBUG:

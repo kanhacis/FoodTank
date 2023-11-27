@@ -82,9 +82,16 @@ Time sheet filled : Yes
 
 Work Done Today:-
     1. Created Operations for admin's profile.
-        1.1 : Create addRestaurant page.
-        1.2 : Create editRestaurant page.
-        1.3 : Complete Signup/Signin for admin as well as profile.
+        1.1 : Create addMenu page.
+        1.2 : Create viewMenu page.
+        1.3 : Add some filters in restaurant.
+        
+    2. PHP
+        1.1 : Setup php myadmin.
+        1.2 : Connect signup page to database.
 
 Day Start Time: 12:00
 Day End Time:  09:00
+
+
+

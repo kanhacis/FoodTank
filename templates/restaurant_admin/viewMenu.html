@@ -22,7 +22,6 @@
     {% include './sidebar.html' %}
     <!-- Sidebar End -->
 
-
     <!-- Content Start -->
     <div class="content">
         <!-- Navbar Start -->
@@ -38,6 +37,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Id</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Restaurant</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">Type</th>
@@ -46,19 +47,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for data in all_menus %}
+                                {% for data in allMenus %}
                                 <tr>
                                     <th scope="row">{{forloop.counter}}</th>
+                                    <td>
+                                        <img src="{{data.img1.url}}" alt="img1" style="width: 50px; height: 50px; border-radius: 50px;">
+                                    </td>
+                                    <th scope="row">{{data.restaurant.name}}</th>
                                     <td>{{data.name}}</td>
                                     <td>{{data.price}}</td>
                                     <td>{{data.type}}</td>
                                     <td>{{data.cuisine}}</td>
                                     <td>
-                                        <button type="submit" class="btn btn-primary"><a
-                                                href="#"
+                                        <button type="submit" class="btn btn-primary"><a href="/menu/editMenu/{{data.id}}"
                                                 class="text-white">Update</a></button>
-                                        <button type="submit" class="btn btn-primary"><a href="#"
-                                                class="text-white">Delete</a></button>
+
+                                        <button type="submit" class="btn btn-primary"><a href="/menu/deleteMenu/{{data.id}}"
+                                                class="text-white" onclick="return confirm('Are you sure, you are deleting your menu.')">Delete</a></button>
                                     </td>
                                 </tr>
                                 {% endfor %}

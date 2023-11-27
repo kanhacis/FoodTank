@@ -5,7 +5,7 @@ from restaurant.models import Restaurant
 from .models import Menu
 
 
-# Add Menu Function
+# Rendering add menu page & write logic to create new menu.
 def addMenu(request):
     # Check if the user is authenticated, if not, redirect them to the login page
     if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
@@ -18,15 +18,16 @@ def addMenu(request):
         rname = request.POST.get('rname')
         mname = request.POST.get('mname')
         mtype = request.POST.get('mtype')
+        mcuisine = request.POST.get('mcuisine')
         mprice = request.POST.get('mprice')
         mimg1 = request.FILES.get('mimg1')
         mdesc = request.POST.get('mdesc')
 
+        # Here could be many restaurant for a single admin.
         for i in restaurant_name:
-            print(i, " and ", rname)
             if i.name == rname:
                 menu = Menu.objects.create(restaurant=i, name=mname, 
-                                        type=mtype, price=mprice, img1=mimg1, description=mdesc)
+                                        type=mtype, price=mprice, cuisine=mcuisine, img1=mimg1, description=mdesc)
                 menu.save()
                 message = messages.success(request, 'Menu added successfully!')
                 break
@@ -36,61 +37,70 @@ def addMenu(request):
     }
     return render(request, 'restaurant_admin/addMenu.html', context)
 
-# View Menu
+# Rendering view menu page.
 def viewMenu(request, id):
     # Check if the user is authenticated, if not, redirect them to the login page
     if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
         return redirect("/login/")
     
-    # get restaurant name
+    # Get restaurant name
     restaurant = Restaurant.objects.get(id=id)
 
-    # get all the menu's of restaurant
-    all_menus = Menu.objects.filter(restaurant=restaurant)
+    # Get all the menu's of restaurant
+    allMenus = Menu.objects.filter(restaurant=restaurant)
 
     context = {
-        "all_menus" : all_menus
+        "allMenus" : allMenus
     }
 
     # return render(request, 'foodprovider/view_menu.html', context)
     return render(request, 'restaurant_admin/viewMenu.html', context)
 
-# Edit Menu
+# Rendering edit menu page & write logic to edit an existing foodItem.
 def editMenu(request, id):
     # Check if the user is authenticated, if not, redirect them to the login page
     if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
         return redirect("/login/")
     
-    menu_item = Menu.objects.get(id=id)
+    menuItem = Menu.objects.get(id=id)
     
+    # Checking our data comes via a post request.
     if request.method == 'POST':
         mname = request.POST.get('mname')
         mtype = request.POST.get('mtype')
         mprice = request.POST.get('mprice')
+        mcuisine = request.POST.get('mcuisine')
         mimg1 = request.FILES.get('mimg1')
         mdesc = request.POST.get('mdesc')
 
-        menu_item.name = mname
-        menu_item.type = mtype
-        menu_item.price = mprice
-        menu_item.img1 = mimg1
-        menu_item.description = mdesc
+        menuItem.name = mname
+        menuItem.type = mtype
+        menuItem.price = mprice
+        menuItem.cuisine = mcuisine
+        menuItem.img1 = mimg1
+        menuItem.description = mdesc
 
-        menu_item.save()
+        menuItem.save()
         message = messages.success(request, 'Menu updated successfully!')
     
     context = {
-        'menu_item' : menu_item
+        'menuItems' : menuItem
     }
-    return render(request, 'foodprovider/edit_menu.html', context)
+    # return render(request, 'foodprovider/edit_menu.html', context)
+    return render(request, 'restaurant_admin/editMenu.html', context)
 
-# Delete Menu
+# Write logic to deleting an existing foodItem.
 def deleteMenu(request, id):
     # Check if the user is authenticated, if not, redirect them to the login page
     if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
         return redirect("/login/")
-    
-    # get a single menu item
-    menu_item = Menu.objects.get(id=id)
-    menu_item.delete()
-    return redirect('/foodprovider/viewMenu/')
+        
+    # Get the restaurant id using the menu id.
+    restId = Restaurant.objects.get(menu__id=id)
+
+    # Get a single menu item from menu model.
+    menuItem = Menu.objects.get(id=id)
+
+    # Now delete the menu item.
+    menuItem.delete()
+    return redirect('/menu/viewMenu/{}'.format(restId.id))

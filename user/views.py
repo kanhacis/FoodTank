@@ -9,144 +9,121 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Avg
 
 
-# Home
+# Rendering home page with all food items.
 def home(request):
     try:
         if request.user.is_authenticated:
             # Retrieve the user's city based on their address
-            city = Address.objects.get(user=request.user)
+            userAddress = Address.objects.get(user=request.user)
 
             # Get all restaurants in the user's city
-            rest = Restaurant.objects.filter(city=city.city)
+            userCityRestaurants = Restaurant.objects.filter(city=userAddress.city)
         else:
             # Show all menu items to anonymous users
-            rest = Restaurant.objects.all()
+            userCityRestaurants = Restaurant.objects.all()
 
         # Get the search term from the request (either food name or restaurant name)
-        food_name_restaurant = request.GET.get('search-food-restaurant')
+        foodNameRestaurant = request.GET.get('search-food-restaurant')
 
         price = request.GET.get('price')
         url = ""
-        rest_url = ""
+        restaurantUrl = ""
 
         # Build the base queryset
-        food_restaurant = Menu.objects.filter(restaurant__in=rest)
+        foodRestaurant = Menu.objects.filter(restaurant__in=userCityRestaurants)
 
         # Apply filters based on user input
-        if food_name_restaurant:
+        if foodNameRestaurant:
             # Check if the search term corresponds to a restaurant
-            restaurant = Restaurant.objects.filter(name__icontains=food_name_restaurant).first()
+            restaurant = Restaurant.objects.filter(name__icontains=foodNameRestaurant).first()
 
             # If it's a restaurant, filter menus by that restaurant
             if restaurant:
-                food_restaurant = food_restaurant.filter(restaurant=restaurant)
-                rest_url = restaurant
-                rest_url = rest_url
+                foodRestaurant = foodRestaurant.filter(restaurant=restaurant)
+                restaurantUrl = restaurant
+                restaurantUrl = restaurantUrl
                 
             else:
                 # If it's not a restaurant, assume it's a food item and filter menus by name
-                food_restaurant = food_restaurant.filter(name__icontains=food_name_restaurant)
+                foodRestaurant = foodRestaurant.filter(name__icontains=foodNameRestaurant)
 
         elif price:
-            food_restaurant = food_restaurant.filter(price__lte=price)
+            foodRestaurant = foodRestaurant.filter(price__lte=price)
             url = price
 
         # Add average rating to each menu item
-        food_restaurant = food_restaurant.annotate(average_rating=Avg('review__rating'))
+        foodRestaurant = foodRestaurant.annotate(averageRating=Avg('review__rating'))
 
         # Pagination
-        paginator = Paginator(food_restaurant, 8)
-        page_number = request.GET.get('page')
+        paginator = Paginator(foodRestaurant, 8)
+        pageNumber = request.GET.get('page')
         try:
-            page_obj = paginator.get_page(page_number)
+            pageObj = paginator.get_page(pageNumber)
         except (PageNotAnInteger, EmptyPage):
-            page_obj = paginator.page(1)
+            pageObj = paginator.page(1)
 
         # Prepare the context to pass data to the template
         context = {
-            'page_obj': page_obj,
+            'pageObj': pageObj,
             'url' : url,
-            'rest_url':rest_url
+            'restaurantUrl': restaurantUrl
         }
 
     except Address.DoesNotExist:
         # Handle the case where the user does not have an associated address
         context = {
-            'page_obj': Menu.objects.none()
+            'pageObj': Menu.objects.none()
         }
 
     return render(request, 'home.html', context)
 
-# Profile
+# Rendering profile page.
 def profile(request):
     if not request.user.is_authenticated:
         return redirect("/login/")
-    
+
     user = request.user
     address, created = Address.objects.get_or_create(user=user)
 
     if request.method == "POST":
-        email = request.POST.get('email')
-        fname = request.POST.get('fname') 
-        lname = request.POST.get('lname') 
+        user.first_name = request.POST.get('fname', '')
+        user.last_name = request.POST.get('lname', '')
+        user.email = request.POST.get('email', '')
+        user.mobile = request.POST.get('mobile', '')
 
-        state = request.POST.get('state') 
-        city = request.POST.get('city') 
-        area = request.POST.get('area') 
-        zipcode = request.POST.get('zipcode')
-        category = request.POST.get('category')
-        mobile = request.POST.get('mobile')
+        address.state = request.POST.get('state', '')
+        address.city = request.POST.get('city', '')
+        address.area = request.POST.get('area', '')
+        address.zipcode = request.POST.get('zipcode', '')
+        address.category = request.POST.get('category', '')
 
-        user.first_name = fname
-        user.last_name = lname
-        user.email = email
-        user.mobile = mobile
-       
-        address.state = state
-        address.city = city
-        address.area = area
-        address.zipcode = zipcode
-        address.category = category
+        address.save()
+        user.save()
 
-        address.save() # save data in address model
-        user.save() # save data in user model
+        messages.info(request, "Your profile is completed.")
 
-        message = messages.info(request, "Your profile is completed.")
-    
     context = {
         'user_profile' : user,
         'user_address' : address
     }
+
     if request.user.user_type == "Customer":
         return render(request, 'account/profile.html', context)
+    
     elif request.user.user_type == "Foodprovider":
         context['resturant_data'] = Restaurant.objects.filter(user=request.user)
         return render(request, 'restaurant_admin/profile.html', context)
+    
     else:
         return render(request, 'account/profile.html', context)
 
-# Contact
-def contact(request):
-    if request.method == 'POST':
-        name = request.POST['name']
-        email = request.POST['email']
-        sbj = request.POST['subject']
-        msg = request.POST['message']
-
-        contact = Contact.objects.create(name=name, email=email, subject=sbj, message=msg)
-        contact.save()
-        message = messages.success(request, 'Message sent successfully!')
-
-            
-    return render(request, 'contact.html')
-
-# Function to signup user 
-def signup(request): 
+# Rendering signup page & And registering user.
+def signUp(request): 
     if request.method == 'POST': 
         name = request.POST.get('name') 
         email = request.POST.get('email') 
         mobile = request.POST.get('mobile') 
-        user_type = request.POST.get('utype') 
+        userType = request.POST.get('utype') 
         password1 = request.POST.get('pwd') 
         password2 = request.POST.get('pwdc') 
 
@@ -168,13 +145,13 @@ def signup(request):
             return render(request, 'account/signup.html')
 
         if password1 == password2:
-            new_user = User.objects.create(username=name, email=email, mobile=mobile, user_type=user_type)
-            new_user.set_password(password1)
-            new_user.save()
+            newUser = User.objects.create(username=name, email=email, mobile=mobile, user_type=userType)
+            newUser.set_password(password1)
+            newUser.save()
 
-            if user_type == "Customer":
+            if userType == "Customer":
                 return redirect('/login/')
-            elif user_type == "Foodprovider":
+            elif userType == "Foodprovider":
                 return redirect('/foodprovider/adminSignin/')
 
         else:
@@ -184,8 +161,8 @@ def signup(request):
 
     return render(request, 'account/signup.html')
 
-# Function to login user
-def Login(request):
+# Rendering signin page & And authenticated user.
+def signIn(request):
     if request.method == 'POST':
         uname = request.POST.get('name')
         pwd = request.POST.get('password')
@@ -205,18 +182,13 @@ def Login(request):
             elif user.user_type == "Driver":
                 login(request, user)
                 return redirect('/')  # Need to set the correct path
-                
-            # else:
-            #     message = messages.error(request, 'You are not authorized to log in as a {}.'.format(utype))
         else:
             message = messages.error(request, 'Invalid username or password. Please try again.')
-
-
     return render(request, 'account/login.html')
 
 # Function to logout user 
 @login_required(login_url='/login/') 
-def Logout(request): 
+def logOut(request): 
     if request.user.user_type == "Customer":
         logout(request) 
         return redirect('/')
@@ -227,4 +199,17 @@ def Logout(request):
         logout(request) 
         return redirect('/')
     
+# Rendering contact page.
+# This contact page allow all types of user.
+def contact(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        sbj = request.POST['subject']
+        msg = request.POST['message']
 
+        contact = Contact.objects.create(name=name, email=email, subject=sbj, message=msg)
+        contact.save()
+        message = messages.success(request, 'Message sent successfully!')
+
+    return render(request, 'contact.html')

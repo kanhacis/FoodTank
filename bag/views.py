@@ -3,8 +3,8 @@ from menu.models import Menu
 from .models import Bag, BagItem
 
 
-# Add to bag
-def add_to_bag(request, id):
+# Rendering add to bag page & write logic to add food in my bag.
+def addToBag(request, id):
     # Check if the user is authenticated, if not, redirect them to the login page
     if not request.user.is_authenticated or not request.user.user_type=="Customer":
         return redirect("/login/")
@@ -23,8 +23,8 @@ def add_to_bag(request, id):
 
     return redirect('/foodprovider/restaurant_info/{}'.format(menu_item.restaurant.id)) 
 
-# View Bag Items
-def view_bag(request):
+# Rendering view bag page where user can see their food bag.
+def viewBag(request):
     # Check if the user is authenticated, if not, redirect them to the login page
     if not request.user.is_authenticated or not request.user.user_type=="Customer":
         return redirect("/login/")
@@ -55,7 +55,7 @@ def view_bag(request):
     } 
     return render(request, "bag/basket.html", context) 
 
-# Delete Bag Items
+# Write logic to deleting an foodItem which exist in my bag.
 def deleteItem(request, id):
     # Check if the user is authenticated, if not, redirect them to the login page
     if not request.user.is_authenticated or not request.user.user_type=="Customer":

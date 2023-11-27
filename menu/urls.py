@@ -1,6 +1,8 @@
 from django.urls import path
 from .import views
 
+
+# These bellow path's are rendering menu app's view.
 urlpatterns = [
     path("addMenu/", views.addMenu, name="addMenu"),
     path("viewMenu/<int:id>", views.viewMenu, name="viewMenu"),

@@ -6,18 +6,18 @@ from menu.models import Menu
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
-# Admin signup page
+# Rendering admin signup page.
 def adminSignup(request):
     return render(request, 'restaurant_admin/signup.html')
 
 
-# Admin login page
+# Rendering admin signin page.
 def adminSignin(request):
     return render(request, 'restaurant_admin/signin.html')
 
 
-# Admin dashboard
-def dashboard(request):
+# Rendering admin dashboard
+def adminDashboard(request):
     # Check if the user is authenticated, if not, redirect them to the login page
     if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
         return redirect("/foodprovider/adminSignin/")
@@ -38,7 +38,7 @@ def dashboard(request):
     return render(request, 'restaurant_admin/index.html', context)
 
 
-# View restaurant
+# Rendering restaurant page & showing all restaurants to users.
 def restaurant(request):
     try:
         city = Address.objects.get(user=request.user)
@@ -69,7 +69,7 @@ def restaurant(request):
     return render(request, 'foodprovider/restaurant.html', context)
 
 
-# Add restaurants
+# Rendering add restaurant page & write logic to create new restaurant.
 def addRestaurant(request):
     # Check if the user is authenticated, if not, redirect them to the login page
     if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
@@ -105,7 +105,7 @@ def addRestaurant(request):
     return render(request, 'restaurant_admin/addRestaurant.html')
 
 
-# Edit restaurant
+# Rendering edit restaurant page & write logic to edit an existing restaurant.
 def editRestaurant(request, id):
     # Check if the user is authenticated, if not, redirect them to the login page
     if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
@@ -122,7 +122,7 @@ def editRestaurant(request, id):
         rtype = request.POST.get('rtype')
         nchefs = request.POST.get('nchefs')
         rdate = request.POST.get('rdate')
-        rimg1 = request.FILES.get('postImg')
+        rimg1 = request.FILES.get('rimg1')
         rimg2 = request.FILES.get('rimg2')
         rimg3 = request.FILES.get('rimg3')
         rimg4 = request.FILES.get('rimg4')
@@ -152,7 +152,7 @@ def editRestaurant(request, id):
     return render(request, 'restaurant_admin/editRestaurant.html', context)
 
 
-# Delete restaurant
+# Write logic to delete an existing restaurant.
 def deleteRestaurant(request, id):
     # Check if the user is authenticated, if not, redirect them to the login page
     if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
@@ -160,11 +160,12 @@ def deleteRestaurant(request, id):
     
     restaurant = Restaurant.objects.get(id=id)
     restaurant.delete()
-    return redirect('/foodprovider/dashboard/')  
+    # return redirect('/foodprovider/dashboard/') 
+    return redirect('/profile/') 
 
 
-# Individual Restaurant Information
-def restaurant_info(request, id):
+# Rendering restaurant information page & this shows the individual restaurant information to users.
+def restaurantInfo(request, id):
     # Check if the user is authenticated, if not, redirect them to the login page
     if not request.user.is_authenticated:
         return redirect("/login/")
@@ -175,40 +176,42 @@ def restaurant_info(request, id):
             price = request.GET.get('price')
             ftype = request.GET.get('ftype')
            
-            rest_id = Restaurant.objects.get(id=id)
+            restId = Restaurant.objects.get(id=id)
             if food:
-                rest_id_menus = Menu.objects.filter(restaurant=rest_id, name__icontains=food)
+                restIdMenus = Menu.objects.filter(restaurant=restId, name__icontains=food)
 
-                if not rest_id_menus:
-                    rest_id_menus = Menu.objects.filter(restaurant=rest_id, cuisine__icontains=food)
+                if not restIdMenus:
+                    restIdMenus = Menu.objects.filter(restaurant=restId, cuisine__icontains=food)
 
             elif price:
-                rest_id_menus = Menu.objects.filter(restaurant=rest_id, price__lte=price)
+                restIdMenus = Menu.objects.filter(restaurant=restId, price__lte=price)
 
             elif ftype:
-                rest_id_menus = Menu.objects.filter(restaurant=rest_id, type__icontains=ftype)
+                restIdMenus = Menu.objects.filter(restaurant=restId, type__icontains=ftype)
 
             else:
-                rest_id_menus = Menu.objects.filter(restaurant=rest_id)
+                restIdMenus = Menu.objects.filter(restaurant=restId)
 
             context = {
-                'rest_id' : rest_id,
-                'rest_id_menus' : rest_id_menus
+                'restId': restId,
+                'restIdMenus': restIdMenus
             }
 
     except:
-        rest_id = Restaurant.objects.get(id=id)
-        rest_id_menus = Menu.objects.filter(restaurant=rest_id)
+        restId = Restaurant.objects.get(id=id)
+        restIdMenus = Menu.objects.filter(restaurant=restId)
 
     context = {
-        'rest_id' : rest_id,
-        'rest_id_menus' : rest_id_menus
+        'price' : price,
+        'restId': restId,
+        'restIdMenus': restIdMenus
     }
 
-    return render(request, 'foodprovider/restaurant_info.html', context) 
+    return render(request, 'foodprovider/restaurant_info.html', context)
+ 
 
 
-# Code for notification
-def admin_notifications(request):
+# Notification functionality work is not done yet.
+def adminNotifications(request):
     admin_notifications = Notification.objects.filter(receiver=request.user, is_read=False)
     return render(request, 'admin_notifications.html', {'notifications': admin_notifications})

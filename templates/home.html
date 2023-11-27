@@ -28,8 +28,12 @@
     </div>
     <!-- Hero End -->
 
+    <!-- Manage page start -->
+    <div id="food" style="height: 30px;"></div>
+    <!-- Manage page end -->
+
     <!-- Foods start -->
-    <div class="container-xxl py-5" id="food">
+    <div class="container-xxl py-5">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h5 class="section-title ff-secondary text-center text-primary fw-normal">Our Services</h5>
@@ -42,16 +46,16 @@
                     </div>
                 </form>
 
-                {% if not rest_url %}
-                <div class="d-flex justify-content-center">
+                {% if not restaurantUrl %}
+                <div class="mt-2 d-flex justify-content-center">
                     <form method="get">
                         <label for="under">Under 120</label>
-                        <input type="radio" name="price" value="120" id="under">
+                        <input type="radio" name="price" value="120" id="under" {% if url %}{% if url == '120' %}checked{% endif %}{% endif %}>
 
                         <label for="above">Under 240</label>
-                        <input type="radio" name="price" value="240" id="above">
+                        <input type="radio" name="price" value="240" id="above" {% if url %}{% if url == '240' %}checked{% endif %}{% endif %}>
 
-                        <input type="submit" value="apply">
+                        <input type="submit" class="btn btn-primary btn-sm" value="apply">
                     </form>
                 </div>
                 {% endif %}
@@ -59,7 +63,7 @@
 
             </div>
             <div class="row g-4 mt-2">
-                {% for menu in page_obj.object_list %}
+                {% for menu in pageObj.object_list %}
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="service-item rounded pt-3">
                             <div class="p-4">
@@ -82,28 +86,28 @@
                 {% endfor %}
             </div>
             <div class="pagination mt-4">
-                {% if page_obj.has_previous %}
+                {% if pageObj.has_previous %}
                     {% if url %}
-                        <a href="?price={{ url }}&page={{ page_obj.previous_page_number }}" class="btn btn-primary">Previous</a>
+                        <a href="?price={{ url }}&page={{ pageObj.previous_page_number }}#food" class="btn btn-primary">Previous</a>
                     {% else %}
 
                         {% if rest_url %}
-                            <a href="?search-food-restaurant={{ rest_url }}&page={{ page_obj.previous_page_number }}" class="btn btn-primary">Previous</a>
+                            <a href="?search-food-restaurant={{ rest_url }}&page={{ pageObj.previous_page_number }}#food" class="btn btn-primary">Previous</a>
                         {% else %}
-                            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary">Previous</a>
+                            <a href="?page={{ pageObj.previous_page_number }}#food" class="btn btn-primary">Previous</a>
                         {% endif %}
                     {% endif %}
 
                 {% endif %}
             
-                {% if page_obj.has_next %}
+                {% if pageObj.has_next %}
                     {% if url %}
-                        <a href="?price={{ url }}&page={{ page_obj.next_page_number }}" class="btn btn-primary">Next</a>
+                        <a href="?price={{ url }}&page={{ pageObj.next_page_number }}#food" class="btn btn-primary">Next</a>
                     {% else %}
                         {% if rest_url %}
-                            <a href="?search-food-restaurant={{ rest_url }}&page={{ page_obj.next_page_number }}" class="btn btn-primary">Next</a>
+                            <a href="?search-food-restaurant={{ rest_url }}&page={{ pageObj.next_page_number }}#food" class="btn btn-primary">Next</a>
                         {% else %}
-                            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary">Next</a>
+                            <a href="?page={{ pageObj.next_page_number }}#food" class="btn btn-primary">Next</a>
                         {% endif %}
                     {% endif %}
                 {% endif %}
@@ -111,25 +115,5 @@
         </div>
     </div>
     <!-- Foods end -->
-
-    <!-- Calculating the year differences -->
-    <script>
-        // JavaScript code to calculate and display the year difference
-        document.addEventListener("DOMContentLoaded", function () {
-            // Get all the elements with class "year-difference"
-            const yearDifferenceElements = document.querySelectorAll('.year-difference');
-
-            // Loop through each element and calculate the year difference
-            yearDifferenceElements.forEach(function (element) {
-                const year = parseInt(element.textContent);
-                const currentYear = new Date().getFullYear();
-                const yearDifference = currentYear - year;
-
-                // Update the content of the element with the year difference
-                element.textContent = yearDifference;
-            });
-        });
-    </script>
 </div>
-
 {% endblock content %}

@@ -63,6 +63,7 @@
                                             <label for="rname" class="mx-2">Restaurant name</label>
                                         </div>
                                     </div>
+                                    <!-- Username & restaurant name end -->
 
                                     <!-- Restaurant city & mobile start -->
                                     <div class="row">
@@ -78,6 +79,7 @@
                                             <label for="rmobile" class="mx-2">Restaurant mobile</label>
                                         </div>
                                     </div>
+                                    <!-- Restaurant city & mobile end -->
 
                                     <!-- Restaurant address & chefs start -->
                                     <div class="row">
@@ -93,8 +95,9 @@
                                             <label for="nchefs" class="mx-2">Number of chefs</label>
                                         </div>
                                     </div>
+                                    <!-- Restaurant address & chefs end -->
 
-                                    <!-- Restaurant type -->
+                                    <!-- Restaurant type start -->
                                     <div class="form-floating mb-3">
                                         <select class="form-select" id="rtype" name="rtype"
                                             aria-label="Floating label select example" required>
@@ -105,6 +108,7 @@
                                         </select>
                                         <label for="rtype">Restaurant type</label>
                                     </div>
+                                    <!-- Restaurant type end -->
 
                                     <!-- Restaurant date -->
                                     <div class="form-floating mb-3">
@@ -112,6 +116,7 @@
                                             value="{{restaurant.start_date}}" placeholder="Restaurant date" required>
                                         <label for="rdate">Restaurant date</label>
                                     </div>
+                                    <!-- Restaurant end -->
 
                                     <!-- Restaurant description start -->
                                     <div class="form-floating">
@@ -119,16 +124,12 @@
                                             id="desc" style="height: 150px;" required>{{restaurant.desc}}</textarea>
                                         <label for="desc">Description</label>
                                     </div>
+                                    <!-- Restaurant description end -->
                                 </div>
                             </div>
+
+                            <!-- Images section start -->
                             <div class="col-sm-12 col-xl-6">
-                                <div class="bg-secondary">
-                                    <div class="row">
-                                        <div class="col-xl-3">
-                                            <!-- <img src="{{restaurant.img1.url}}" alt=""> -->
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="bg-secondary rounded h-100 p-4">
                                     <!-- Imgage 1 -->
                                     <div class="mb-3">
@@ -166,6 +167,7 @@
                                 </div>
                                 
                             </div>
+                            <!-- Images section end -->
                         </div>
 
                         <div style="padding-left: 23px;">
@@ -180,12 +182,4 @@
     </div>
     <!-- Content End -->
 </div>
-
-<script>
-    $(function () {
-        $('.nav-item').ready(function () {
-            $('#addrestaurant').addClass('active');
-        });
-    })
-</script>
 {% endblock content %}
