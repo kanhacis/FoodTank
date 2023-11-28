@@ -54,17 +54,9 @@ def home(request):
         # Add average rating to each menu item
         foodRestaurant = foodRestaurant.annotate(averageRating=Avg('review__rating'))
 
-        # Pagination
-        paginator = Paginator(foodRestaurant, 8)
-        pageNumber = request.GET.get('page')
-        try:
-            pageObj = paginator.get_page(pageNumber)
-        except (PageNotAnInteger, EmptyPage):
-            pageObj = paginator.page(1)
-
         # Prepare the context to pass data to the template
         context = {
-            'pageObj': pageObj,
+            'foods': foodRestaurant,
             'url' : url,
             'restaurantUrl': restaurantUrl
         }
@@ -72,7 +64,9 @@ def home(request):
     except Address.DoesNotExist:
         # Handle the case where the user does not have an associated address
         context = {
-            'pageObj': Menu.objects.none()
+            'foods': foodRestaurant,
+            'url' : url,
+            'restaurantUrl': restaurantUrl
         }
 
     return render(request, 'home.html', context)

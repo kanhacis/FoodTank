@@ -11,11 +11,9 @@
     </div>
     <!-- Spinner End -->
 
-
     <!-- Sidebar Start -->
     {% include './sidebar.html' %}
     <!-- Sidebar End -->
-
 
     <!-- Content Start -->
     <div class="content">
@@ -38,7 +36,6 @@
                     <form action="/profile/" method="POST">
                         {% csrf_token %}
                     <h3 class="mb-4">Personal Information</h3>
-                    <p> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, qui!</p>
 
                     <!-- First & Last name start -->
                     <div class="row">
@@ -114,7 +111,7 @@
                     {% endif %}
                     <!-- Messages End -->
 
-                    <button type="submit" class="btn btn-primary">Add Information</button>
+                    <button type="submit" class="btn btn-primary">Update Information</button>
                 </div>
             </div>
         </div>
@@ -124,7 +121,7 @@
         <div class="container-fluid pt-4 px-4">
             <div class="row bg-secondary rounded align-items-center justify-content-center mx-0">
                 <div class="bg-secondary rounded h-100 pt-4">
-                    <h3 class="mb-4">My Restaurants</h3> 
+                    <h3 class="mb-4 mx-4">My Restaurants Informations</h3> 
 
                     <div class="col-sm-12 col-xl-12">
                         <div class="bg-secondary rounded h-100 p-4">
@@ -132,8 +129,8 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">Id</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">City</th>
+                                        <th scope="col">Restaurant Name</th>
+                                        <th scope="col">Restaurant City</th>
                                         <th scope="col">Mobile</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Action</th>

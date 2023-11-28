@@ -24,96 +24,97 @@
                 <div class="card card-registration card-registration-2" style="border-radius: 15px;">
                     <div class="card-body p-0">
                         {% if bag_items %}
-                            <div class="row g-0">
-                                <div class="col-lg-9">
-                                    <div class="p-5">
-                                        <div class="d-flex justify-content-between align-items-center mb-5">
-                                            <h1 class="fw-bold mb-0 text-black">My Baskets</h1>
-                                            <h6 class="mb-0 text-muted">{{count}} items</h6>
+                        <div class="row g-0">
+                            <div class="col-lg-9">
+                                <div class="p-5">
+                                    <div class="d-flex justify-content-between align-items-center mb-5">
+                                        <h1 class="fw-bold mb-0 text-black">My Baskets</h1>
+                                        <h6 class="mb-0 text-muted">{{count}} items</h6>
+                                    </div>
+
+                                    <div class="row">
+                                        <h6 class="col-xl-2 mb-0 text-muted"></h6>
+                                        <h6 class="col-xl-2 mb-0 text-muted">Name</h6>
+                                        <h6 class="col-xl-2 mb-0 text-muted">Quantity</h6>
+                                        <h6 class="col-xl-2 mb-0 text-muted text-end">Unit price</h6>
+                                        <h6 class="col-xl-2 mb-0 text-muted text-end">Total price</h6>
+                                        <h6 class="col-xl-2 mb-0 text-muted text-end">Delete</h6>
+                                    </div>
+                                    <hr class="my-4">
+
+                                    <form action="/bag/view_bag/" method="POST">{% csrf_token %}
+                                        {% for item in bag_items %}
+                                        <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                                <img src="{{item.item.img1.url}}" class="img-fluid rounded-3" alt="food"
+                                                    style="width: 5rem; height: 4rem;">
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xl-2">
+                                                <h6 class="text-black mb-0">{{item.item.name}}</h6>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                <input id="form1" min="1" name="{{item.id}}" value="{{item.quantity}}"
+                                                    type="number" class="form-control form-control-sm" style="width: 70px;" />
+                                            </div>
+
+                                            <div class="col-md-2 col-lg-1 col-xl-1 offset-lg-1">
+                                                <h6 class="mb-0">₹{{ item.item.price | stringformat:'d' }}</h6>
+                                            </div>
+
+                                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                <h6 class="mb-0">₹{% widthratio item.item.price 1 item.quantity %}</h6>
+                                            </div>
+
+                                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                                <a href="/bag/deleteItem/{{item.id}}" class="text-muted"
+                                                    onclick="return confirm('Are you sure? You are deleting your bag item.')"><i
+                                                        class="fas fa-times"></i></a>
+                                            </div>
                                         </div>
-
-                                        <div class="row">
-                                            <h6 class="col-xl-2 mb-0 text-muted"></h6>
-                                            <h6 class="col-xl-2 mb-0 text-muted">Name</h6>
-                                            <h6 class="col-xl-2 mb-0 text-muted">Quantity</h6>
-                                            <h6 class="col-xl-2 mb-0 text-muted">Unit price</h6>
-                                            <h6 class="col-xl-2 mb-0 text-muted">Total price</h6>
-                                            <h6 class="col-xl-2 mb-0 text-muted">Delete</h6>
-                                        </div>
-                                        <hr class="my-4">
-
-                                        <form action="/bag/view_bag/" method="POST">{% csrf_token %}
-                                            {% for item in bag_items %}
-                                                <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                                    <div class="col-md-2 col-lg-2 col-xl-2">
-                                                        <img src="{{item.item.img1.url}}" class="img-fluid rounded-3" alt="food"
-                                                            style="width: 5rem; height: 4rem;">
-                                                    </div>
-                                                    <div class="col-md-3 col-lg-3 col-xl-2">
-                                                        <h6 class="text-black mb-0">{{item.item.name}}</h6>
-                                                    </div>
-                                                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                        <input id="form1" min="1" name="{{item.id}}" value="{{item.quantity}}"
-                                                            type="number" class="form-control form-control-sm" />
-                                                    </div>
-                                                    
-                                                    <div class="col-md-2 col-lg-1 col-xl-1 offset-lg-1">
-                                                        <h6 class="mb-0">₹{{ item.item.price | stringformat:'d' }}</h6>
-                                                    </div>
-
-                                                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                                        <h6 class="mb-0">₹{% widthratio item.item.price 1 item.quantity %}</h6>
-                                                    </div>
-
-                                                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                        <a href="/bag/deleteItem/{{item.id}}" class="text-muted"><i
-                                                                class="fas fa-times"></i></a>
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-
-                                            <div class="pt-5">
-                                            <button type="submit" class="btn btn-dark">Update bag</button>
-                                        </div>
-                                        </form>
-
-                                        <hr class="my-4">
+                                        {% endfor %}
 
                                         <div class="pt-5">
-                                            <h6 class="mb-0"><a href="/" class="text-body"><i
-                                                        class="fas fa-long-arrow-alt-left me-2"></i>Back to foods</a></h6>
+                                            <button type="submit" class="btn btn-dark">Update bag</button>
                                         </div>
-                                    </div>
-                                </div>
+                                    </form>
 
-                                <div class="col-lg-3 bg-grey">
-                                    <div class="p-5">
-                                        <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
-                                        <hr class="my-4">
+                                    <hr class="my-4">
 
-                                        <div class="d-flex justify-content-between mb-4">
-                                            <h5 class="text-uppercase">items {{count}}</h5>
-                                            <h5>{{total}}</h5>
-                                        </div>
-
-                                        <hr class="my-4">
-
-                                        <div class="d-flex justify-content-between mb-5">
-                                            <h5 class="text-uppercase">Total price</h5>
-                                            <h5>{{total}}</h5>
-                                        </div>
-
-                                        <button type="button" class="btn btn-dark btn-block btn-lg"
-                                            data-mdb-ripple-color="dark">Order Now</button>
+                                    <div class="pt-5">
+                                        <h6 class="mb-0"><a href="/" class="text-body"><i
+                                                    class="fas fa-long-arrow-alt-left me-2"></i>Back to foods</a></h6>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-lg-3 bg-grey">
+                                <div class="p-5">
+                                    <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                                    <hr class="my-4">
+
+                                    <div class="d-flex justify-content-between mb-4">
+                                        <h5 class="text-uppercase">items {{count}}</h5>
+                                        <h5>₹{{total}}</h5>
+                                    </div>
+
+                                    <hr class="my-4">
+
+                                    <div class="d-flex justify-content-between mb-5">
+                                        <h5 class="text-uppercase">Total price</h5>
+                                        <h5>₹{{total}}</h5>
+                                    </div>
+
+                                    <button type="button" class="btn btn-dark btn-block btn-lg"
+                                        data-mdb-ripple-color="dark">Order Now</button>
+                                </div>
+                            </div>
+                        </div>
                         {% else %}
-                            <h2 class="text-center mt-2 mb-2">Bag is empty</h2>
-                            <div class="pt-1 pb-2">
-                                <h6 class="mb-0 text-center"><a href="/" class="text-body"><i
-                                            class="fas fa-long-arrow-alt-left me-2"></i>Back to foods</a></h6>
-                            </div>
+                        <h2 class="text-center mt-2 mb-2">Bag is empty</h2>
+                        <div class="pt-1 pb-2">
+                            <h6 class="mb-0 text-center"><a href="/" class="text-body"><i
+                                        class="fas fa-long-arrow-alt-left me-2"></i>Back to foods</a></h6>
+                        </div>
                         {% endif %}
                     </div>
                 </div>

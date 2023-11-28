@@ -63,7 +63,7 @@
 
             </div>
             <div class="row g-4 mt-2">
-                {% for menu in pageObj.object_list %}
+                {% for menu in foods %}
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="service-item rounded pt-3">
                             <div class="p-4">
@@ -84,36 +84,38 @@
                         </div>
                     </div>
                 {% endfor %}
-            </div>
-            <div class="pagination mt-4">
-                {% if pageObj.has_previous %}
-                    {% if url %}
-                        <a href="?price={{ url }}&page={{ pageObj.previous_page_number }}#food" class="btn btn-primary">Previous</a>
-                    {% else %}
-
-                        {% if rest_url %}
-                            <a href="?search-food-restaurant={{ rest_url }}&page={{ pageObj.previous_page_number }}#food" class="btn btn-primary">Previous</a>
-                        {% else %}
-                            <a href="?page={{ pageObj.previous_page_number }}#food" class="btn btn-primary">Previous</a>
-                        {% endif %}
-                    {% endif %}
-
-                {% endif %}
-            
-                {% if pageObj.has_next %}
-                    {% if url %}
-                        <a href="?price={{ url }}&page={{ pageObj.next_page_number }}#food" class="btn btn-primary">Next</a>
-                    {% else %}
-                        {% if rest_url %}
-                            <a href="?search-food-restaurant={{ rest_url }}&page={{ pageObj.next_page_number }}#food" class="btn btn-primary">Next</a>
-                        {% else %}
-                            <a href="?page={{ pageObj.next_page_number }}#food" class="btn btn-primary">Next</a>
-                        {% endif %}
-                    {% endif %}
-                {% endif %}
-            </div>          
+            </div>         
         </div>
     </div>
     <!-- Foods end -->
 </div>
 {% endblock content %}
+
+
+<!-- 
+<div class="pagination mt-4">
+    {% if pageObj.has_previous %}
+        {% if url %}
+            <a href="?price={{ url }}&page={{ pageObj.previous_page_number }}" class="btn btn-primary">Previous</a>
+        {% else %}
+            {% if rest_url %}
+                <a href="?search-food-restaurant={{ rest_url }}&page={{ pageObj.previous_page_number }}" class="btn btn-primary">Previous</a>
+            {% else %}
+                <a href="?page={{ pageObj.previous_page_number }}" class="btn btn-primary">Previous</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+            
+    {% if pageObj.has_next %}
+        {% if url %}
+            <a href="?price={{ url }}&page={{ pageObj.next_page_number }}#food" class="btn btn-primary">Next</a>
+        {% else %}
+            {% if rest_url %}
+                <a href="?search-food-restaurant={{ rest_url }}&page={{ pageObj.next_page_number }}#food" class="btn btn-primary">Next</a>
+            {% else %}
+                <a href="?page={{ pageObj.next_page_number }}#food" class="btn btn-primary">Next</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+</div> 
+ -->
