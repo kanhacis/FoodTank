@@ -82,86 +82,21 @@ Time sheet filled : Yes
 Work Done Today:-
     1. Django
         - Fix some fron-end bugs.
+        - Start working with order table.
+        - Add sweetify alert.
         
     2. PHP
-        - Fix some bugs in authentication and start creating todo app.
+        - Working on todo app.
+        - Completed functionalities are
+            - Signup
+            - Login
+            - Add tasks
+            - Show tasks
+            - Logout
 
-Day Start Time: 12:10
+Day Start Time: 12:05
 Day End Time:  09:00
 
+Creating to-do list where user login and add & see his tasks.
 
-
-
-
-
-
-
-
-
-
-def home(request):
-    try:
-        if request.user.is_authenticated:
-            # Retrieve the user's city based on their address
-            userAddress = Address.objects.get(user=request.user)
-
-            # Get all restaurants in the user's city
-            userCityRestaurants = Restaurant.objects.filter(city=userAddress.city)
-        else:
-            # Show all menu items to anonymous users
-            userCityRestaurants = Restaurant.objects.all()
-
-        # Get the search term from the request (either food name or restaurant name)
-        foodNameRestaurant = request.GET.get('search-food-restaurant')
-
-        price = request.GET.get('price')
-        url = ""
-        restaurantUrl = ""
-
-        # Build the base queryset
-        foodRestaurant = Menu.objects.filter(restaurant__in=userCityRestaurants)
-
-        # Apply filters based on user input
-        if foodNameRestaurant:
-            # Check if the search term corresponds to a restaurant
-            restaurant = Restaurant.objects.filter(name__icontains=foodNameRestaurant).first()
-
-            # If it's a restaurant, filter menus by that restaurant
-            if restaurant:
-                foodRestaurant = foodRestaurant.filter(restaurant=restaurant)
-                restaurantUrl = restaurant
-                restaurantUrl = restaurantUrl
-                
-            else:
-                # If it's not a restaurant, assume it's a food item and filter menus by name
-                foodRestaurant = foodRestaurant.filter(name__icontains=foodNameRestaurant)
-
-        elif price:
-            foodRestaurant = foodRestaurant.filter(price__lte=price)
-            url = price
-
-        # Add average rating to each menu item
-        foodRestaurant = foodRestaurant.annotate(averageRating=Avg('review__rating'))
-
-        # Pagination
-        paginator = Paginator(foodRestaurant, 8)
-        pageNumber = request.GET.get('page')
-        try:
-            pageObj = paginator.get_page(pageNumber)
-        except (PageNotAnInteger, EmptyPage):
-            pageObj = paginator.page(1)
-
-        # Prepare the context to pass data to the template
-        context = {
-            'pageObj': pageObj,
-            'url' : url,
-            'restaurantUrl': restaurantUrl
-        }
-
-    except Address.DoesNotExist:
-        # Handle the case where the user does not have an associated address
-        context = {
-            'pageObj': Menu.objects.none()
-        }
-
-    return render(request, 'home.html', context)
+Start working with order table & add sweetify for message alert.

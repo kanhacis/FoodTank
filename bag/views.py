@@ -15,14 +15,15 @@ def addToBag(request, id):
     menuItem = Menu.objects.get(id=id)
 
     # Check if the user has a bag
-    user_bag, created = Bag.objects.get_or_create(user=request.user)
+    userBag, created = Bag.objects.get_or_create(user=request.user)
 
     # Check if the item is already in the bag
-    bag_item, created = BagItem.objects.get_or_create(bag=user_bag, item=menuItem)
+    bagItem, created = BagItem.objects.get_or_create(bag=userBag, item=menuItem)
     sweetify.success(request, "Item added")
+    
     if not created:
-        bag_item.quantity += 1
-        bag_item.save()
+        bagItem.quantity += 1
+        bagItem.save()
 
     return redirect('/foodprovider/restaurant_info/{}'.format(menuItem.restaurant.id)) 
 

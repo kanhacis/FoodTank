@@ -11,8 +11,8 @@ def addMenu(request):
     if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
         return redirect("/login/")
     
-    rest_user = User.objects.get(username=request.user)
-    restaurant_name = Restaurant.objects.filter(user=rest_user)
+    restUser = User.objects.get(username=request.user)
+    restaurantName = Restaurant.objects.filter(user=restUser)
 
     if request.method == 'POST':
         rname = request.POST.get('rname')
@@ -24,7 +24,7 @@ def addMenu(request):
         mdesc = request.POST.get('mdesc')
 
         # Here could be many restaurant for a single admin.
-        for i in restaurant_name:
+        for i in restaurantName:
             if i.name == rname:
                 menu = Menu.objects.create(restaurant=i, name=mname, 
                                         type=mtype, price=mprice, cuisine=mcuisine, img1=mimg1, description=mdesc)
@@ -33,7 +33,7 @@ def addMenu(request):
                 break
 
     context = {
-        'restaurant_name' : restaurant_name
+        'restaurantName' : restaurantName
     }
     return render(request, 'restaurant_admin/addMenu.html', context)
 
