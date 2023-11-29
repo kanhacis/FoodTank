@@ -2,6 +2,9 @@
 {% block content %}
 {% load static %}
 
+{% load sweetify %}
+{% sweetify %}
+
 <!-- Hero Start -->
 <div class="container-xxl position-relative p-0">
     <!-- Navbar include start -->
@@ -134,6 +137,16 @@
                             </div>
                             <!-- Zipcode end -->
 
+                            <!-- House no. start -->
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" value="{{user_address.house_no}}" name="house"
+                                        id="house" placeholder="Your House Number" required>
+                                    <label for="house">House no.</label>
+                                </div>
+                            </div>
+                            <!-- House no. end -->
+
                             <!-- Category start -->
                             <div class="col-md-12">
                                 <div class="form-floating">
@@ -167,7 +180,6 @@
                 </div>
             </div>
             <!-- User Address end -->
-
         </div>
     </div>
 </div>

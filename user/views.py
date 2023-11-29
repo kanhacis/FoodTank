@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
 from django.db.models import Avg
+import sweetify
 
 
 # Rendering home page with all food items.
@@ -89,12 +90,13 @@ def profile(request):
         address.city = request.POST.get('city', '')
         address.area = request.POST.get('area', '')
         address.zipcode = request.POST.get('zipcode', '')
+        address.house_no = request.POST.get('house', -1)
         address.category = request.POST.get('category', '')
 
         address.save()
         user.save()
 
-        messages.info(request, "Your profile is completed.")
+        sweetify.success(request, "Your profile is completed.")
 
     context = {
         'user_profile' : user,

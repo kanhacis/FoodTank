@@ -18,6 +18,7 @@ class Address(models.Model):
     state = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     area = models.CharField(max_length=255)
+    house_no = models.IntegerField(blank=True, null=True)
     zipcode = models.CharField(max_length=255)
     landmark = models.CharField(max_length=255, blank=True)
     category = models.CharField(max_length=255, choices=[('Home', 'Home'), ('Work', 'Work')])

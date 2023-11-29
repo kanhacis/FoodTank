@@ -1,0 +1,36 @@
+from django.shortcuts import redirect
+from .models import BagItem, Order, OrderItem
+
+def place_order(request):
+    # Retrieve the current user's bag items
+    user_bag_items = BagItem.objects.filter(bag__user=request.user)
+
+    # Assuming the bag has items
+    if user_bag_items.exists():
+        # Assuming the bag items are associated with the same restaurant
+        restaurant = user_bag_items.first().item.restaurant
+
+        # Create an order associated with the restaurant
+        order = Order.objects.create(
+            restaurant=restaurant,
+            is_confirmed=False,  # Set according to your logic
+            estimated_time="Some estimation",  # Set according to your logic
+            user=request.user  # Link the order to the current user
+        )
+
+        # Create order items linked to the created order
+        for bag_item in user_bag_items:
+            OrderItem.objects.create(
+                order=order,
+                item=bag_item.item,
+                quantity=bag_item.quantity
+            )
+
+        # Clear the user's bag after placing the order
+        user_bag_items.delete()
+
+        # Redirect to a success page or a confirmation page
+        return redirect('order-success')  # Redirect to a success page
+
+    # Redirect to a page indicating no items in the bag
+    return redirect('empty-bag')

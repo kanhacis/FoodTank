@@ -77,19 +77,16 @@ app-Driver
 
 
 Task Name :- FoodTank Website (Django) / PHP
-
 Time sheet filled : Yes
 
 Work Done Today:-
-    1. Created Operations for admin's profile.
-        1.1 : Create editMenu page.
-        1.2 : Fix bugs in radio button.
+    1. Django
+        - Fix some fron-end bugs.
         
     2. PHP
-        1.1 : Learn about sessions.
-        1.2 : Implement authentication and connected with database.
+        - Fix some bugs in authentication and start creating todo app.
 
-Day Start Time: 12:05
+Day Start Time: 12:10
 Day End Time:  09:00
 
 

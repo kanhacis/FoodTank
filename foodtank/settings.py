@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'bag',
     'driver',
     'order',
+
+    'sweetify',
 ]
 
 

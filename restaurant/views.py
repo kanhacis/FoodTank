@@ -210,7 +210,6 @@ def restaurantInfo(request, id):
     return render(request, 'foodprovider/restaurant_info.html', context)
  
 
-
 # Notification functionality work is not done yet.
 def adminNotifications(request):
     admin_notifications = Notification.objects.filter(receiver=request.user, is_read=False)
