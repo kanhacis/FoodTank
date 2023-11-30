@@ -95,7 +95,7 @@ Work Done Today:-
             - Logout
 
 Day Start Time: 12:05
-Day End Time:  09:00
+Day End Time:  08:86
 
 Creating to-do list where user login and add & see his tasks.
 

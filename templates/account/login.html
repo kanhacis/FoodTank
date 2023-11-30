@@ -2,6 +2,9 @@
 {% block content %}
 {% load static %}
 
+{% load sweetify %}
+{% sweetify %}
+
 <!-- Hero Start -->
 <div class="container-xxl position-relative p-0">
     <!-- Navbar include start -->
@@ -50,20 +53,7 @@
                                 </div>
                             </div>
                             
-                            <p>Don't have an account? <a href="/signup">signup</a></p>
-
-                            <!-- Messages Start -->
-                            {% if messages %}
-                                {% for message in messages %}
-                                    <div class="visible-div" id="myDiv">
-                                        <span class="close-button" onclick="hideDiv()">✖</span>
-                                        <div class="alert alert-danger" role="alert">
-                                        {{message}}
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
-                            <!-- Messages End -->
+                            <p>Don't have an account? <a href="/signup/">signup</a></p>
 
                             <div class="col-12">
                                 <button class="btn btn-primary w-100 py-3" type="submit">Login</button>

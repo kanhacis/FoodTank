@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
 from django.db.models import Avg
 import sweetify
+from order.models import Order, OrderItem
+from bag.models import Bag, BagItem
 
 
 # Rendering home page with all food items.
@@ -96,7 +98,7 @@ def profile(request):
         address.save()
         user.save()
 
-        sweetify.success(request, "Your profile is completed.")
+        sweetify.success(request, "Your profile is updated.")
 
     context = {
         'user_profile' : user,
@@ -124,20 +126,20 @@ def signUp(request):
         password2 = request.POST.get('pwdc') 
 
         if User.objects.filter(username=name).exists():
-            messages.error(request, "Account with this username is already exist.")
+            sweetify.warning(request, "Account with this username is already exist.")
             return redirect('/signup/')
 
         if User.objects.filter(email=email).exists():
-            messages.error(request, "Account with this email is already exist.")
+            sweetify.warning(request, "Account with this email is already exist.")
             return redirect('/signup/')
 
         if User.objects.filter(mobile=mobile):
-            messages.error(request, "Account with this mobile number is alread exist.")
+            sweetify.warning(request, "Account with this mobile number is alread exist.")
             return redirect('/signup/')
 
         # Additional checks (e.g., password strength)
         if len(password1) < 4:
-            messages.error(request, 'Password should be at least 8 characters long.')
+            sweetify.warning(request, "Password should be at least 4 characters long.")
             return render(request, 'account/signup.html')
 
         if password1 == password2:
@@ -152,7 +154,8 @@ def signUp(request):
 
         else:
             # Error handling for password mismatch
-            messages.error(request, 'Password and confirm password do not match.')
+            sweetify.error(request, "Password and confirm password do not match.")
+
             return render(request, 'account/signup.html')
 
     return render(request, 'account/signup.html')
@@ -162,14 +165,13 @@ def signIn(request):
     if request.method == 'POST':
         uname = request.POST.get('name')
         pwd = request.POST.get('password')
-        # utype = request.POST['utype'] 
 
         user = authenticate(request, username=uname, password=pwd)
         
         if user is not None:
             if user.user_type == "Customer":
                 login(request, user)
-                return redirect('/')
+                return redirect('/foodprovider/restaurant/')
                 
             elif user.user_type == "Foodprovider":
                 login(request, user)
@@ -179,8 +181,24 @@ def signIn(request):
                 login(request, user)
                 return redirect('/')  # Need to set the correct path
         else:
-            message = messages.error(request, 'Invalid username or password. Please try again.')
+            sweetify.error(request, 'Invalid username or password. Please try again.')
+
     return render(request, 'account/login.html')
+
+# Rendering order page & showing my order history
+@login_required(login_url='/login/')
+def orders(request):
+    # Only valid customer can access this page
+    if not request.user.user_type == "Customer":
+        return redirect("/login/")
+    
+    userOrders = Order.objects.filter(user=request.user)
+
+    context = {
+        'userOrders' : userOrders
+    }
+
+    return render(request, 'account/orders.html', context)
 
 # Function to logout user 
 @login_required(login_url='/login/') 
@@ -194,18 +212,16 @@ def logOut(request):
     else:
         logout(request) 
         return redirect('/')
-    
-# Rendering contact page.
-# This contact page allow all types of user.
+
+# Contact page for everyone
 def contact(request):
     if request.method == 'POST':
-        name = request.POST['name']
-        email = request.POST['email']
-        sbj = request.POST['subject']
-        msg = request.POST['message']
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
 
-        contact = Contact.objects.create(name=name, email=email, subject=sbj, message=msg)
+        contact = Contact.objects.create(name=name, email=email, subject=subject, message=message)
         contact.save()
-        message = messages.success(request, 'Message sent successfully!')
-
+        sweetify.success(request, 'Message sent successfully!')
     return render(request, 'contact.html')

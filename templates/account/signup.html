@@ -2,6 +2,9 @@
 {% block content %}
 {% load static %}
 
+{% load sweetify %}
+{% sweetify %}
+
 <!-- Navbar & Hero Start -->
 <div class="container-xxl position-relative p-0">
     <!-- Navbar include start -->
@@ -32,9 +35,11 @@
             </div>
             <div class="col-md-6">
                 <div class="wow fadeInUp" data-wow-delay="0.2s">
+                    <!-- Signup form start -->
                     <form method="POST">
                         {% csrf_token %}
                         <div class="row g-3">
+                            <!-- Username start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" name="name" id="uname"
@@ -42,6 +47,9 @@
                                     <label for="uname">Username</label>
                                 </div>
                             </div>
+                            <!-- Username end -->
+
+                            <!-- Email start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="email" class="form-control" name="email" id="email"
@@ -49,6 +57,9 @@
                                     <label for="email">Your Email</label>
                                 </div>
                             </div>
+                            <!-- Email end -->
+
+                            <!-- Mobile no start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="number" class="form-control" name="mobile" id="mobile"
@@ -56,6 +67,9 @@
                                     <label for="mobile">Your Mobile</label>
                                 </div>
                             </div>
+                            <!-- Mobile no end -->
+
+                            <!-- User type start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <select name="utype" id="pet-select" class="form-control bg-white" required>
@@ -66,6 +80,9 @@
                                     </select>
                                 </div>
                             </div>
+                            <!-- User type end -->
+
+                            <!-- Password start -->
                             <div class="col-12">
                                 <div class="form-floating">
                                     <input type="password" class="form-control" name="pwd" id="pwd"
@@ -73,6 +90,9 @@
                                     <label for="pwd">Password</label>
                                 </div>
                             </div>
+                            <!-- Password end -->
+
+                            <!-- Password confirm start -->
                             <div class="col-12">
                                 <div class="form-floating">
                                     <input type="password" class="form-control" name="pwdc" id="pwdc"
@@ -80,23 +100,18 @@
                                     <label for="pwdc">Password (confirm)</label>
                                 </div>
                             </div>
+                            <!-- Password confirm end -->
+
                             <p>Already have an account? <a href="/login">login</a></p>
 
-                            <!-- Messages Start -->
-                            {% if messages %}
-                            <ul class="messages list-unstyled">
-                                {% for message in messages %}
-                                <li{% if message.tags %} class="{{ message.tags }} text-danger" {% endif %}>{{ message }}</li>
-                                    {% endfor %}
-                            </ul>
-                            {% endif %}
-                            <!-- Messages End -->
-
+                            <!-- Signup button start -->
                             <div class="col-12">
                                 <button class="btn btn-primary w-100 py-3" type="submit">Signup</button>
                             </div>
+                            <!-- Signup button end -->
                         </div>
                     </form>
+                    <!-- Signup form end -->
                 </div>
             </div>
         </div>

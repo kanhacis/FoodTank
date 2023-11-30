@@ -1,0 +1,93 @@
+{% extends '../base.html' %}
+{% block content %}
+{% load static %}
+
+{% load sweetify %}
+{% sweetify %}
+
+<!-- Navbar & Hero Start -->
+<div class="container-xxl position-relative p-0">
+    <!-- Navbar include start -->
+        {% include 'navbar.html' %}
+    <!-- Navbar include end -->
+
+    <div class="container-xxl py-5 bg-dark hero-header mb-5">
+        <div class="container text-center my-5 pt-5 pb-4">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">My Orders</h1>
+        </div>
+    </div>
+</div>
+<!-- Navbar & Hero End -->
+
+<section class="container h-100 h-custom" style="background-color: #0F172B;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12">
+                <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                            <div class="col-lg-9">
+                                <div class="mx-5 mt-5">
+                                    <div class="mb-5">
+                                        <h1 class="fw-bold mb-0 text-black">My Orders</h1>
+                                        <p class="fs-5 my-2">Your orders in one place</p>
+                                        <p class="fs-6">If you have any questions, please feel free to <a href="/contact/">contact us</a>, our customer service center is working for you 24/7.</p>
+                                    </div>
+                                    
+                                    <table class="table">
+                                        <hr style="color:black; height: 2px;">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Order Id</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Total</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Action</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {% for data in userOrders %}
+                                            <tr>
+                                                <th scope="row">{{data.order_id}}</th>
+                                                <td>{{ data.order_date|date:"M d, Y" }}</td>
+                                                <td>{{data.total_bill}}</td>
+                                                <td>{{data.is_confirmed}}</td>
+                                                <td>
+                                                    <a href="#" class="btn btn-primary btn-sm">View</a>
+                                                </td>
+                                            </tr>
+                                          {% endfor %}
+                                        </tbody>
+                                      </table>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="mx-5 mt-5">
+                                    <div class="mb-5">
+                                        <div class="border border-2">
+                                            <div class="card text-center p-2 bg-light">
+                                                Customer section
+                                            </div>
+                                            <div class="p-3">
+                                                <ul style="list-style: none;">
+                                                    <li><a href="/orders/">My orders</a></li>
+                                                    <li><a href="/foodprovider/restaurant/">Restaurants</a></li>
+                                                    <li><a href="/">All foods</a></li>
+                                                    <li><a href="/profile/">Account</a></li>
+                                                    <li><a href="/logout/">Logout</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

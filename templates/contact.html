@@ -2,6 +2,9 @@
 {% block content %}
 {% load static %}
 
+{% load sweetify %}
+{% sweetify %}
+
 <!-- Hero Start -->
 <div class="container-xxl position-relative p-0">
     <!-- Navbar include start -->
@@ -49,7 +52,7 @@
             </div>
             <div class="col-md-6">
                 <div class="wow fadeInUp" data-wow-delay="0.2s">
-                    <form method="POST">
+                    <form method="POST" id="contact-form">
                         {% csrf_token %}
                         <div class="row g-3">
                             <div class="col-md-6">
@@ -81,17 +84,6 @@
                                 </div>
                             </div>
 
-                            <!-- Messages Start -->
-                            {% if messages %}
-                            <ul class="messages list-unstyled">
-                                {% for message in messages %}
-                                <li{% if message.tags %} class="{{ message.tags }} text-success" {% endif %}>{{ message
-                                    }}</li>
-                                    {% endfor %}
-                            </ul>
-                            {% endif %}
-                            <!-- Messages End -->
-
                             <div class="col-12">
                                 <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
                             </div>
@@ -103,5 +95,36 @@
     </div>
 </div>
 <!-- Contact End -->
+
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(function() {
+      $('#contact-form').on('submit', function(event) {
+        event.preventDefault();
+        $.ajax({
+          url: '{% url "contact" %}',
+          type: 'POST',
+          data: $(this).serialize(),
+          dataType: 'json',
+          success: function(response) {
+            if (response.success) {
+              $('#contact-form').hide();
+              sweetAlert({
+                title: 'Success',
+                text: 'Thank you for your message!',
+                icon: 'success'
+              });
+            } 
+            else {
+              $('#alert').html('<div class="alert alert-danger">' + response.errors + '</div>').show();
+            }
+          }
+        });
+      });
+    });
+  </script> -->
+  
+
+  
 
 {% endblock content %}

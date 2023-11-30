@@ -72,4 +72,6 @@ def deleteItem(request, id):
     
     bagItem = BagItem.objects.get(id=id)
     bagItem.delete()
+    sweetify.success(request, "Item deleted")
+
     return redirect('/bag/view_bag/')
