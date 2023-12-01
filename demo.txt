@@ -75,28 +75,23 @@ app-Driver
 
 ==========================================
 
-
 Task Name :- FoodTank Website (Django) / PHP
 Time sheet filled : Yes
 
 Work Done Today:-
     1. Django
-        - Fix some fron-end bugs.
-        - Start working with order table.
-        - Add sweetify alert.
+        - Create a order page.
+        - Working with place order logic.
+        - Add sweetify alert messages.
+        - Start learning AJAX
         
     2. PHP
         - Working on todo app.
-        - Completed functionalities are
-            - Signup
-            - Login
-            - Add tasks
-            - Show tasks
-            - Logout
+        - All tasks are done.
 
 Day Start Time: 12:05
-Day End Time:  08:86
+Day End Time:  9:00
 
-Creating to-do list where user login and add & see his tasks.
+Completed all tasks.
 
-Start working with order table & add sweetify for message alert.
+Working with place order logic & also start learning AJAX.

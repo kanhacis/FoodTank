@@ -10,6 +10,7 @@ from django.db.models import Avg
 import sweetify
 from order.models import Order, OrderItem
 from bag.models import Bag, BagItem
+from django.http import JsonResponse
 
 
 # Rendering home page with all food items.
@@ -118,29 +119,22 @@ def profile(request):
 # Rendering signup page & And registering user.
 def signUp(request): 
     if request.method == 'POST': 
-        name = request.POST.get('name') 
+        name = request.POST.get('uname') 
         email = request.POST.get('email') 
         mobile = request.POST.get('mobile') 
         userType = request.POST.get('utype') 
         password1 = request.POST.get('pwd') 
         password2 = request.POST.get('pwdc') 
 
-        if User.objects.filter(username=name).exists():
-            sweetify.warning(request, "Account with this username is already exist.")
-            return redirect('/signup/')
 
-        if User.objects.filter(email=email).exists():
-            sweetify.warning(request, "Account with this email is already exist.")
-            return redirect('/signup/')
+        if name and User.objects.filter(username=name).exists():
+            return JsonResponse({'status':'userExist'})
 
-        if User.objects.filter(mobile=mobile):
-            sweetify.warning(request, "Account with this mobile number is alread exist.")
-            return redirect('/signup/')
+        if email and User.objects.filter(email=email).exists():
+            return JsonResponse({'status':'emailExist'})
 
-        # Additional checks (e.g., password strength)
-        if len(password1) < 4:
-            sweetify.warning(request, "Password should be at least 4 characters long.")
-            return render(request, 'account/signup.html')
+        if mobile and User.objects.filter(mobile=mobile):
+            return JsonResponse({'status':'mobileExist'})
 
         if password1 == password2:
             newUser = User.objects.create(username=name, email=email, mobile=mobile, user_type=userType)
@@ -148,30 +142,29 @@ def signUp(request):
             newUser.save()
 
             if userType == "Customer":
-                return redirect('/login/')
+                return JsonResponse({'status':'createAccount'})
+            
             elif userType == "Foodprovider":
                 return redirect('/foodprovider/adminSignin/')
 
         else:
             # Error handling for password mismatch
-            sweetify.error(request, "Password and confirm password do not match.")
-
-            return render(request, 'account/signup.html')
+            return JsonResponse({'status':'passwordNotMatch'})
 
     return render(request, 'account/signup.html')
 
 # Rendering signin page & And authenticated user.
 def signIn(request):
     if request.method == 'POST':
-        uname = request.POST.get('name')
-        pwd = request.POST.get('password')
+        uname = request.POST.get('uname')
+        pwd = request.POST.get('pwd')
 
         user = authenticate(request, username=uname, password=pwd)
-        
+
         if user is not None:
             if user.user_type == "Customer":
                 login(request, user)
-                return redirect('/foodprovider/restaurant/')
+                return JsonResponse({'status':'signIn'})
                 
             elif user.user_type == "Foodprovider":
                 login(request, user)
@@ -181,7 +174,7 @@ def signIn(request):
                 login(request, user)
                 return redirect('/')  # Need to set the correct path
         else:
-            sweetify.error(request, 'Invalid username or password. Please try again.')
+            return JsonResponse({'status':'invalidUser'})
 
     return render(request, 'account/login.html')
 
@@ -223,5 +216,6 @@ def contact(request):
 
         contact = Contact.objects.create(name=name, email=email, subject=subject, message=message)
         contact.save()
-        sweetify.success(request, 'Message sent successfully!')
+        return JsonResponse({'status': 'Save'})
+    
     return render(request, 'contact.html')

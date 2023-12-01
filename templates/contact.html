@@ -58,21 +58,21 @@
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="Your Name" required>
+                                        placeholder="Your Name">
                                     <label for="name">Your Name</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="email" class="form-control" name="email" id="email"
-                                        placeholder="Your Email" required>
+                                        placeholder="Your Email">
                                     <label for="email">Your Email</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" name="subject" id="subject"
-                                        placeholder="Subject" required>
+                                        placeholder="Subject">
                                     <label for="subject">Subject</label>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
                             </div>
 
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+                                <button class="btn btn-primary w-100 py-3" type="submit" id="sendMsg">Send Message</button>
                             </div>
                         </div>
                     </form>
@@ -95,36 +95,5 @@
     </div>
 </div>
 <!-- Contact End -->
-
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(function() {
-      $('#contact-form').on('submit', function(event) {
-        event.preventDefault();
-        $.ajax({
-          url: '{% url "contact" %}',
-          type: 'POST',
-          data: $(this).serialize(),
-          dataType: 'json',
-          success: function(response) {
-            if (response.success) {
-              $('#contact-form').hide();
-              sweetAlert({
-                title: 'Success',
-                text: 'Thank you for your message!',
-                icon: 'success'
-              });
-            } 
-            else {
-              $('#alert').html('<div class="alert alert-danger">' + response.errors + '</div>').show();
-            }
-          }
-        });
-      });
-    });
-  </script> -->
-  
-
-  
 
 {% endblock content %}

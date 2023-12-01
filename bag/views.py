@@ -3,13 +3,14 @@ from menu.models import Menu
 from .models import Bag, BagItem
 from user.models import User, Address
 import sweetify
+from django.http import JsonResponse
 
 
 # Rendering add to bag page & write logic to add food in my bag.
 def addToBag(request, id):
-    # Check if the user is authenticated, if not, redirect them to the login page
-    if not request.user.is_authenticated or not request.user.user_type=="Customer":
-        return redirect("/login/")
+    # Check if the user is authenticated, if not, return a JSON response indicating the need for login
+    if not request.user.is_authenticated or not request.user.user_type == "Customer":
+        return JsonResponse({'error': 'Authentication required'})
 
     # Get the menu item
     menuItem = Menu.objects.get(id=id)
@@ -19,13 +20,14 @@ def addToBag(request, id):
 
     # Check if the item is already in the bag
     bagItem, created = BagItem.objects.get_or_create(bag=userBag, item=menuItem)
-    sweetify.success(request, "Item added")
-    
+
     if not created:
         bagItem.quantity += 1
         bagItem.save()
 
-    return redirect('/foodprovider/restaurant_info/{}'.format(menuItem.restaurant.id)) 
+    # Return a JSON response indicating success
+    return JsonResponse({'status':'itemAdded'})
+ 
 
 # Rendering view bag page where user can see their food bag.
 def viewBag(request):
@@ -72,6 +74,6 @@ def deleteItem(request, id):
     
     bagItem = BagItem.objects.get(id=id)
     bagItem.delete()
-    sweetify.success(request, "Item deleted")
+    return JsonResponse({'status':'itemDeleted'})
 
-    return redirect('/bag/view_bag/')
+    # return redirect('/bag/view_bag/')

@@ -43,7 +43,7 @@
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" name="name" id="uname"
-                                        placeholder="Your Name" required>
+                                        placeholder="Your Name">
                                     <label for="uname">Username</label>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="email" class="form-control" name="email" id="email"
-                                        placeholder="Your Email" required>
+                                        placeholder="Your Email">
                                     <label for="email">Your Email</label>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="number" class="form-control" name="mobile" id="mobile"
-                                        placeholder="Your mobile no." required>
+                                        placeholder="Your mobile no.">
                                     <label for="mobile">Your Mobile</label>
                                 </div>
                             </div>
@@ -72,7 +72,7 @@
                             <!-- User type start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <select name="utype" id="pet-select" class="form-control bg-white" required>
+                                    <select name="utype" id="utype" class="form-control bg-white">
                                         <option value="">User Type</option>
                                         <option value="Customer">Customer</option>
                                         <option value="Foodprovider">Foodprovider</option>
@@ -86,7 +86,7 @@
                             <div class="col-12">
                                 <div class="form-floating">
                                     <input type="password" class="form-control" name="pwd" id="pwd"
-                                        placeholder="Your Password" required>
+                                        placeholder="Your Password">
                                     <label for="pwd">Password</label>
                                 </div>
                             </div>
@@ -96,17 +96,17 @@
                             <div class="col-12">
                                 <div class="form-floating">
                                     <input type="password" class="form-control" name="pwdc" id="pwdc"
-                                        placeholder="Your Password (confirm)" required>
+                                        placeholder="Your Password (confirm)">
                                     <label for="pwdc">Password (confirm)</label>
                                 </div>
                             </div>
                             <!-- Password confirm end -->
 
-                            <p>Already have an account? <a href="/login">login</a></p>
+                            <p>Already have an account? <a href="/login/">login</a></p>
 
                             <!-- Signup button start -->
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Signup</button>
+                                <button class="btn btn-primary w-100 py-3" type="submit" id="signup">Signup</button>
                             </div>
                             <!-- Signup button end -->
                         </div>
@@ -118,4 +118,5 @@
     </div>
 </div>
 <!-- Signup End -->
+
 {% endblock content %}
