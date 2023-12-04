@@ -1,318 +1,278 @@
-{% extends 'base.html' %}
-{% block content %}
-{% load static %}
-
-{% load sweetify %}
+{% extends 'base.html' %} 
+{% block content %} 
+{% load static %} 
+{% load sweetify %} 
 {% sweetify %}
 
 <!-- Hero Start -->
 <div class="container-xxl position-relative p-0">
-    <!-- Navbar include start -->
-    {% include 'navbar.html' %}
-    <!-- Navbar include end -->
+  <!-- Navbar include start -->
+  {% include 'navbar.html' %}
+  <!-- Navbar include end -->
 
-    <div class="container-xxl py-5 bg-dark hero-header mb-5">
-        <div class="container text-center my-5 pt-5 pb-4">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">Bag Items</h1>
-        </div>
+  <div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+      <h1 class="display-3 text-white mb-3 animated slideInDown">Bag Items</h1>
     </div>
+  </div>
 </div>
 <!-- Hero End -->
 
-<!-- <section class="container h-100 h-custom" style="background-color: #0F172B;">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12">
-                <div class="card card-registration card-registration-2" style="border-radius: 15px;">
-                    <div class="card-body p-0">
-                        {% if bagItems %}
-                        <div class="row g-0">
-                            <div class="col-lg-9">
-                                <div class="p-5">
-                                    <div class="d-flex justify-content-between align-items-center mb-5">
-                                        <h1 class="fw-bold mb-0 text-black">My Baskets</h1>
-                                        <h6 class="mb-0 text-muted">{{count}} items</h6>
-                                    </div>
+<!-- My basket start -->
+<section class="container h-100 h-custom" style="background-color: #0f172b">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        <div
+          class="card card-registration card-registration-2"
+          style="border-radius: 15px"
+        >
+          <div class="card-body p-0" id="appendEmptyBag">
+            {% if bagItems %}
+            <div class="row g-0" id="deleteBasket">
+              <div class="col-lg-9">
+                <div class="mx-5 mt-5">
+                  <div class="mb-5">
+                    <h1 class="fw-bold mb-0 text-black">My Baskets</h1>
+                  </div>
 
-                                    <div class="row">
-                                        <h6 class="col-xl-2 mb-0 text-muted"></h6>
-                                        <h6 class="col-xl-2 mb-0 text-muted">Name</h6>
-                                        <h6 class="col-xl-2 mb-0 text-muted">Quantity</h6>
-                                        <h6 class="col-xl-2 mb-0 text-muted text-end">Unit price</h6>
-                                        <h6 class="col-xl-2 mb-0 text-muted text-end">Total price</h6>
-                                        <h6 class="col-xl-2 mb-0 text-muted text-end">Delete</h6>
-                                    </div>
-                                    <hr class="my-4">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Unit price</th>
+                        <th scope="col">Total price</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for item in bagItems %}
+                      <tr class="deleteRow" id="deleteRow">
+                        <th scope="row">
+                          <img
+                            src="{{item.item.img1.url}}"
+                            class="img-fluid rounded-3"
+                            alt="food"
+                            style="width: 5rem; height: 4rem"
+                          />
+                        </th>
 
-                                    
-                                    <form action="/bag/view_bag/" method="POST">{% csrf_token %}
-                                        {% for item in bagItems %}
-                                        <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                            <div class="col-md-2 col-lg-2 col-xl-2">
-                                                <img src="{{item.item.img1.url}}" class="img-fluid rounded-3" alt="food"
-                                                    style="width: 5rem; height: 4rem;">
-                                            </div>
-                                            <div class="col-md-3 col-lg-3 col-xl-2">
-                                                <h6 class="text-black mb-0">{{item.item.name}}</h6>
-                                            </div>
-                                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                <input id="form1" min="1" name="{{item.id}}" value="{{item.quantity}}"
-                                                    type="number" class="form-control form-control-sm" style="width: 70px;" />
-                                            </div>
+                        <td>{{item.item.name}}</td>
 
-                                            <div class="col-md-2 col-lg-1 col-xl-1 offset-lg-1">
-                                                <h6 class="mb-0">₹{{ item.item.price | stringformat:'d' }}</h6>
-                                            </div>
+                        <td>
+                          <input
+                            id="form1"
+                            min="1"
+                            name="{{item.id}}"
+                            value="{{item.quantity}}"
+                            type="number"
+                            class="form-control form-control-sm itemQuantity"
+                            data-food-item="{{item.id}}"
+                            style="width: 70px"
+                          />
+                        </td>
 
-                                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                                <h6 class="mb-0">₹{% widthratio item.item.price 1 item.quantity %}</h6>
-                                            </div>
+                        <td>₹{{ item.item.price | stringformat:'d' }}</td>
+                        <td class="newPrice">
+                          ₹{% widthratio item.item.price 1 item.quantity %}
+                        </td>
+                        <td>
+                          <a
+                            class="text-muted deleteFood"
+                            href="/bag/deleteItem/{{item.id}}"
+                            data-food-item="{{item.id}}"
+                            ><i class="fas fa-times"></i
+                          ></a>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
 
-                                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                <a href="/bag/deleteItem/{{item.id}}" class="text-muted"
-                                                    onclick="return confirm('Are you sure? You are deleting your bag item.')"><i
-                                                        class="fas fa-times"></i></a>
-                                            </div>
-                                        </div>
-                                        {% endfor %}
-
-                                        <div class="pt-5">
-                                            <button type="submit" class="btn btn-dark btn-block rounded-3">Update bag</button>
-                                        </div>
-                                    </form>
-
-                                    <hr class="my-4">
-
-                                    <h4 class="text-uppercase">Delivery Address</h4>
-                                    {% for data in address %}
-                                        <div style="margin-left: 2px;" class="row d-flex justify-content-between">
-                                            <div class="text-white bg-dark pt-2 rounded-3" style="width: 90%;">{{data.city}} || {{data.area}} || {{data.zipcode}} || {{data.house_no}}</div>
-                                            <div class="text-white" style="width: 7%;">
-                                                <a href="/profile/" class="btn btn-dark rounded-3">Edit</a>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-
-                                    <form action="/order/placeOrder/" method="POST">
-                                        {% csrf_token %}
-                                        <h4 class="text-uppercase mt-5">Payment Methods</h4>
-                                        <div class="row d-flex justify-content-between">
-                                            <div>
-                                                <select class="bg-dark rounded-3 text-white" name="payment" id="payment-method" style="width: 91.5%; height: 40px;">
-                                                    <option value="Cash on delivery">Cash on delivery</option>
-                                                    <option value="Net banking">Net banking</option>
-                                                    <option value="UPI">UPI</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="mt-3">
-                                                <input type="submit" class="btn btn-dark rounded-3" value="Order now">
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-3 bg-grey">
-                                <div class="p-5">
-                                    <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
-                                    <hr class="my-4">
-
-                                    <div class="d-flex justify-content-between mb-4">
-                                        <h5 class="text-uppercase">items {{count}}</h5>
-                                        <h5>₹{{total}}</h5>
-                                    </div>
-
-                                    <hr class="my-4">
-
-                                    <div class="d-flex justify-content-between mb-5">
-                                        <h5 class="text-uppercase">Total price</h5>
-                                        <h5>₹{{total}}</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% else %}
-                        <h2 class="text-center mt-2 mb-2">Bag is empty</h2>
-                        <div class="pt-1 pb-2">
-                            <h6 class="mb-0 text-center"><a href="/" class="text-body"><i
-                                        class="fas fa-long-arrow-alt-left me-2"></i>Back to foods</a></h6>
-                        </div>
-                        {% endif %}
+                  <h4 class="text-uppercase mt-5">Delivery Address</h4>
+                  {% for data in address %}
+                  <div
+                    style="margin-left: 2px"
+                    class="row d-flex justify-content-between">
+                    <div
+                      class="text-white bg-dark pt-2 rounded-3"
+                      style="width: 90%">
+                        {{data.city}} || {{data.area}} || {{data.zipcode}} ||
+                        {{data.house_no}}
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> -->
-
-
-<section class="container h-100 h-custom" style="background-color: #0F172B;">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12">
-                <div class="card card-registration card-registration-2" style="border-radius: 15px;">
-                    <div class="card-body p-0">
-                        {% if bagItems %}
-                        <div class="row g-0">
-                            <div class="col-lg-9">
-                                <div class="mx-5 mt-5">
-                                    <div class="mb-5">
-                                        <h1 class="fw-bold mb-0 text-black">My Baskets</h1>
-                                    </div>
-
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Image</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Quantity</th>
-                                                <th scope="col">Unit price</th>
-                                                <th scope="col">Total price</th>
-                                                <th scope="col">Delete</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for item in bagItems %}
-                                            <tr class="deleteRow" id="deleteRow">
-                                                <th scope="row">
-                                                    <img src="{{item.item.img1.url}}" class="img-fluid rounded-3"
-                                                        alt="food" style="width: 5rem; height: 4rem;">
-                                                </th>
-
-                                                <td>{{item.item.name}}</td>
-
-                                                <td>
-                                                    <input id="form1" min="1" name="{{item.id}}" 
-                                                        value="{{item.quantity}}" type="number"
-                                                        class="form-control form-control-sm itemQuantity" 
-                                                        data-quantity-id="{{item.quantity}}" style="width: 70px;" />
-                                                </td>
-
-                                                <td>₹{{ item.item.price | stringformat:'d' }}</td>
-                                                <td>₹{% widthratio item.item.price 1 item.quantity %}</td>
-                                                <td>
-                                                    <a class="text-muted deleteFood" href="/bag/deleteItem/{{item.id}}"
-                                                        data-food-item="{{item.id}}"
-                                                        onclick="return confirm('Are you sure? You are deleting your bag item.')"><i
-                                                            class="fas fa-times"></i></a>
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-
-                                    <h4 class="text-uppercase mt-5">Delivery Address</h4>
-                                    {% for data in address %}
-                                    <div style="margin-left: 2px;" class="row d-flex justify-content-between">
-                                        <div class="text-white bg-dark pt-2 rounded-3" style="width: 90%;">{{data.city}}
-                                            || {{data.area}} || {{data.zipcode}} || {{data.house_no}}</div>
-                                        <div class="text-white" style="width: 7%;">
-                                            <a href="/profile/" class="btn btn-dark rounded-3">Edit</a>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
-
-                                    <!-- Payment method start -->
-                                    <form action="/order/placeOrder/" method="POST">
-                                        {% csrf_token %}
-                                        <h4 class="text-uppercase mt-5">Payment Methods</h4>
-                                        <div class="row d-flex justify-content-between">
-                                            <div>
-                                                <select class="bg-dark rounded-3 text-white" name="payment"
-                                                    id="payment-method" style="width: 91.5%; height: 40px;">
-                                                    <option value="Cash on delivery">&nbsp;Cash on delivery</option>
-                                                    <option value="Net banking">Net banking</option>
-                                                    <option value="UPI">UPI</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="my-3 pb-4">
-                                                <input type="submit" class="btn btn-dark rounded-3" value="Order now">
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <!-- Payment method end -->
-                                </div>
-                            </div>
-
-                            <!-- Summery start -->
-                            <div class="col-lg-3 bg-grey">
-                                <div class="p-5">
-                                    <h3 class="fw-bold mt-2 pt-1">Summary</h3>
-                                    <hr class="my-4">
-
-                                    <div class="d-flex justify-content-between mb-4">
-                                        <h5 class="text-uppercase">items {{count}}</h5>
-                                        <h5>₹{{total}}</h5>
-                                    </div>
-
-                                    <hr class="my-4">
-
-                                    <div class="d-flex justify-content-between mb-5">
-                                        <h5 class="text-uppercase">Total price</h5>
-                                        <h5>₹{{total}}</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Summery end -->
-                        </div>
-                        {% else %}
-                        <h2 class="text-center mt-2 mb-2">Bag is empty</h2>
-                        <div class="pt-1 pb-2">
-                            <h6 class="mb-0 text-center"><a href="/" class="text-body"><i
-                                        class="fas fa-long-arrow-alt-left me-2"></i>Back to foods</a></h6>
-                        </div>
-                        {% endif %}
+                    <div class="text-white" style="width: 7%">
+                      <a href="/profile/" class="btn btn-dark rounded-3"
+                        >Edit</a
+                      >
                     </div>
+                  </div>
+                  {% endfor %}
+
+                  <!-- Payment method start -->
+                  <form action="/order/placeOrder/" method="POST">
+                    {% csrf_token %}
+                    <h4 class="text-uppercase mt-5">Payment Methods</h4>
+                    <div class="row d-flex justify-content-between">
+                      <div>
+                        <select
+                          class="bg-dark rounded-3 text-white"
+                          name="payment"
+                          id="payment-method"
+                          style="width: 91.5%; height: 40px"
+                        >
+                          <option value="Cash on delivery">
+                            &nbsp;Cash on delivery
+                          </option>
+                          <option value="Net banking">&nbsp;Net banking</option>
+                          <option value="UPI">&nbsp;UPI</option>
+                        </select>
+                      </div>
+
+                      <div class="my-3 pb-4">
+                        <input
+                          type="submit"
+                          class="btn btn-dark rounded-3"
+                          value="Order now"
+                          id="orderNow"
+                        />
+                      </div>
+                    </div>
+                  </form>
+                  <!-- Payment method end -->
                 </div>
+              </div>
+
+              <!-- Summery start -->
+              <div class="col-lg-3 bg-grey">
+                <div class="p-5">
+                  <h3 class="fw-bold mt-2 pt-1">Summary</h3>
+                  <hr class="my-4" />
+
+                  <div class="d-flex justify-content-between mb-4">
+                    <h5 class="text-uppercase">items {{count}}</h5>
+                    <h5 class="totalPrice">₹{{total}}</h5>
+                  </div>
+
+                  <hr class="my-4" />
+
+                  <div class="d-flex justify-content-between mb-5">
+                    <h5 class="text-uppercase">Total price</h5>
+                    <h5 class="totalPrice">₹{{total}}</h5>
+                    <!-- Add a class for total price -->
+                  </div>
+                </div>
+              </div>
+              <!-- Summery end -->
             </div>
+            {% else %}
+            <h2 class="text-center mt-2 mb-2">Bag is empty</h2>
+            <div class="pt-1 pb-2">
+              <h6 class="mb-0 text-center">
+                <a href="/" class="text-body"
+                  ><i class="fas fa-long-arrow-alt-left me-2"></i>Back to
+                  foods</a
+                >
+              </h6>
+            </div>
+            {% endif %}
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
+<!-- My basket end -->
 
+<!-- Start code to delete item -->
 <script>
-    $(".deleteFood").click(function (event) {
-        event.preventDefault();
+  $(".deleteFood").click(function (event) {
+    event.preventDefault();
 
-        let id = $(this).attr("data-food-item");
-        console.log(id);
-        let myData = { id: id };
+    let id = $(this).attr("data-food-item");
+    let myData = { id: id };
 
-        $.ajax({
-            url: "/bag/deleteItem/" + id,
-            data: myData,
-            success: function (data) {
-                if (data.status) {
-                    // Find the parent row and remove it
-                    $(this).closest('.deleteRow').remove();
-                    Swal.fire({ icon: 'success', text: 'Item deleted!' });
-                } else {
-                    alert('Error: ' + response.error);
-                }
-            }.bind(this)  // Ensure 'this' refers to the button inside the success callback
-        });
+    $.ajax({
+      url: "/bag/deleteItem/" + id,
+      data: myData,
+      success: function (data) {
+        if (data.status === "itemDeleted") {
+          // Remove the parent row
+          $(this).closest(".deleteRow").remove();
+          Swal.fire({ icon: "success", text: "Item deleted!" });
+
+          // Update the total price in the HTML
+          $(".totalPrice").text("₹" + data.finalPrice);
+        }
+      }.bind(this),
     });
+  });
 </script>
+<!-- End code to delete item -->
 
+<!-- Start code to increase item quantity -->
 <script>
-    var a=1;
-    $(".itemQuantity").click(function (event) { 
-        event.preventDefault();
-        let quantity = $(this).attr("data-quantity-id");
-        quantity = quantity + a;
-        a++;
-        myData = {quantity:quantity};
+  $(".itemQuantity").click(function (event) {
+    event.preventDefault();
 
-        $.ajax({
-            url: "/bag/view_bag/",
-            data: myData,
-            success:function(data){
-                if(status.data){
-                    alert("Increase by one");
-                }
-            }
-        })
-     })
+    let quantityElement = $(this);
+    let currentQuantity = parseInt(quantityElement.val(), 10); // Get the current quantity as a number
+
+    let id = $(this).attr("data-food-item");
+    console.log(id, currentQuantity); //
+
+    if (currentQuantity < 1) {
+      // If the current quantity is less than 1, handle it accordingly
+      console.log("Quantity is less than 1");
+      return;
+    }
+
+    $.ajax({
+      url: "/bag/view_bag/",
+      data: { id: id, quantity: currentQuantity },
+      success: function (data) {
+        console.log("Quantity updated for item ID: " + id);
+        console.log(data.price);
+
+        // Update the total price in the HTML
+        $(".newPrice").text("₹" + data.price);
+      },
+      error: function () {
+        console.error("Error while updating quantity for item ID: " + id);
+      },
+    });
+  });
 </script>
+<!-- End code to increase item quantity -->
+
+<!-- Start code to place order -->
+<script>
+  $(document).ready(function () {
+    $("#orderNow").click(function (e) {
+      e.preventDefault(); // Prevent default form submission
+
+      let paymentMethod = $("#payment-method").val(); // Get the selected payment method
+      myData = {
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+        payment: paymentMethod,
+      };
+      $.ajax({
+        type: "POST",
+        url: "/order/placeOrder/",
+        data: myData,
+        success: function (data) {
+          if (data.status) {
+            $("#deleteBasket").remove();
+            Swal.fire({ icon: "success", text: "Order placed successfully" });
+            $("#appendEmptyBag").append(
+              '<h2 class="text-center mt-2 mb-2">Bag is empty</h2><div class="pt-1 pb-2"><h6 class="mb-0 text-center"><a href="/" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i>Back to foods</a></h6> <h6 class="mb-0 mt-2 text-center"><a href="/orders/" class="text-body">View order&nbsp;<i class="fas fa-long-arrow-alt-right me-2"></i></a></h6></div>'
+            );
+          }
+        },
+      });
+    });
+  });
+</script>
+<!-- End code to place order -->
 {% endblock content %}

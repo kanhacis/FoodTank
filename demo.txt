@@ -80,18 +80,14 @@ Time sheet filled : Yes
 
 Work Done Today:-
     1. Django
-        - Create a order page.
-        - Working with place order logic.
-        - Add sweetify alert messages.
-        - Start learning AJAX
-        
-    2. PHP
-        - Working on todo app.
-        - All tasks are done.
+        - Learn the AJAX
+        - Implement AJAX 
+            - Contact page
+            - Signup / Signin page
+            - Add to bag page
+            - ect..
 
 Day Start Time: 12:05
-Day End Time:  9:00
+Day End Time:  9:05
 
-Completed all tasks.
-
-Working with place order logic & also start learning AJAX.
+Learn and Implement AJAX.

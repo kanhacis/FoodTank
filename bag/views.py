@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from menu.models import Menu
 from .models import Bag, BagItem
 from user.models import User, Address
-import sweetify
 from django.http import JsonResponse
 
 
@@ -27,43 +26,47 @@ def addToBag(request, id):
 
     # Return a JSON response indicating success
     return JsonResponse({'status':'itemAdded'})
- 
 
 # Rendering view bag page where user can see their food bag.
 def viewBag(request):
-    # Check if the user is authenticated, if not, redirect them to the login page
-    if not request.user.is_authenticated or not request.user.user_type=="Customer":
+    if not request.user.is_authenticated or not request.user.user_type == "Customer":
         return redirect("/login/")
     
-    # Get user address
     address = Address.objects.filter(user=request.user)
 
-    # Get data from user bag
     userBag = Bag.objects.get(user=request.user)
-
-    # Filter our data from the bag item
     bagItems = BagItem.objects.filter(bag=userBag)
 
-    sum = 0 
-    count = 0 
-    
-    if request.method == "POST":
-        for data in bagItems:
-            data.quantity = request.POST.get(f"{data.id}")
-            data.save()
+    if request.method == "GET" and 'id' in request.GET:
+        item_id = request.GET.get('id')
+        foodId = item_id
+        try:
+            bag_item = BagItem.objects.get(id=item_id)
+            new_quantity = int(request.GET.get('quantity', 0))
 
-    for i in bagItems: 
-        qunt = int(i.quantity)
-        price = int(i.item.price)
-        sum += qunt * price
+            if new_quantity >= 1:
+                bag_item.quantity = new_quantity
+                bag_item.save()
+                price = bag_item.item.price * bag_item.quantity
+                return JsonResponse({'status': 'Increase', 'price':price})
+        except BagItem.DoesNotExist:
+            pass    
+
+    total = 0
+    count = 0 
+    for item in bagItems: 
+        item_quantity = int(item.quantity)
+        item_price = int(item.item.price)
+        total += item_quantity * item_price
         count += 1
         
     context = { 
-        'address' : address,
-        'bagItems' : bagItems, 
-        'total' : sum, 
-        'count' : count
+        'address': address,
+        'bagItems': bagItems, 
+        'total': total, 
+        'count': count,
     } 
+        
     return render(request, "bag/basket.html", context) 
 
 # Write logic to deleting an foodItem which exist in my bag.
@@ -73,7 +76,20 @@ def deleteItem(request, id):
         return redirect("/login/")
     
     bagItem = BagItem.objects.get(id=id)
-    bagItem.delete()
-    return JsonResponse({'status':'itemDeleted'})
+    price = bagItem.item.price * bagItem.quantity
 
-    # return redirect('/bag/view_bag/')
+    # Calculating total price for current bag items
+    userBag = Bag.objects.get(user=request.user)
+    bagItems = BagItem.objects.filter(bag=userBag)
+    
+    totalPrice = 0
+
+    for item in bagItems: 
+        item_quantity = int(item.quantity)
+        item_price = int(item.item.price)
+        totalPrice += item_quantity * item_price
+
+    finalPrice = totalPrice - price
+    
+    bagItem.delete()
+    return JsonResponse({'status':'itemDeleted', 'finalPrice':finalPrice})
