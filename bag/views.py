@@ -20,12 +20,14 @@ def addToBag(request, id):
     # Check if the item is already in the bag
     bagItem, created = BagItem.objects.get_or_create(bag=userBag, item=menuItem)
 
-    if not created:
-        bagItem.quantity += 1
-        bagItem.save()
-
+    if(bagItem.quantity == 0):
+        if not created:
+            bagItem.quantity += 1
+            bagItem.save() 
+            return JsonResponse({'status':'itemAdded'})
+    
     # Return a JSON response indicating success
-    return JsonResponse({'status':'itemAdded'})
+    return JsonResponse({'status':'itemAddedNot'})
 
 # Rendering view bag page where user can see their food bag.
 def viewBag(request):
@@ -39,26 +41,36 @@ def viewBag(request):
 
     if request.method == "GET" and 'id' in request.GET:
         item_id = request.GET.get('id')
-        foodId = item_id
         try:
-            bag_item = BagItem.objects.get(id=item_id)
+            itemId = BagItem.objects.get(id=item_id)
             new_quantity = int(request.GET.get('quantity', 0))
 
             if new_quantity >= 1:
-                bag_item.quantity = new_quantity
-                bag_item.save()
-                price = bag_item.item.price * bag_item.quantity
-                return JsonResponse({'status': 'Increase', 'price':price})
-        except BagItem.DoesNotExist:
-            pass    
+                itemId.quantity = new_quantity
+                itemId.save()
+                price = itemId.item.price * itemId.quantity
 
-    total = 0
+                # try start
+                count = 0
+                total = 0 
+                for item in bagItems: 
+                    item_quantity = int(item.quantity) 
+                    item_price = int(item.item.price) 
+                    total += item_quantity * item_price 
+                    count += 1
+                # try end
+                
+                return JsonResponse({'status': 'Increase', 'price':price, 'Final':total})
+        except BagItem.DoesNotExist:
+            pass
+
+    total = 0 
     count = 0 
     for item in bagItems: 
-        item_quantity = int(item.quantity)
-        item_price = int(item.item.price)
-        total += item_quantity * item_price
-        count += 1
+        item_quantity = int(item.quantity) 
+        item_price = int(item.item.price) 
+        total += item_quantity * item_price 
+        count += 1 
         
     context = { 
         'address': address,
@@ -66,6 +78,8 @@ def viewBag(request):
         'total': total, 
         'count': count,
     } 
+
+    print(total)
         
     return render(request, "bag/basket.html", context) 
 
@@ -92,4 +106,11 @@ def deleteItem(request, id):
     finalPrice = totalPrice - price
     
     bagItem.delete()
-    return JsonResponse({'status':'itemDeleted', 'finalPrice':finalPrice})
+
+    # try start
+    count = 0
+    for item in bagItems: 
+        count += 1
+    print(count)
+    # try end
+    return JsonResponse({'status':'itemDeleted', 'finalPrice':finalPrice, 'totalItem':count})

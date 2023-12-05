@@ -1,32 +1,3 @@
-// Code start for add to bag
-$(".addToBag").click(function (event) {
-    event.preventDefault(); // Prevent the default action of the link
-
-    // let id = $(".addToBag").attr("data-menu-id");
-
-    let id = $(this).attr("data-menu-id");
-    let myData = { id: id };
-    console.log(myData);
-
-    $.ajax({
-        url: '/bag/add-to-bag/' + id,
-        data: myData,
-
-        success: function (data) {
-
-            if (data.status) {
-                // alert('Item added successfully!');
-                Swal.fire({ icon: 'success', text: 'Item added!' })
-            }
-            else {
-                alert('Error: ' + response.error);
-            }
-        }
-    });
-});
-// Code end for add to bag
-
-
 // Code start for contact page
 $(document).ready(function () {
     $("#sendMsg").click(function (event) {

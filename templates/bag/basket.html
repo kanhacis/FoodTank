@@ -49,7 +49,7 @@
                     </thead>
                     <tbody>
                       {% for item in bagItems %}
-                      <tr class="deleteRow" id="deleteRow">
+                      <tr class="deleteRow">
                         <th scope="row">
                           <img
                             src="{{item.item.img1.url}}"
@@ -75,7 +75,7 @@
                         </td>
 
                         <td>₹{{ item.item.price | stringformat:'d' }}</td>
-                        <td class="newPrice">
+                        <td class="newPrice" totalItemPrice="{{item.item.id}}">
                           ₹{% widthratio item.item.price 1 item.quantity %}
                         </td>
                         <td>
@@ -151,7 +151,7 @@
                   <hr class="my-4" />
 
                   <div class="d-flex justify-content-between mb-4">
-                    <h5 class="text-uppercase">items {{count}}</h5>
+                    <h5 class="text-uppercase" id="itemCount">items {{count}}</h5>
                     <h5 class="totalPrice">₹{{total}}</h5>
                   </div>
 
@@ -198,14 +198,17 @@
       data: myData,
       success: function (data) {
         if (data.status === "itemDeleted") {
-          // Remove the parent row
+          // Remove the complete row
           $(this).closest(".deleteRow").remove();
           Swal.fire({ icon: "success", text: "Item deleted!" });
 
           // Update the total price in the HTML
           $(".totalPrice").text("₹" + data.finalPrice);
-        }
-      }.bind(this),
+          
+          // Get count from the view & update in basket
+          $("#itemCount").text("items " + String(parseInt(data.totalItem, 10)-1));
+        } 
+      }.bind(this)
     });
   });
 </script>
@@ -220,29 +223,28 @@
     let currentQuantity = parseInt(quantityElement.val(), 10); // Get the current quantity as a number
 
     let id = $(this).attr("data-food-item");
-    console.log(id, currentQuantity); //
+    console.log(id, currentQuantity);
 
     if (currentQuantity < 1) {
-      // If the current quantity is less than 1, handle it accordingly
-      console.log("Quantity is less than 1");
-      return;
+        console.log("Quantity is less than 1");
+        return;
     }
 
-    $.ajax({
-      url: "/bag/view_bag/",
-      data: { id: id, quantity: currentQuantity },
-      success: function (data) {
-        console.log("Quantity updated for item ID: " + id);
-        console.log(data.price);
+    let row = quantityElement.closest('tr'); // Find the closest <tr> element (row)
+    let newPriceElement = row.find('.newPrice'); // Find the corresponding .newPrice element within the row
 
-        // Update the total price in the HTML
-        $(".newPrice").text("₹" + data.price);
-      },
-      error: function () {
-        console.error("Error while updating quantity for item ID: " + id);
-      },
-    });
-  });
+    $.ajax({
+        url: "/bag/view_bag/",
+        data: { id: id, quantity: currentQuantity},
+        success: function (data) {
+            let finalP = parseInt(data.price, 10);
+            newPriceElement.text("₹" + finalP);
+
+            $(".totalPrice").text("₹" + data.Final);
+        } 
+    }); 
+}); 
+
 </script>
 <!-- End code to increase item quantity -->
 
