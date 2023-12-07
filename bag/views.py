@@ -9,7 +9,7 @@ from django.http import JsonResponse
 def addToBag(request, id):
     # Check if the user is authenticated, if not, return a JSON response indicating the need for login
     if not request.user.is_authenticated or not request.user.user_type == "Customer":
-        return JsonResponse({'error': 'Authentication required'})
+        return redirect('/login/')
 
     # Get the menu item
     menuItem = Menu.objects.get(id=id)
@@ -20,14 +20,16 @@ def addToBag(request, id):
     # Check if the item is already in the bag
     bagItem, created = BagItem.objects.get_or_create(bag=userBag, item=menuItem)
 
-    if(bagItem.quantity == 0):
-        if not created:
-            bagItem.quantity += 1
-            bagItem.save() 
-            return JsonResponse({'status':'itemAdded'})
-    
-    # Return a JSON response indicating success
-    return JsonResponse({'status':'itemAddedNot'})
+    if created or bagItem.quantity == 0:
+        # If the bag item is newly created or the quantity is zero, set the quantity to 1
+        bagItem.quantity = 1
+    else:
+        # Send response (item already existing)
+        return JsonResponse({'status':'itemAddedAlready'})
+
+    bagItem.save()
+
+    return JsonResponse({'status': 'itemAdded'})
 
 # Rendering view bag page where user can see their food bag.
 def viewBag(request):
@@ -51,13 +53,11 @@ def viewBag(request):
                 price = itemId.item.price * itemId.quantity
 
                 # try start
-                count = 0
                 total = 0 
                 for item in bagItems: 
                     item_quantity = int(item.quantity) 
                     item_price = int(item.item.price) 
                     total += item_quantity * item_price 
-                    count += 1
                 # try end
                 
                 return JsonResponse({'status': 'Increase', 'price':price, 'Final':total})
@@ -71,15 +71,13 @@ def viewBag(request):
         item_price = int(item.item.price) 
         total += item_quantity * item_price 
         count += 1 
-        
+
     context = { 
         'address': address,
         'bagItems': bagItems, 
         'total': total, 
         'count': count,
     } 
-
-    print(total)
         
     return render(request, "bag/basket.html", context) 
 

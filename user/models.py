@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-
 USER_TYPE = (
     ('Customer', 'Customer'),
     ('Foodprovider', 'Foodprovider'),
@@ -11,6 +10,7 @@ USER_TYPE = (
 class User(AbstractUser):
     mobile = models.CharField(max_length=255, unique=True)
     user_type = models.CharField(max_length=255, choices=USER_TYPE)
+        
 
 # Address Model
 class Address(models.Model):

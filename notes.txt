@@ -80,14 +80,16 @@ Time sheet filled : Yes
 
 Work Done Today:-
     1. Django
-        - Implement AJAX 
-            - My basket page
-
-    2. PHP
-        - Complete the php task.
+        - Write order placed logic
+        - Create order info page
+        - Use AJAX in profile update
+        - Done some task in admin dashboard.
+        - Learn some DOM Traversal in jQuery
 
 Day Start Time: 12:05
-Day End Time:  9:05
+Day End Time:  8:15 
+
+
 
 
 

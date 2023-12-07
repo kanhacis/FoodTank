@@ -40,12 +40,12 @@
                     <!-- First & Last name start -->
                     <div class="row">
                         <div class="form-floating mb-3 col-md-6">
-                            <input type="text" class="form-control" name="fname" id="firstname" value="{{user_profile.first_name}}" placeholder="firstname">
+                            <input type="text" class="form-control" name="fname" id="fname" value="{{user_profile.first_name}}" placeholder="firstname">
                             <label for="firstname" class="mx-2">First Name</label>
                         </div>
 
                         <div class="form-floating mb-3 col-md-6">
-                            <input type="text" class="form-control" name="lname" id="lastname" value="{{user_profile.last_name}}" placeholder="lastname">
+                            <input type="text" class="form-control" name="lname" id="lname" value="{{user_profile.last_name}}" placeholder="lastname">
                             <label for="lastname" class="mx-2">Last Name</label>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                         </div>
 
                         <div class="form-floating mb-3 col-md-3">
-                            <input type="number" class="form-control" name="zipcode" id="zip" value="{{user_address.zipcode}}" placeholder="Zip Code">
+                            <input type="number" class="form-control" name="zipcode" id="zipcode" value="{{user_address.zipcode}}" placeholder="Zip Code">
                             <label for="zip" class="mx-2">Zip Code</label>
                         </div>
                         
@@ -101,17 +101,7 @@
                     </div>
                     <!-- Mobile end -->
 
-                    <!-- Messages Start -->
-                    {% if messages %}
-                    <ul class="messages list-unstyled">
-                        {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }} text-success" {% endif %} id="message">{{ message }}</li>
-                            {% endfor %}
-                    </ul>
-                    {% endif %}
-                    <!-- Messages End -->
-
-                    <button type="submit" class="btn btn-primary">Update Information</button>
+                    <button type="submit" class="btn btn-primary" id="updateProfile">Update Information</button>
                 </div>
             </div>
         </div>

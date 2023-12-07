@@ -3,7 +3,10 @@ from .models import Restaurant, Notification
 from django.contrib import messages
 from user.models import User, Address
 from menu.models import Menu
+from order.models import Order
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.http import JsonResponse
+from datetime import date
 
 
 # Rendering admin signup page.
@@ -28,14 +31,39 @@ def adminDashboard(request):
     # Retrieve the restaurant data associated with the admin user
     restaurant_data = Restaurant.objects.filter(user=restaurant_admin)
 
+    # Get all orders from the current user restaurant
+    userRestaurant = Restaurant.objects.filter(user=request.user)
+    myOrders = Order.objects.filter(restaurant__in=userRestaurant)
+
+    # Calculating total amount
+    totalAmount = 0
+    for i in myOrders:
+        if i.total_bill != None:
+            totalAmount += i.total_bill
+
+    # Calculating today amount
+    todayAmount = 0
+    today = date.today()
+    for i in myOrders:
+        if i.total_bill != None:
+            if str(i.order_date)[0:10] == str(today):
+                todayAmount += i.total_bill
+    
     # Create a context dictionary with the restaurant data to pass to the template
     context = {
-        'my_restaurant' : restaurant_data
+        'my_restaurant' : restaurant_data,
+        'myOrders' : myOrders,
+        'totalAmount' : totalAmount,
+        'todayAmount' : todayAmount
     }
 
     # Render the restaurant dashboard template with the context data
     # return render(request, 'foodprovider/restaurant_dashboard.html', context)
     return render(request, 'restaurant_admin/index.html', context)
+
+
+# Function to add today's task 
+
 
 
 # Rendering restaurant page & showing all restaurants to users.
@@ -95,11 +123,13 @@ def addRestaurant(request):
 
         user_obj = User.objects.get(username=uname)
 
-        restaurant = Restaurant.objects.create(user=user_obj, name=rname, city=rcity, 
-                                address=raddress, mobile=rmobile, veg_or_nonveg=rtype, no_of_chefs=nchefs,
-                                start_date=rdate, img1=rimg1, img2=rimg2, img3=rimg3, img4=rimg4, desc=desc)
-        restaurant.save()
-        message = messages.success(request, 'Restaurant created successfully!')
+        # restaurant = Restaurant.objects.create(user=user_obj, name=rname, city=rcity, 
+        #                         address=raddress, mobile=rmobile, veg_or_nonveg=rtype, no_of_chefs=nchefs,
+        #                         start_date=rdate, img1=rimg1, img2=rimg2, img3=rimg3, img4=rimg4, desc=desc)
+        # restaurant.save()
+        # message = messages.success(request, 'Restaurant created successfully!')
+        return JsonResponse({"status":"restaurantAdded"})
+        
 
     # return render(request, 'foodprovider/add_restaurant.html')
     return render(request, 'restaurant_admin/addRestaurant.html')

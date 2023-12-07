@@ -87,7 +87,7 @@
                             <!-- User type start -->
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <select name="utype" id="pet-select" class="form-control bg-white" required>
+                                    <select name="utype" id="utype" class="form-control bg-white" required>
                                         <option value="{{user_profile.user_type}}">{{user_profile.user_type}}</option>
                                         <option value="Customer">Customer</option>
                                         <option value="Foodprovider">Foodprovider</option>
@@ -160,20 +160,8 @@
                             </div>
                             <!-- Category end -->
 
-                            <!-- Messages Start -->
-                            {% if messages %}
-                            <ul class="messages list-unstyled">
-                                {% for message in messages %}
-                                    <li {% if message.tags %} class="{{ message.tags }} text-success" {% endif %}>
-                                        {{ message}}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                            {% endif %}
-                            <!-- Messages End -->
-
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Update</button>
+                                <button class="btn btn-primary w-100 py-3" type="submit" id="updateProfile">Update</button>
                             </div>
                         </div>
                     </form>

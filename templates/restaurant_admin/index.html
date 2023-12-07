@@ -32,7 +32,7 @@
                         <i class="fa fa-chart-line fa-3x text-primary"></i>
                         <div class="ms-3">
                             <p class="mb-2">Today Sale</p>
-                            <h6 class="mb-0">$1234</h6>
+                            <h6 class="mb-0">₹{{todayAmount}}</h6>
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         <i class="fa fa-chart-bar fa-3x text-primary"></i>
                         <div class="ms-3">
                             <p class="mb-2">Total Sale</p>
-                            <h6 class="mb-0">$1234</h6>
+                            <h6 class="mb-0">₹{{totalAmount}}</h6>
                         </div>
                     </div>
                 </div>
@@ -107,9 +107,8 @@
                     <table class="table text-start align-middle table-bordered table-hover mb-0">
                         <thead>
                             <tr class="text-white">
-                                <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                                <th scope="col">Id</th>
                                 <th scope="col">Date</th>
-                                <th scope="col">Invoice</th>
                                 <th scope="col">Customer</th>
                                 <th scope="col">Amount</th>
                                 <th scope="col">Status</th>
@@ -117,51 +116,16 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for data in myOrders %}
                             <tr>
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>01 Jan 2045</td>
-                                <td>INV-0123</td>
-                                <td>Jhon Doe</td>
-                                <td>$123</td>
-                                <td>Paid</td>
+                                <td>{{data.order_id}}</td>
+                                <td>{{ data.order_date|date:"M d, Y" }}</td>
+                                <td>{{data.user.username}}</td>
+                                <td>₹{{data.total_bill}}</td>
+                                <td>{{data.is_confirmed}}</td>
                                 <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
                             </tr>
-                            <tr>
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>01 Jan 2045</td>
-                                <td>INV-0123</td>
-                                <td>Jhon Doe</td>
-                                <td>$123</td>
-                                <td>Paid</td>
-                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>01 Jan 2045</td>
-                                <td>INV-0123</td>
-                                <td>Jhon Doe</td>
-                                <td>$123</td>
-                                <td>Paid</td>
-                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>01 Jan 2045</td>
-                                <td>INV-0123</td>
-                                <td>Jhon Doe</td>
-                                <td>$123</td>
-                                <td>Paid</td>
-                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td><input class="form-check-input" type="checkbox"></td>
-                                <td>01 Jan 2045</td>
-                                <td>INV-0123</td>
-                                <td>Jhon Doe</td>
-                                <td>$123</td>
-                                <td>Paid</td>
-                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>

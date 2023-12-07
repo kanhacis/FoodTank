@@ -27,13 +27,13 @@
 
                         <!-- Username start -->
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="name" id="username" placeholder="shivohum">
+                            <input type="text" class="form-control" name="name" id="uname" placeholder="shivohum">
                             <label for="username">Username</label>
                         </div>
 
                         <!-- Password start -->
                         <div class="form-floating mb-4">
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                            <input type="password" class="form-control" name="password" id="pwd" placeholder="Password">
                             <label for="password">Password</label>
                         </div>
 
@@ -42,8 +42,9 @@
                             <a href="#">Forgot Password</a>
                         </div> -->
 
-                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Sign In</button>
-                        <p class="text-center mb-0">Don't have an Account? <a href="/foodprovider/adminSignup/">Sign Up</a></p>
+                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4" id="adminSignin">Sign In</button>
+                        <p class="text-start mb-0">Don't have an Account? <a href="/foodprovider/adminSignup/">Sign Up</a></p>
+                        <p class="text-start mb-0">Don't have an Account? <a href="/foodprovider/dashboard/">Dashboard</a></p>
                     </form>
                 </div>
             </div>
@@ -52,4 +53,45 @@
     <!-- Sign In End -->
 </div>
 
+
+<script>
+    // Code start for signin page
+$(document).ready(function () {
+    $("#adminSignin").click(function (event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        let uname = $("#uname").val();
+        let pwd = $("#pwd").val();
+        let csr = $("input[name=csrfmiddlewaretoken]").val();
+
+        console.log(uname, pwd, csr);
+        
+        let myData = { uname:uname, pwd:pwd, csrfmiddlewaretoken: csr };
+
+        if(!uname){
+            Swal.fire({icon:"warning", text:"Please enter username!"})
+        }
+        else if(!pwd){
+            Swal.fire({icon:"warning", text:"Please enter password!"})
+        }
+        else{
+            $.ajax({
+                url: '/login/',
+                method: 'POST',
+                data: myData,
+                success: function (data) {
+                    if (data.status === "signIn") {
+                        Swal.fire({icon: 'success', text: 'Signin successfully' });
+                        $("form")[0].reset();
+                    }
+    
+                    else if(data.status === "invalidUser"){
+                        Swal.fire({icon: "warning", text: "Invalid username or password. Please try again."})
+                    }
+                }
+            });
+        }
+    });
+});
+// Code end for signin page
+</script>
 {% endblock content %}

@@ -13,7 +13,7 @@
 
     <div class="container-xxl py-5 bg-dark hero-header mb-5">
         <div class="container text-center my-5 pt-5 pb-4">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">My Orders</h1>
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Orders Details</h1>
         </div>
     </div>
 </div>
@@ -29,8 +29,8 @@
                             <div class="col-lg-9">
                                 <div class="mx-5 mt-5">
                                     <div class="mb-5">
-                                        <h1 class="fw-bold mb-0 text-black">My Orders</h1>
-                                        <p class="fs-5 my-2">Your orders in one place</p>
+                                        <h1 class="fw-bold mb-0 text-black">My Orders Information</h1>
+                                        <p class="fs-5 my-2">View your orders informations</p>
                                         <p class="fs-6">If you have any questions, please feel free to <a href="/contact/">contact us</a>, our customer service center is working for you 24/7.</p>
                                     </div>
                                     
@@ -38,23 +38,25 @@
                                         <hr style="color:black; height: 2px;">
                                         <thead>
                                           <tr>
-                                            <th scope="col">Order Id</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Total</th>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Quantity</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">From</th>
                                             <th scope="col">Status</th>
-                                            <th scope="col">Action</th>
                                           </tr>
                                         </thead>
+
                                         <tbody>
-                                          {% for data in userOrders %}
+                                          {% for data in myOrders %}
                                             <tr>
-                                                <th scope="row">{{data.order_id}}</th>
-                                                <td>{{ data.order_date|date:"M d, Y" }}</td>
-                                                <td>{{data.total_bill}}</td>
+                                                <th scope="row">{{data.item_id}}</th>
+                                                <td scope="row">{{data.item.name}}</td>
+                                                <td scope="row">{{data.item.quantity}}</td>
+                                                <td scope="row">{{data.item.price}}</td>
+                                                <td scope="row">{{data.order.restaurant}}</td>
+                                                <td scope="row">{{data.order.is_confirmed}}</td>
                                                 <td>{{data.is_confirmed}}</td>
-                                                <td>
-                                                    <a href="/orderInfo/{{data.order_id}}" class="btn btn-primary btn-sm">View</a>
-                                                </td>
                                             </tr>
                                           {% endfor %}
                                         </tbody>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Restaurant, Cuisine, Notification
+from .models import Restaurant, Cuisine, Notification, Todo
 
 
 # Register Restaurant model
@@ -16,3 +16,8 @@ class CuisineAdmin(admin.ModelAdmin):
 @admin.register(Notification)
 class NotificationAdmin(admin.ModelAdmin):
     list_display = ['sender', 'message', 'timestamp', 'is_read']
+
+# Register Todo model
+@admin.register(Todo)
+class TodoAdmin(admin.ModelAdmin):
+    list_display = ['done', 'note']

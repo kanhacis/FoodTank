@@ -66,7 +66,7 @@
                                     <!-- Restaurant city & mobile start -->
                                     <div class="row">
                                         <div class="form-floating mb-3 col-xl-6">
-                                            <input type="text" class="form-control" name="rcity" id="city"
+                                            <input type="text" class="form-control" name="rcity" id="rcity"
                                                 placeholder="Restaurant city" required>
                                             <label for="city" class="mx-2">Restaurant city</label>
                                         </div>
@@ -81,7 +81,7 @@
                                     <!-- Restaurant address & chefs start -->
                                     <div class="row">
                                         <div class="form-floating mb-3 col-xl-6">
-                                            <input type="text" class="form-control" name="raddress" id="address"
+                                            <input type="text" class="form-control" name="raddress" id="raddress"
                                                 placeholder="Restaurant address" required>
                                             <label for="address" class="mx-2">Restaurant address</label>
                                         </div>
@@ -128,26 +128,26 @@
                                 <div class="bg-secondary rounded h-100 p-4">
                                     <!-- Imgage 1 -->
                                     <div class="mb-3">
-                                        <label for="img1" class="form-label">Image 1</label>
-                                        <input type="file" class="form-control bg-dark" name="rimg1" id="img1" required>
+                                        <label for="rimg1" class="form-label">Image 1</label>
+                                        <input type="file" class="form-control bg-dark" name="rr" id="rimg1" required>
                                     </div>
 
                                     <!-- Image 2 -->
                                     <div class="mb-3">
-                                        <label for="img2" class="form-label">Image 2</label>
-                                        <input type="file" class="form-control bg-dark" name="rimg2" id="img2" required>
+                                        <label for="rimg2" class="form-label">Image 2</label>
+                                        <input type="file" class="form-control bg-dark" name="rimg2" id="rimg2" required>
                                     </div>
 
                                     <!-- Image 3 -->
                                     <div class="mb-3">
-                                        <label for="img3" class="form-label">Image 3</label>
-                                        <input type="file" class="form-control bg-dark" name="rimg3" id="img3" required>
+                                        <label for="rimg3" class="form-label">Image 3</label>
+                                        <input type="file" class="form-control bg-dark" name="rimg3" id="rimg3" required>
                                     </div>
 
                                     <!-- Image 4 -->
                                     <div class="mb-3">
-                                        <label for="img4" class="form-label">Image 4</label>
-                                        <input type="file" class="form-control bg-dark" name="rimg4" id="img4" required>
+                                        <label for="rimg4" class="form-label">Image 4</label>
+                                        <input type="file" class="form-control bg-dark" name="rimg4" id="rimg4" required>
                                     </div>
 
                                     <!-- Messages Start -->
@@ -166,7 +166,7 @@
 
                         <!-- Create restaurant button start -->
                         <div style="padding-left: 23px;">
-                            <button type="submit" class="btn btn-primary py-3 mb-4">Create restaurant</button>
+                            <button type="submit" class="btn btn-primary py-3 mb-4" id="addRestaurant">Create restaurant</button>
                         </div>
                         <!-- Create restaurant button end -->
                     </form>
@@ -185,5 +185,51 @@
             $('#addrestaurant').addClass('active');
         });
     })
+</script>
+
+<script>
+    // Code start for restaurant add
+$("#addRestaurant").click(function (event) { 
+    event.preventDefault();
+
+    let uname = $("#username").val();
+    let rname = $("#rname").val();
+    let rcity = $("#rcity").val();
+    let rmobile = $("#rmobile").val();
+    let raddress = $("#raddress").val();
+    let nchefs = $("#nchefs").val();
+    let rtype = $("#rtype").val();
+    let rdate = $("#rdate").val();
+    let desc = $("#desc").val();
+    let rimg1 = $("#rimg1").val();
+    let rimg2 = $("#rimg2").val();
+    let rimg3 = $("#rimg3").val();
+    let rimg4 = $("#rimg4").val();
+    let csr = $("input[name=csrfmiddlewaretoken]").val();
+
+    let myData = {uname:uname, rname:rname, rcity:rcity, rmobile:rmobile, raddress:raddress,
+                                nchefs:nchefs, rtype:rtype, rdate:rdate, desc:desc, rimg1:rimg1,
+                                rimg2:rimg2, rimg3:rimg3, rimg4:rimg4, csrfmiddlewaretoken: csr}
+
+    if((!rname) && (!rname) && (!rcity) && (!rmobile) && (!raddress) && (!nchefs)){
+        Swal.fire({icon:"warning", text:"All fields are required!"});
+    }
+    else if((!rimg1) && (!rimg2) && (!rimg3) && (!rimg4)){
+        Swal.fire({icon:"warning", text:"All fields are required!"});
+    }
+    else{
+        $.ajax({
+            url: "/foodprovider/addRestaurant/",
+            method: "POST", 
+            data: myData, 
+            success:function (data) { 
+                if(data.status){
+                    Swal.fire({icon:"success", text:"Restaurant created successfuly!"});
+                }
+             }
+        })
+    }
+ })
+// Code end for restaurant add
 </script>
 {% endblock content %}

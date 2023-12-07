@@ -93,28 +93,28 @@ $(document).ready(function () {
         let uname = $("#uname").val();
         let pwd = $("#pwd").val();
         let csr = $("input[name=csrfmiddlewaretoken]").val();
-        
-        let myData = { uname:uname, pwd:pwd, csrfmiddlewaretoken: csr };
 
-        if(!uname){
-            Swal.fire({icon:"warning", text:"Please enter username!"})
+        let myData = { uname: uname, pwd: pwd, csrfmiddlewaretoken: csr };
+
+        if (!uname) {
+            Swal.fire({ icon: "warning", text: "Please enter username!" })
         }
-        else if(!pwd){
-            Swal.fire({icon:"warning", text:"Please enter password!"})
+        else if (!pwd) {
+            Swal.fire({ icon: "warning", text: "Please enter password!" })
         }
-        else{
+        else {
             $.ajax({
                 url: '/login/',
                 method: 'POST',
                 data: myData,
                 success: function (data) {
                     if (data.status === "signIn") {
-                        Swal.fire({icon: 'success', text: 'Signin successfully' });
+                        Swal.fire({ icon: 'success', text: 'Signin successfully' });
                         $("form")[0].reset();
                     }
-    
-                    else if(data.status === "invalidUser"){
-                        Swal.fire({icon: "warning", text: "Invalid username or password. Please try again."})
+
+                    else if (data.status === "invalidUser") {
+                        Swal.fire({ icon: "warning", text: "Invalid username or password. Please try again." })
                     }
                 }
             });
@@ -123,3 +123,43 @@ $(document).ready(function () {
 });
 // Code end for signin page
 
+
+// Code start for profile update
+$("#updateProfile").click(function (event) {
+    event.preventDefault();
+
+    let uname = $("#uname").val();
+    let email = $("#email").val();
+    let fname = $("#fname").val();
+    let lname = $("#lname").val();
+    let mobile = $("#mobile").val();
+    let utype = $("#utype").val();
+    let state = $("#state").val();
+    let city = $("#city").val();
+    let area = $("#area").val();
+    let zipcode = $("#zipcode").val();
+    let house = $("#house").val();
+    let category = $("#category").val();
+    let csr = $("input[name=csrfmiddlewaretoken]").val();
+
+    let myData = {
+        uname: uname, email: email, fname: fname, lname: lname, mobile: mobile,
+        utype: utype, state: state, city: city, area: area, zipcode: zipcode,
+        house: house, category: category, csrfmiddlewaretoken: csr
+    }
+
+    $.ajax({
+        url: "/profile/",
+        method: "POST",
+        data: myData,
+        success: function (data) {
+            if (data.status) {
+                Swal.fire({ icon: "success", text: "Profile update successfuly!" })
+            }
+            else {
+                Swal.fire({ icon: "error", text: "Something went wrong try again!" })
+            }
+        }
+    })
+})
+// Code end for profile update

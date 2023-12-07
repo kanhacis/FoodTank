@@ -5,11 +5,9 @@ from restaurant.models import Restaurant
 from menu.models import Menu, Review
 from django.contrib.auth import authenticate, login, logout 
 from django.contrib.auth.decorators import login_required 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
 from django.db.models import Avg
 import sweetify
 from order.models import Order, OrderItem
-from bag.models import Bag, BagItem
 from django.http import JsonResponse
 
 
@@ -84,6 +82,8 @@ def profile(request):
     address, created = Address.objects.get_or_create(user=user)
 
     if request.method == "POST":
+        print(request.POST.get('email', ''))
+
         user.first_name = request.POST.get('fname', '')
         user.last_name = request.POST.get('lname', '')
         user.email = request.POST.get('email', '')
@@ -93,13 +93,12 @@ def profile(request):
         address.city = request.POST.get('city', '')
         address.area = request.POST.get('area', '')
         address.zipcode = request.POST.get('zipcode', '')
-        address.house_no = request.POST.get('house', -1)
+        address.house_no = request.POST.get('house', '1')
         address.category = request.POST.get('category', '')
 
         address.save()
         user.save()
-
-        sweetify.success(request, "Your profile is updated.")
+        return JsonResponse({'status':'profileUpdate'})
 
     context = {
         'user_profile' : user,
@@ -161,6 +160,8 @@ def signIn(request):
 
         user = authenticate(request, username=uname, password=pwd)
 
+        print("Admin", user)
+
         if user is not None:
             if user.user_type == "Customer":
                 login(request, user)
@@ -168,7 +169,8 @@ def signIn(request):
                 
             elif user.user_type == "Foodprovider":
                 login(request, user)
-                return redirect('/foodprovider/dashboard/')
+                return JsonResponse({'status':'signIn'})
+                # return redirect('/foodprovider/dashboard/')
                 
             elif user.user_type == "Driver":
                 login(request, user)
@@ -178,7 +180,7 @@ def signIn(request):
 
     return render(request, 'account/login.html')
 
-# Rendering order page & showing my order history
+# Rendering orders page & showing my order history
 @login_required(login_url='/login/')
 def orders(request):
     # Only valid customer can access this page
@@ -192,6 +194,16 @@ def orders(request):
     }
 
     return render(request, 'account/orders.html', context)
+
+# Rendering orderInfo page & showing information of individual order.
+def orderInfo(request, id):
+
+    myOrders = OrderItem.objects.filter(order__order_id=id)
+    
+    context = {
+        'myOrders' : myOrders
+    }
+    return render(request, 'account/orderInfo.html', context)
 
 # Function to logout user 
 @login_required(login_url='/login/') 
