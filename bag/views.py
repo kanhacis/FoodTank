@@ -109,6 +109,5 @@ def deleteItem(request, id):
     count = 0
     for item in bagItems: 
         count += 1
-    print(count)
     # try end
     return JsonResponse({'status':'itemDeleted', 'finalPrice':finalPrice, 'totalItem':count})

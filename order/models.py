@@ -11,6 +11,7 @@ payment_choices = (
     ('UPI', 'UPI'),
 )
 
+
 # Order model
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)

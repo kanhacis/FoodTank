@@ -11,6 +11,7 @@ urlpatterns = [
     path("restaurant_info/<int:id>", views.restaurantInfo, name="restaurant_info"),
 
     path("dashboard/", views.adminDashboard, name="dashboard"),
+    path("todolist/", views.toDoList, name="todolist"),
     path("addRestaurant/", views.addRestaurant, name="addRestaurant"),
     path("editRestaurant/<int:id>", views.editRestaurant, name="editRestaurant"), 
     path("deleteRestaurant/<int:id>", views.deleteRestaurant, name="deleteRestaurant"),

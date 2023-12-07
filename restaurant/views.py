@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Restaurant, Notification
+from .models import Restaurant, Notification, Todo
 from django.contrib import messages
 from user.models import User, Address
 from menu.models import Menu
@@ -63,7 +63,22 @@ def adminDashboard(request):
 
 
 # Function to add today's task 
+def toDoList(request):
+    if request.method == "POST":
+        note = request.POST.get('note', '')
+        
+        data = Todo.objects.create(note=note)
+        data.save()
+        # return JsonResponse({"status":"ok"})
+    
+    # Get all tasks data
+    myTask = Todo.objects.all()
 
+    context = {
+        "myTask": myTask
+    }
+    
+    return render(request, "restaurant_admin/index.html", context)
 
 
 # Rendering restaurant page & showing all restaurants to users.
@@ -186,11 +201,10 @@ def editRestaurant(request, id):
 def deleteRestaurant(request, id):
     # Check if the user is authenticated, if not, redirect them to the login page
     if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
-        return redirect("/login/")
+        return redirect("/login/") 
     
-    restaurant = Restaurant.objects.get(id=id)
-    restaurant.delete()
-    # return redirect('/foodprovider/dashboard/') 
+    restaurant = Restaurant.objects.get(id=id) 
+    restaurant.delete() 
     return redirect('/profile/') 
 
 

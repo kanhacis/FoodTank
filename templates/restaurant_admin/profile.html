@@ -137,7 +137,7 @@
                                                 <td>Verified</td>
                                                 <td>
                                                     <button type="submit" class="btn btn-primary"><a href="/foodprovider/editRestaurant/{{data.id}}" class="text-white">Update</a></button>
-                                                    <button type="submit" class="btn btn-primary"><a href="/foodprovider/deleteRestaurant/{{data.id}}" class="text-white" onclick="return confirm('Are you sure? You are deleting your added restaurant')">Delete</a></button>
+                                                    <button type="submit" class="btn btn-primary"><a href="/foodprovider/deleteRestaurant/{{data.id}}" class="text-white" onclick="return confirm('Are you sure? You are deleting your added restaurant')" id="deleteRestaurant">Delete</a></button>
                                                     <button type="submit" class="btn btn-primary"><a href="/menu/addMenu/" class="text-white">Add menu</a></button>
                                                     <button type="submit" class="btn btn-primary"><a href="/menu/viewMenu/{{data.id}}" class="text-white">View menu</a></button>
                                                 </td>
@@ -152,7 +152,7 @@
                                                 <td>Not Verified</td>
                                                 <td>
                                                     <button type="submit" class="btn btn-primary"><a href="/foodprovider/editRestaurant/{{data.id}}" class="text-white">Update</a></button>
-                                                    <button type="submit" class="btn btn-primary"><a href="/foodprovider/deleteRestaurant/{{data.id}}" class="text-white" onclick="return confirm('Are you sure? You are deleting your added restaurant')">Delete</a></button>
+                                                    <button type="submit" class="btn btn-primary"><a href="/foodprovider/deleteRestaurant/{{data.id}}" class="text-white" data-rest-id="{{data.id}}" onclick="return confirm('Are you sure? You are deleting your added restaurant')">Delete</a></button>
                                                     <button type="submit" class="btn btn-primary" disabled><a href="/menu/addMenu/" class="text-white">Add menu</a></button>
                                                     <button type="submit" class="btn btn-primary" disabled><a href="/menu/viewMenu/{{data.id}}" class="text-white">View menu</a></button>
                                                 </td>
@@ -188,5 +188,27 @@
         });
     });
 
+</script>
+
+<script>
+    $("#deleteRestaurant").click(function (event) { 
+        event.preventDefault();
+        console.log("clicked");
+
+        let id = $(this).attr("data-rest-id")
+        console.log(id);
+        console.log("hello");
+        let myData = {id:id}
+
+        $.ajax({
+            // url: "/profile/" + id,
+            data:myData,
+            success:function(data){
+                if(data.status){
+                    Swap.fire({icon:"success", text:"Restaurant deleted!"})
+                }
+            }
+        })
+     })
 </script>
 {% endblock content %}

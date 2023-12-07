@@ -40,10 +40,9 @@ $(document).ready(function () {
 
 
 // Code start for signup page
-$("#signup").click(function () {
+$("#signup").click(function (event) {
     event.preventDefault(); // Prevent the default form submission behavior
 
-    console.log("Signup clicked");
     let uname = $("#uname").val();
     let email = $("#email").val();
     let mobile = $("#mobile").val();
@@ -52,35 +51,39 @@ $("#signup").click(function () {
     let pwdc = $("#pwdc").val();
     let csr = $("input[name=csrfmiddlewaretoken]").val();
 
+    let myData = { uname: uname, email: email, mobile: mobile, utype: utype, pwd: pwd, pwdc: pwdc, csrfmiddlewaretoken: csr }
+
     if (!uname || !email || !mobile || !utype || !pwd || !pwdc) {
         Swal.fire({ icon: 'warning', text: 'All fields are required.' });
     }
-
-    let myData = { uname: uname, email: email, mobile: mobile, utype: utype, pwd: pwd, pwdc: pwdc, csrfmiddlewaretoken: csr }
-
-    $.ajax({
-        url: '/signup/',
-        method: 'POST',
-        data: myData,
-        success: function (data) {
-            if (data.status === "createAccount") {
-                Swal.fire({ icon: 'success', text: 'Account created successfully' })
+    else if(pwd != pwdc){
+        Swal.fire({icon:"error", text:"Password and confirm password does not match"})
+    }
+    else{
+        $.ajax({
+            url: '/signup/',
+            method: 'POST',
+            data: myData,
+            success: function (data) {
+                if (data.status === "createAccount") {
+                    Swal.fire({ icon: 'success', text: 'Account created successfully' })
+                }
+                else if (data.status === "userExist") {
+                    Swal.fire({ icon: 'warning', text: 'User already exist.' });
+                }
+                else if (data.status === "emailExist") {
+                    Swal.fire({ icon: "warning", text: "Email already exist." })
+                }
+                else if (data.status === "mobileExist") {
+                    Swal.fire({ icon: "warning", text: "Contact no. already exist." })
+                }
+                else if (data.status === "passwordNotMatch") {
+                    Swal.fire({ icon: "warning", text: "Password and confirm password do not match." })
+                }
             }
-            else if (data.status === "userExist") {
-                Swal.fire({ icon: 'warning', text: 'User already exist.' });
-            }
-            else if (data.status === "emailExist") {
-                Swal.fire({ icon: "warning", text: "Email already exist." })
-            }
-            else if (data.status === "mobileExist") {
-                Swal.fire({ icon: "warning", text: "Contact no. already exist." })
-            }
-            else if (data.status === "passwordNotMatch") {
-                Swal.fire({ icon: "warning", text: "Password and confirm password do not match." })
-            }
-        }
-    })
-    $("form")[0].reset();
+        })
+        $("form")[0].reset();
+    }
 })
 // Code end for signup page
 

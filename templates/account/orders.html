@@ -50,7 +50,7 @@
                                             <tr>
                                                 <th scope="row">{{data.order_id}}</th>
                                                 <td>{{ data.order_date|date:"M d, Y" }}</td>
-                                                <td>{{data.total_bill}}</td>
+                                                <td>₹{{data.total_bill}}</td>
                                                 <td>{{data.is_confirmed}}</td>
                                                 <td>
                                                     <a href="/orderInfo/{{data.order_id}}" class="btn btn-primary btn-sm">View</a>

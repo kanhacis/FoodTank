@@ -125,6 +125,8 @@ def signUp(request):
         password1 = request.POST.get('pwd') 
         password2 = request.POST.get('pwdc') 
 
+        print(name, email, mobile, userType, password1)
+
 
         if name and User.objects.filter(username=name).exists():
             return JsonResponse({'status':'userExist'})
@@ -144,7 +146,7 @@ def signUp(request):
                 return JsonResponse({'status':'createAccount'})
             
             elif userType == "Foodprovider":
-                return redirect('/foodprovider/adminSignin/')
+                return JsonResponse({'status':'createAccount'})
 
         else:
             # Error handling for password mismatch
