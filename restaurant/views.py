@@ -245,10 +245,12 @@ def restaurantInfo(request, id):
         restId = Restaurant.objects.get(id=id)
         restIdMenus = Menu.objects.filter(restaurant=restId)
 
+    restaurant = Restaurant.objects.get(id=id)
     context = {
         'price' : price,
         'restId': restId,
-        'restIdMenus': restIdMenus
+        'restIdMenus': restIdMenus,
+        'restaurant':restaurant
     }
 
     return render(request, 'foodprovider/restaurant_info.html', context)

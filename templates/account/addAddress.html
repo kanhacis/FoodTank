@@ -1,0 +1,175 @@
+{% extends '../base.html' %}
+{% block content %}
+{% load static %}
+
+{% load sweetify %}
+{% sweetify %}
+
+<!-- Hero Start -->
+<div class="container-xxl position-relative p-0">
+    <!-- Navbar include start -->
+    {% include 'navbar.html' %}
+    <!-- Navbar include end -->
+
+    <div class="container-xxl py-5 bg-dark hero-header mb-5">
+        <div class="container text-center my-5 pt-5 pb-4">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">My Profile</h1>
+        </div>
+    </div>
+</div>
+<!-- Hero End -->
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Profile</h5>
+            <h1 class="mb-5">Complete your profile</h1>
+        </div>
+        <div class="row g-4">
+
+            <!-- User Address start -->
+            <div class="col-md-6 container">
+                <div class="wow fadeInUp" data-wow-delay="0.2s">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row g-3">
+
+                            <!-- User name start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="name" id="uname"
+                                        placeholder="Your Name" required disabled>
+                                    <label for="uname">Username</label>
+                                </div>
+                            </div>
+                            <!-- User name end -->
+
+                            <!-- Email start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        placeholder="Your Email" required>
+                                    <label for="email">Your Email</label>
+                                </div>
+                            </div>
+                            <!-- Email end -->
+
+                            <!-- First name start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="fname" id="fname"
+                                        placeholder="Your First Name" required>
+                                    <label for="fname">First Name</label>
+                                </div>
+                            </div>
+                            <!-- First name end -->
+
+                            <!-- Last name start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="lname" id="lname"
+                                        placeholder="Your Last Name" required>
+                                    <label for="lname">Last Name</label>
+                                </div>
+                            </div>
+                            <!-- Last name end -->
+
+                            <!-- Mobile start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" name="mobile" id="mobile"
+                                        placeholder="Your mobile no." required>
+                                    <label for="mobile">Your Mobile</label>
+                                </div>
+                            </div>
+                            <!-- Mobile end -->
+
+                            <!-- User type start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select name="utype" id="utype" class="form-control bg-white" required>
+                                        <option value="{{user_profile.user_type}}">{{user_profile.user_type}}</option>
+                                        <option value="Customer">Customer</option>
+                                        <option value="Foodprovider">Foodprovider</option>
+                                        <option value="Delivery">Driver</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- User type end -->
+
+                            <!-- State start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="state" id="state"
+                                        placeholder="Your State" required>
+                                    <label for="state">State</label>
+                                </div>
+                            </div>
+                            <!-- State end -->
+
+                            <!-- City start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="city" id="city"
+                                        placeholder="Your City" required>
+                                    <label for="city">Your City</label>
+                                </div>
+                            </div>
+                            <!-- City end -->
+
+                            <!-- Area start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="area" id="area"
+                                        placeholder="Your Area" required>
+                                    <label for="area">Your Area</label>
+                                </div>
+                            </div>
+                            <!-- Area end -->
+
+                            <!-- Zipcode start -->
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" name="zipcode" id="zipcode"
+                                        placeholder="Your Zipcode" required>
+                                    <label for="zipcode">Your Zipcode</label>
+                                </div>
+                            </div>
+                            <!-- Zipcode end -->
+
+                            <!-- House no. start -->
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" name="house" id="house"
+                                        placeholder="Your House Number" required>
+                                    <label for="house">House no.</label>
+                                </div>
+                            </div>
+                            <!-- House no. end -->
+
+                            <!-- Category start -->
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <select name="category" id="category" class="form-control bg-white" required>
+                                        <option value="Home">Home</option>
+                                        <option value="Work">Work</option>
+                                    </select>
+                                    <label for="category">Address category</label>
+                                </div>
+                            </div>
+                            <!-- Category end -->
+
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit"
+                                    id="updateProfile">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- User Address end -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}

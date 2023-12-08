@@ -61,8 +61,8 @@
 
                         <td>{{item.item.name}}</td>
 
-                        <td>
-                          <input
+                        <td> 
+                          <input 
                             id="form1"
                             min="1"
                             name="{{item.id}}"
@@ -71,8 +71,8 @@
                             class="form-control form-control-sm itemQuantity"
                             data-food-item="{{item.id}}"
                             style="width: 70px"
-                          />
-                        </td>
+                          /> 
+                        </td> 
 
                         <td>₹{{ item.item.price | stringformat:'d' }}</td>
                         <td class="newPrice" totalItemPrice="{{item.item.id}}">
@@ -90,29 +90,41 @@
                       {% endfor %}
                     </tbody>
                   </table>
-
-                  <h4 class="text-uppercase mt-5">Delivery Address</h4>
-                  {% for data in address %}
-                  <div
-                    style="margin-left: 2px"
-                    class="row d-flex justify-content-between">
-                    <div
-                      class="text-white bg-dark pt-2 rounded-3"
-                      style="width: 90%">
-                        {{data.city}} || {{data.area}} || {{data.zipcode}} ||
-                        {{data.house_no}}
-                    </div>
-                    <div class="text-white" style="width: 7%">
-                      <a href="/profile/" class="btn btn-dark rounded-3"
-                        >Edit</a
-                      >
-                    </div>
-                  </div>
-                  {% endfor %}
-
-                  <!-- Payment method start -->
+                  
+                  <!-- Address & Payment method start -->
                   <form action="/order/placeOrder/" method="POST">
                     {% csrf_token %}
+
+                    <!-- Address start -->
+                    <h4 class="text-uppercase mt-5">Delivery Address</h4>
+                    <div class="row d-flex justify-content-between">
+                      <div>
+                        <select
+                          class="bg-dark rounded-3 text-white"
+                          name="payment"
+                          id="payment-method"
+                          style="width: 91.5%; height: 40px"
+                        >
+                          {% for data in address %}
+                            <option value="Cash on delivery">
+                              &nbsp;<div
+                              class="text-white bg-dark pt-2 rounded-3"
+                              style="width: 90%">
+                                {{data.city}} || {{data.area}} || {{data.zipcode}} ||
+                                {{data.house_no}}
+                            </div>
+                            </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+
+                      <div class="my-3">
+                        <a href="/profile/" class="btn btn-dark rounded-3">Add</a>
+                      </div>
+                    </div>
+                    <!-- Address end -->
+
+                    <!-- Payment method start -->
                     <h4 class="text-uppercase mt-5">Payment Methods</h4>
                     <div class="row d-flex justify-content-between">
                       <div>
@@ -139,8 +151,9 @@
                         />
                       </div>
                     </div>
+                    <!-- Payment method end -->
                   </form>
-                  <!-- Payment method end -->
+                  <!-- Address & Payment method end -->
                 </div>
               </div>
 
@@ -200,7 +213,6 @@
         if (data.status === "itemDeleted") {
           // Remove the complete row
           $(this).closest(".deleteRow").remove();
-          Swal.fire({ icon: "success", text: "Item deleted!" });
 
           // Update the total price in the HTML
           $(".totalPrice").text("₹" + data.finalPrice);

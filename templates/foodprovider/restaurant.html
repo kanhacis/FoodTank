@@ -32,9 +32,8 @@
             <div class="container">
                 <div class="row g-5 align-items-center">
                     <div class="col-lg-6">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">About Us</h5>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">About</h5>
                         <h1 class="mb-4">Welcome to <i class="fa fa-utensils text-primary me-2"></i>{{restaurant.name}}</h1>
-                        <p class="mb-4">{{restaurant.is_verified}}</p>
                         <div class="row g-4 mb-4">
                             <div class="col-sm-6">
                                 <div class="d-flex align-items-center border-start border-5 border-primary px-3">
@@ -108,7 +107,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">About Us</h5>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">About</h5>
                         <h1 class="mb-4">Welcome to <i class="fa fa-utensils text-primary me-2"></i>{{restaurant.name}}</h1>
                         <p class="mb-4">{{restaurant.desc}}</p>
                         <div class="row g-4 mb-4">
@@ -146,10 +145,16 @@
     {% if page_obj.has_previous %}
         <a href="?page={{page_obj.previous_page_number}}" class="btn btn-primary">Previous</a>
     {% endif %}
-    <span>&nbsp;&nbsp;</span>
+    
     {% if page_obj.has_next %}
         <a href="?page={{page_obj.next_page_number}}" class="btn btn-primary">Next</a>
     {% endif %}
+
+    <span>&nbsp;&nbsp;</span>
+
+    <span class="current">
+        <span class="btn btn-primary btn-sm">{{ page_obj.number }}</span> / <span class="btn btn-primary btn-sm">{{ page_obj.paginator.num_pages }}</span>
+    </span>
 </div> 
 
 <!-- Calculating the year differences -->
