@@ -7,6 +7,7 @@ from order.models import Order
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import JsonResponse
 from datetime import date
+from django.db.models import Avg
 
 
 # Rendering admin signup page.
@@ -88,9 +89,11 @@ def restaurant(request):
         if request.method == 'GET':
             restaurant_name = request.GET.get('search-restaurant')
             if restaurant_name:
-                restaurant = Restaurant.objects.filter(name__icontains=restaurant_name, city=city.city)
+                restaurant = Restaurant.objects.filter(name__icontains=restaurant_name, city=city.city).annotate(avg_rating=Avg('menu__review__rating')).order_by('-avg_rating')
             else:
-                restaurant = Restaurant.objects.filter(city=city.city)
+                restaurant = Restaurant.objects.filter(city=city.city).annotate(avg_rating=Avg('menu__review__rating')).order_by('-avg_rating')
+
+                
     except:
         restaurant = Restaurant.objects.all()
 

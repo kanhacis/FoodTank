@@ -1,9 +1,9 @@
 {% extends '../base.html' %}
 {% block content %}
 {% load static %}
-
 {% load sweetify %}
 {% sweetify %}
+
 
 <!-- Navbar & Hero Start -->
 <div class="container-xxl position-relative p-0">
@@ -44,6 +44,7 @@
                                             <th scope="col">Price</th>
                                             <th scope="col">From</th>
                                             <th scope="col">Status</th>
+                                            <th scope="col">Review</th>
                                           </tr>
                                         </thead>
 
@@ -56,7 +57,9 @@
                                                 <td scope="row">₹{{data.item.price}}</td>
                                                 <td scope="row">{{data.order.restaurant}}</td>
                                                 <td scope="row">{{data.order.is_confirmed}}</td>
-                                                <td>{{data.is_confirmed}}</td>
+                                                <td>
+                                                    <p class="btn btn-primary btn-sm openForm" itemId="{{data.item_id}}">rate us</p>
+                                                </td>
                                             </tr>
                                           {% endfor %}
                                         </tbody>
@@ -92,4 +95,70 @@
     </div>
 </section>
 
+<!-- Review form start -->
+<div id="centered-form1">
+    <div class="form-content">
+      <h4 class="text-uppercase mt-3 mx-3">Give us a rating</h4>
+      <form action="/ratingMenu/" method="POST" class="mx-3">
+        {% csrf_token %}
+        <label for="rating" class="mt-2">Rating</label>
+        <input type="number" class="form-control" id="rating" name="rating">
+  
+        <label for="desc" class="mt-2">Description</label>
+        <textarea name="desc" class="form-control" id="desc" cols="30" rows="3"></textarea>
+  
+        <input type="submit" value="Submit" class="btn btn-dark my-3 addRating">
+      </form>
+    </div>
+  </div>
+  <!-- Review form end -->
+
+<script>
+    $(document).ready(function () {
+      var id=0;
+      $(".openForm").click(function () {
+        $("#centered-form1").fadeIn(1000);
+        $("section").css({'filter':'blur(5px)'});
+
+        id = $(this).attr("itemId");
+      });
+  
+      $(".addRating").click(function () {
+        $("#centered-form1").fadeOut(1000);
+        $("section").css({'filter':'none'});
+      });
+
+      // Rating code start
+      $(".addRating").click(function (event) { 
+        event.preventDefault();
+
+        let rating = $("#rating").val();
+        let desc = $("#desc").val();
+        let csr = $("input[name=csrfmiddlewaretoken]").val();
+
+        let myData = {id:id, rating:rating, desc:desc, csrfmiddlewaretoken: csr}
+        console.log(id, rating, desc);
+        if(!rating){
+          Swal.fire({icon:"warning", text:"Please give us a rating!", timer:500})
+        }
+        else{
+          $.ajax({
+          url: "/menu/ratingMenu/" + id,
+          method: "POST",
+          data: myData,
+          success: function (data) { 
+            if(data.status){
+              Swal.fire({icon:"success", text:"Thanks!", timer:500}) 
+            }
+           }
+        })
+        }
+     })
+    //  Rating code end
+    });
+</script>    
+
+  <script>
+    
+  </script>
 {% endblock content %}

@@ -1,7 +1,7 @@
-{% extends 'base.html' %} 
-{% block content %} 
-{% load static %} 
-{% load sweetify %} 
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% load sweetify %}
 {% sweetify %}
 
 <!-- Hero Start -->
@@ -23,10 +23,7 @@
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12">
-        <div
-          class="card card-registration card-registration-2"
-          style="border-radius: 15px"
-        >
+        <div class="card card-registration card-registration-2" style="border-radius: 15px">
           <div class="card-body p-0" id="appendEmptyBag">
             {% if bagItems %}
             <div class="row g-0" id="deleteBasket">
@@ -51,89 +48,64 @@
                       {% for item in bagItems %}
                       <tr class="deleteRow">
                         <th scope="row">
-                          <img
-                            src="{{item.item.img1.url}}"
-                            class="img-fluid rounded-3"
-                            alt="food"
-                            style="width: 5rem; height: 4rem"
-                          />
+                          <img src="{{item.item.img1.url}}" class="img-fluid rounded-3" alt="food"
+                            style="width: 5rem; height: 4rem" />
                         </th>
 
                         <td>{{item.item.name}}</td>
 
-                        <td> 
-                          <input 
-                            id="form1"
-                            min="1"
-                            name="{{item.id}}"
-                            value="{{item.quantity}}"
-                            type="number"
-                            class="form-control form-control-sm itemQuantity"
-                            data-food-item="{{item.id}}"
-                            style="width: 70px"
-                          /> 
-                        </td> 
+                        <td>
+                          <input id="form1" min="1" name="{{item.id}}" value="{{item.quantity}}" type="number"
+                            class="form-control form-control-sm itemQuantity" data-food-item="{{item.id}}"
+                            style="width: 70px" />
+                        </td>
 
                         <td>₹{{ item.item.price | stringformat:'d' }}</td>
                         <td class="newPrice" totalItemPrice="{{item.item.id}}">
                           ₹{% widthratio item.item.price 1 item.quantity %}
                         </td>
                         <td>
-                          <a
-                            class="text-muted deleteFood"
-                            href="/bag/deleteItem/{{item.id}}"
-                            data-food-item="{{item.id}}"
-                            ><i class="fas fa-times"></i
-                          ></a>
+                          <a class="text-muted deleteFood" href="/bag/deleteItem/{{item.id}}"
+                            data-food-item="{{item.id}}"><i class="fas fa-times"></i></a>
                         </td>
                       </tr>
                       {% endfor %}
                     </tbody>
                   </table>
-                  
+
+                  <!-- Address start -->
+                  <h4 class="text-uppercase mt-5">Delivery Address</h4>
+                  <div class="row d-flex justify-content-between">
+                    <div>
+                      <select class="bg-dark rounded-3 text-white" name="payment" id="payment-method"
+                        style="width: 91.5%; height: 40px">
+                        {% for data in address %}
+                        <option value="Cash on delivery">
+                          &nbsp;<div class="text-white bg-dark pt-2 rounded-3" style="width: 90%">
+                            {{data.city}} || {{data.area}} || {{data.zipcode}} ||
+                            {{data.house_no}}
+                          </div>
+                        </option>
+                        {% endfor %}
+                      </select>
+                    </div>
+
+                    <div class="my-3">
+                      <!-- <button class="btn btn-dark rounded-3" id="openForm">Add address</button> -->
+                      <button class="btn btn-dark rounded-3" id="openForm">Add</button>
+                    </div>
+                  </div>
+                  <!-- Address end -->
+
                   <!-- Address & Payment method start -->
                   <form action="/order/placeOrder/" method="POST">
                     {% csrf_token %}
-
-                    <!-- Address start -->
-                    <h4 class="text-uppercase mt-5">Delivery Address</h4>
-                    <div class="row d-flex justify-content-between">
-                      <div>
-                        <select
-                          class="bg-dark rounded-3 text-white"
-                          name="payment"
-                          id="payment-method"
-                          style="width: 91.5%; height: 40px"
-                        >
-                          {% for data in address %}
-                            <option value="Cash on delivery">
-                              &nbsp;<div
-                              class="text-white bg-dark pt-2 rounded-3"
-                              style="width: 90%">
-                                {{data.city}} || {{data.area}} || {{data.zipcode}} ||
-                                {{data.house_no}}
-                            </div>
-                            </option>
-                          {% endfor %}
-                        </select>
-                      </div>
-
-                      <div class="my-3">
-                        <a href="/profile/" class="btn btn-dark rounded-3">Add</a>
-                      </div>
-                    </div>
-                    <!-- Address end -->
-
                     <!-- Payment method start -->
                     <h4 class="text-uppercase mt-5">Payment Methods</h4>
                     <div class="row d-flex justify-content-between">
                       <div>
-                        <select
-                          class="bg-dark rounded-3 text-white"
-                          name="payment"
-                          id="payment-method"
-                          style="width: 91.5%; height: 40px"
-                        >
+                        <select class="bg-dark rounded-3 text-white" name="payment" id="payment-method"
+                          style="width: 91.5%; height: 40px">
                           <option value="Cash on delivery">
                             &nbsp;Cash on delivery
                           </option>
@@ -143,12 +115,7 @@
                       </div>
 
                       <div class="my-3 pb-4">
-                        <input
-                          type="submit"
-                          class="btn btn-dark rounded-3"
-                          value="Order now"
-                          id="orderNow"
-                        />
+                        <input type="submit" class="btn btn-dark rounded-3" value="Order now" id="orderNow" />
                       </div>
                     </div>
                     <!-- Payment method end -->
@@ -183,10 +150,8 @@
             <h2 class="text-center mt-2 mb-2">Bag is empty</h2>
             <div class="pt-1 pb-2">
               <h6 class="mb-0 text-center">
-                <a href="/" class="text-body"
-                  ><i class="fas fa-long-arrow-alt-left me-2"></i>Back to
-                  foods</a
-                >
+                <a href="/" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i>Back to
+                  foods</a>
               </h6>
             </div>
             {% endif %}
@@ -196,7 +161,33 @@
     </div>
   </div>
 </section>
+
+<!-- Add address start -->
+<div id="centered-form">
+  <div class="form-content">
+    <h4 class="text-uppercase mt-3 mx-3">Delivery Address</h4>
+    <form action="/profile/" method="POST" class="mx-3">
+      {% csrf_token %}
+      <label for="city">City</label>
+      <input type="text" class="form-control" id="city" name="city">
+
+      <label for="area" class="mt-2">Area</label>
+      <input type="text" class="form-control" id="area" name="area">
+
+      <label for="zipcode" class="mt-2">Zipcode</label>
+      <input type="number" class="form-control" id="zipcode" name="zipcode">
+
+      <label for="house" class="mt-2">House no.</label>
+      <input type="number" class="form-control" id="house" name="house">
+
+      <input type="submit" value="Submit" class="btn btn-dark my-3" id="addAddress">
+    </form>
+  </div>
+</div>
+<!-- Add address end -->
+
 <!-- My basket end -->
+
 
 <!-- Start code to delete item -->
 <script>
@@ -216,10 +207,10 @@
 
           // Update the total price in the HTML
           $(".totalPrice").text("₹" + data.finalPrice);
-          
+
           // Get count from the view & update in basket
-          $("#itemCount").text("items " + String(parseInt(data.totalItem, 10)-1));
-        } 
+          $("#itemCount").text("items " + String(parseInt(data.totalItem, 10) - 1));
+        }
       }.bind(this)
     });
   });
@@ -238,24 +229,24 @@
     console.log(id, currentQuantity);
 
     if (currentQuantity < 1) {
-        console.log("Quantity is less than 1");
-        return;
+      console.log("Quantity is less than 1");
+      return;
     }
 
     let row = quantityElement.closest('tr'); // Find the closest <tr> element (row)
     let newPriceElement = row.find('.newPrice'); // Find the corresponding .newPrice element within the row
 
     $.ajax({
-        url: "/bag/view_bag/",
-        data: { id: id, quantity: currentQuantity},
-        success: function (data) {
-            let finalP = parseInt(data.price, 10);
-            newPriceElement.text("₹" + finalP);
+      url: "/bag/view_bag/",
+      data: { id: id, quantity: currentQuantity },
+      success: function (data) {
+        let finalP = parseInt(data.price, 10);
+        newPriceElement.text("₹" + finalP);
 
-            $(".totalPrice").text("₹" + data.Final);
-        } 
-    }); 
-}); 
+        $(".totalPrice").text("₹" + data.Final);
+      }
+    });
+  });
 
 </script>
 <!-- End code to increase item quantity -->
@@ -289,4 +280,52 @@
   });
 </script>
 <!-- End code to place order -->
+
+<!-- Address form start -->
+<script>
+  $(document).ready(function () {
+    $("#openForm").click(function () {
+      $("#centered-form").fadeIn();
+      $("section").css({'filter':'blur(5px)'});
+    });
+
+    $("#addAddress").click(function () {
+      $("#centered-form").fadeOut();
+      $("section").css({'filter':'none'});
+    });
+  });
+</script>
+<!-- Address form end -->
+
+<!-- Address form start -->
+<script>
+  $("#addAddress").click(function (event) { 
+    event.preventDefault();
+
+    let city = $("#city").val();
+    let area = $("#area").val();
+    let zipcode = $("#zipcode").val();
+    let house = $("#house").val();
+    let csr = $("input[name=csrfmiddlewaretoken]").val();
+
+    let myData = {city:city, area:area, zipcode:zipcode, house:house, csrfmiddlewaretoken: csr};
+
+    if(!city || !area || !zipcode || !house){
+      Swal.fire({icon:"warning", text:"All fields are required!", timer:500})
+    }
+    else{
+      $.ajax({
+      url: "/profile/",
+      method: "POST",
+      data: myData,
+      success:function(data){
+        if(data.status){
+          Swal.fire({icon:"success", text:"Add updated", timer:500})
+        }
+      }
+    })
+    }
+   })
+</script>
+<!-- Address form end -->
 {% endblock content %}

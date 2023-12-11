@@ -28,10 +28,6 @@
     </div>
     <!-- Hero End -->
 
-    <!-- Manage page start -->
-    <div id="food" style="height: 30px;"></div>
-    <!-- Manage page end -->
-
     <!-- Foods start -->
     <div class="container-xxl py-5">
         <div class="container">
@@ -47,13 +43,15 @@
                 </form>
 
                 {% if not restaurantUrl %}
-                <div class="mt-2 d-flex justify-content-center">
+                <div class="my-3 d-flex justify-content-center">
                     <form method="get">
                         <label for="under">Under 120</label>
                         <input type="radio" name="price" value="120" id="under" {% if url %}{% if url == '120' %}checked{% endif %}{% endif %}>
+                        <span>&nbsp;&nbsp;</span>
 
                         <label for="above">Under 240</label>
                         <input type="radio" name="price" value="240" id="above" {% if url %}{% if url == '240' %}checked{% endif %}{% endif %}>
+                        <span>&nbsp;&nbsp;</span>
 
                         <input type="submit" class="btn btn-primary btn-sm" value="apply">
                     </form>

@@ -111,7 +111,7 @@
                     <div class="row g-4">
                         {% for menu in restIdMenus %}
                             <div class="col-lg-6">
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center inBag">
                                     <img class="flex-shrink-0 img-fluid rounded" src="{{menu.img1.url}}" alt=""
                                         style="width: 80px; height: 80px;">
                                     <div class="w-100 d-flex flex-column text-start ps-4">
@@ -125,6 +125,7 @@
                                                     href="/bag/add-to-bag/{{menu.id}}"
                                                     data-menu-id="{{menu.id}}">Add</a></span>
                                         </div>
+                                        <a href="/bag/view_bag/" class="fst-italic text-primary addText"></a>
                                     </div>
                                 </div>
                             </div>
@@ -136,7 +137,7 @@
                         {% for menu in restIdMenus %}
                             {% if menu.type == "Paneer" %}
                             <div class="col-lg-6">
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center inBag">
                                     <img class="flex-shrink-0 img-fluid rounded" src="{{menu.img1.url}}" alt=""
                                         style="width: 80px; height: 80px;">
                                     <div class="w-100 d-flex flex-column text-start ps-4">
@@ -150,6 +151,7 @@
                                                     href="/bag/add-to-bag/{{menu.id}}"
                                                     data-menu-id="{{menu.id}}">Add</a></span>
                                         </div>
+                                        <p class="fst-italic text-danger addText"></p>
                                     </div>
                                 </div>
                             </div>
@@ -162,7 +164,7 @@
                         {% for menu in restIdMenus %}
                             {% if menu.type == "Dinner" %}
                                 <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center inBag">
                                         <img class="flex-shrink-0 img-fluid rounded" src="{{menu.img1.url}}" alt=""
                                             style="width: 80px; height: 80px;">
                                         <div class="w-100 d-flex flex-column text-start ps-4">
@@ -176,6 +178,7 @@
                                                         href="/bag/add-to-bag/{{menu.id}}"
                                                         data-menu-id="{{menu.id}}">Add</a></span>
                                             </div>
+                                            <p class="fst-italic text-danger addText"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -199,6 +202,9 @@
         let id = $(this).attr("data-menu-id");
         let myData = { id: id };
 
+        /// Update only the clicked product's text
+        $(this).closest(".inBag").find(".addText").text("In the basket ➙");
+
         $.ajax({
             url: '/bag/add-to-bag/' + id,
             data: myData,
@@ -206,10 +212,10 @@
             success: function (data) {
 
                 if (data.status == "itemAdded") {
-                    Swal.fire({ icon: 'success', text: 'Item added!' });
+                    Swal.fire({ icon: 'success', text: 'Item added!', timer:500});
                 }
                 else {
-                    Swal.fire({ icon: 'error', text: 'Item already in the bag!' });
+                    Swal.fire({ icon: 'error', text: 'Item already in the bag!', timer:500 });
                 }
             }
         });

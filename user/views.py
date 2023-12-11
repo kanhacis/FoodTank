@@ -82,7 +82,12 @@ def profile(request):
     address, created = Address.objects.get_or_create(user=user)
 
     if request.method == "POST":
-        print(request.POST.get('email', ''))
+        c = request.POST.get("city", "")
+        print(c)
+
+    if request.method == "POST":
+
+        print("I am here")
 
         user.first_name = request.POST.get('fname', '')
         user.last_name = request.POST.get('lname', '')

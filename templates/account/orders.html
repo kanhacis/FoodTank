@@ -42,7 +42,6 @@
                                             <th scope="col">Date</th>
                                             <th scope="col">Total</th>
                                             <th scope="col">Status</th>
-                                            <th scope="col">Review</th>
                                             <th scope="col">Action</th>
                                           </tr>
                                         </thead>
@@ -53,9 +52,6 @@
                                                 <td>{{ data.order_date|date:"M d, Y" }}</td>
                                                 <td>₹{{data.total_bill}}</td>
                                                 <td>{{data.is_confirmed}}</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-primary btn-sm">rate us</a>
-                                                </td>
                                                 <td>
                                                     <a href="/orderInfo/{{data.order_id}}" class="btn btn-primary btn-sm">View</a>
                                                 </td>

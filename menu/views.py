@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from user.models import User
 from restaurant.models import Restaurant
-from .models import Menu
+from .models import Menu, Review
+from django.http import JsonResponse
 
 
 # Rendering add menu page & write logic to create new menu.
@@ -104,3 +105,14 @@ def deleteMenu(request, id):
     # Now delete the menu item.
     menuItem.delete()
     return redirect('/menu/viewMenu/{}'.format(restId.id))
+
+# Rating a menu
+def ratingMenu(request, id):
+    if request.method == "POST":
+        rating = request.POST.get("rating", -1)
+        desc = request.POST.get("desc", "")
+
+        menuInstance = Menu.objects.get(id=id)
+        reviewData = Review.objects.create(user=request.user, menu=menuInstance, rating=rating, description=desc)
+        reviewData.save()
+        return JsonResponse({"status":"success"})
