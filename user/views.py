@@ -16,10 +16,11 @@ def home(request):
     try:
         if request.user.is_authenticated:
             # Retrieve the user's city based on their address
-            userAddress = Address.objects.get(user=request.user)
+            userAddress, created = Address.objects.get_or_create(user=request.user, primary=True)
 
             # Get all restaurants in the user's city
-            userCityRestaurants = Restaurant.objects.filter(city=userAddress.city)
+            if not created:
+                userCityRestaurants = Restaurant.objects.filter(city=userAddress.city)
         else:
             # Show all menu items to anonymous users
             userCityRestaurants = Restaurant.objects.all()
@@ -76,38 +77,55 @@ def home(request):
 # Rendering profile page.
 def profile(request):
     if not request.user.is_authenticated:
-        return redirect("/login/")
+        return redirect("/login/") 
 
     user = request.user
-    address, created = Address.objects.get_or_create(user=user)
+    pri =  request.POST.get('primary') 
+
+    try:
+        address = Address.objects.get(user=user, primary=pri)
+    except Address.DoesNotExist:
+        address = None
 
     if request.method == "POST":
-        c = request.POST.get("city", "")
-        print(c)
+        if pri:
+            address = Address.objects.get(user=user, primary=pri)
+            user.first_name = request.POST.get('fname', '')
+            user.last_name = request.POST.get('lname', '')
+            user.email = request.POST.get('email', '')
+            user.mobile = request.POST.get('mobile', '')
 
-    if request.method == "POST":
+            address.state = request.POST.get('state', '')
+            address.city = request.POST.get('city', '')
+            address.area = request.POST.get('area', '')
+            address.zipcode = request.POST.get('zipcode', '')
+            address.house_no = request.POST.get('house', '1')
+            address.category = request.POST.get('category', '')
 
-        print("I am here")
+            address.save()
+            user.save()
+            return JsonResponse({'status':'profileUpdate'})
+        else:
+            address = Address.objects.create(user=user, primary=False)
+            address.state = request.POST.get('state', '') 
+            address.city = request.POST.get('city', '') 
+            address.area = request.POST.get('area', '') 
+            address.zipcode = request.POST.get('zipcode', '')
+            address.house_no = request.POST.get('house', '1')
+            address.category = request.POST.get('category', '')
 
-        user.first_name = request.POST.get('fname', '')
-        user.last_name = request.POST.get('lname', '')
-        user.email = request.POST.get('email', '')
-        user.mobile = request.POST.get('mobile', '')
-
-        address.state = request.POST.get('state', '')
-        address.city = request.POST.get('city', '')
-        address.area = request.POST.get('area', '')
-        address.zipcode = request.POST.get('zipcode', '')
-        address.house_no = request.POST.get('house', '1')
-        address.category = request.POST.get('category', '')
-
-        address.save()
-        user.save()
-        return JsonResponse({'status':'profileUpdate'})
-
+            address.save()
+            user.save()
+            
+            address = Address.objects.filter(user=user).values()
+            address = list(address)
+            print(address)
+            return JsonResponse({'status':'profileUpdate', 'address':address})
+    
+    userAddress, created = Address.objects.get_or_create(user=request.user, primary=True)
     context = {
         'user_profile' : user,
-        'user_address' : address
+        'user_address' : userAddress
     }
 
     if request.user.user_type == "Customer":
@@ -207,8 +225,12 @@ def orderInfo(request, id):
 
     myOrders = OrderItem.objects.filter(order__order_id=id)
     
+    order = Order.objects.get(order_id=id)
+    deliveryAdd = order.deliveryAddress
+    
     context = {
-        'myOrders' : myOrders
+        'myOrders' : myOrders,
+        'deliveryAdd': deliveryAdd
     }
     return render(request, 'account/orderInfo.html', context)
 

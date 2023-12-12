@@ -80,14 +80,13 @@ Time sheet filled : Yes
 
 Work Done Today:-
     1. Django
-        - Working with restaurant images display.
-        - Fix some bugs.
-        - Modifying address model.
+        - Complete/Solve the multi Address problem.
+        - Fix many small small bugs.
+        - Start adding ajax in admin dashboard.
 
-    2. PHP
-        - Make a basic ui for the task.
-        - And complete the whole task.
         
 
 Day Start Time: 12:05
 Day End Time:  9:00 
+
+- Solve the multi address problem & fix many small small bugs.

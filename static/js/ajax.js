@@ -145,9 +145,11 @@ $("#updateProfile").click(function (event) {
     let category = $("#category").val();
     let csr = $("input[name=csrfmiddlewaretoken]").val();
 
+    console.log(uname, email, fname, state);
+
     let myData = {
         uname: uname, email: email, fname: fname, lname: lname, mobile: mobile,
-        utype: utype, state: state, city: city, area: area, zipcode: zipcode,
+        utype: utype, primary:'True', state: state, city: city, area: area, zipcode: zipcode,
         house: house, category: category, csrfmiddlewaretoken: csr
     }
 

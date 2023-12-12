@@ -14,6 +14,7 @@ class User(AbstractUser):
 
 # Address Model
 class Address(models.Model):
+    primary = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     state = models.CharField(max_length=255)
     city = models.CharField(max_length=255)

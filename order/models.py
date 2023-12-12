@@ -2,7 +2,7 @@ from django.db import models
 from menu.models import Menu
 from restaurant.models import Restaurant
 from driver.models import Driver
-from user.models import User
+from user.models import User, Address
 
 
 payment_choices = (
@@ -26,6 +26,8 @@ class Order(models.Model):
     total_bill = models.IntegerField(blank=True, null=True)
     payment_method = models.CharField(max_length=255, blank=True, null=True, choices=payment_choices)
     order_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    deliveryAddress = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
     
     def __str__(self):
         return self.user.username

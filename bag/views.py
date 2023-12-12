@@ -36,33 +36,35 @@ def viewBag(request):
     if not request.user.is_authenticated or not request.user.user_type == "Customer":
         return redirect("/login/")
     
-    address = Address.objects.filter(user=request.user)
+    try: # Handle error, when a user does not have any bag
+        address = Address.objects.filter(user=request.user)
+        userBag = Bag.objects.get(user=request.user)
+        bagItems = BagItem.objects.filter(bag=userBag)
 
-    userBag = Bag.objects.get(user=request.user)
-    bagItems = BagItem.objects.filter(bag=userBag)
+        if request.method == "GET" and 'id' in request.GET:
+            item_id = request.GET.get('id')
+            try:
+                itemId = BagItem.objects.get(id=item_id)
+                new_quantity = int(request.GET.get('quantity', 0))
 
-    if request.method == "GET" and 'id' in request.GET:
-        item_id = request.GET.get('id')
-        try:
-            itemId = BagItem.objects.get(id=item_id)
-            new_quantity = int(request.GET.get('quantity', 0))
+                if new_quantity >= 1:
+                    itemId.quantity = new_quantity
+                    itemId.save()
+                    price = itemId.item.price * itemId.quantity
 
-            if new_quantity >= 1:
-                itemId.quantity = new_quantity
-                itemId.save()
-                price = itemId.item.price * itemId.quantity
-
-                # try start
-                total = 0 
-                for item in bagItems: 
-                    item_quantity = int(item.quantity) 
-                    item_price = int(item.item.price) 
-                    total += item_quantity * item_price 
-                # try end
-                
-                return JsonResponse({'status': 'Increase', 'price':price, 'Final':total})
-        except BagItem.DoesNotExist:
-            pass
+                    # try start
+                    total = 0 
+                    for item in bagItems: 
+                        item_quantity = int(item.quantity) 
+                        item_price = int(item.item.price) 
+                        total += item_quantity * item_price 
+                    # try end
+                    
+                    return JsonResponse({'status': 'Increase', 'price':price, 'Final':total})
+            except BagItem.DoesNotExist:
+                pass
+    except:
+        return redirect('/foodprovider/restaurant/')
 
     total = 0 
     count = 0 

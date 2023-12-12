@@ -77,30 +77,29 @@
                   <h4 class="text-uppercase mt-5">Delivery Address</h4>
                   <div class="row d-flex justify-content-between">
                     <div>
-                      <select class="bg-dark rounded-3 text-white" name="payment" id="payment-method"
+                      <select class="bg-dark rounded-3 text-white" name="chooseAddress" id="address"
                         style="width: 91.5%; height: 40px">
                         {% for data in address %}
-                        <option value="Cash on delivery">
+                        <option value="{{data.city}} || {{data.area}} || {{data.zipcode}} || {{data.house_no}}" id="showAddress">
                           &nbsp;<div class="text-white bg-dark pt-2 rounded-3" style="width: 90%">
                             {{data.city}} || {{data.area}} || {{data.zipcode}} ||
                             {{data.house_no}}
-                          </div>
-                        </option>
+                          </div> 
+                        </option> 
                         {% endfor %}
                       </select>
                     </div>
 
                     <div class="my-3">
-                      <!-- <button class="btn btn-dark rounded-3" id="openForm">Add address</button> -->
                       <button class="btn btn-dark rounded-3" id="openForm">Add</button>
                     </div>
                   </div>
                   <!-- Address end -->
 
-                  <!-- Address & Payment method start -->
+                  <!-- Payment method start -->
                   <form action="/order/placeOrder/" method="POST">
                     {% csrf_token %}
-                    <!-- Payment method start -->
+                    
                     <h4 class="text-uppercase mt-5">Payment Methods</h4>
                     <div class="row d-flex justify-content-between">
                       <div>
@@ -118,9 +117,8 @@
                         <input type="submit" class="btn btn-dark rounded-3" value="Order now" id="orderNow" />
                       </div>
                     </div>
-                    <!-- Payment method end -->
                   </form>
-                  <!-- Address & Payment method end -->
+                  <!-- Payment method end -->
                 </div>
               </div>
 
@@ -161,6 +159,7 @@
     </div>
   </div>
 </section>
+<!-- My basket end -->
 
 <!-- Add address start -->
 <div id="centered-form">
@@ -185,9 +184,6 @@
   </div>
 </div>
 <!-- Add address end -->
-
-<!-- My basket end -->
-
 
 <!-- Start code to delete item -->
 <script>
@@ -258,9 +254,19 @@
       e.preventDefault(); // Prevent default form submission
 
       let paymentMethod = $("#payment-method").val(); // Get the selected payment method
+      let address = $("#address").val();
+
+      console.log(address);
+      let addressArr = address.split("||");
+      let city = addressArr[0];
+      let area = addressArr[1];
+      let zipcode = addressArr[2];
+      let house_no = addressArr[3];
+
       myData = {
         csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-        payment: paymentMethod,
+        payment: paymentMethod, city:city, area:area, zipcode:zipcode, 
+        house_no:house_no
       };
       $.ajax({
         type: "POST",
@@ -320,7 +326,17 @@
       data: myData,
       success:function(data){
         if(data.status){
-          Swal.fire({icon:"success", text:"Add updated", timer:500})
+          Swal.fire({icon:"success", text:"Add updated", timer:500});
+          console.log(data.address);
+          x = data.address
+          let result = '';
+          for(let i=0; i<x.length; i++){
+            result += `<option value=${x[i].city} || ${x[i].area} || ${x[i].zipcode} || ${x[i].house_no}>
+                        &nbsp;<div class="text-white bg-dark pt-2 rounded-3" style="width: 90%">${x[i].city} || ${x[i].area} || ${x[i].zipcode} || ${x[i].house_no}</div>
+                      </option>`
+          }
+          $("select:first").children("option").remove();
+          $("select:first").append(result);
         }
       }
     })
@@ -328,4 +344,12 @@
    })
 </script>
 <!-- Address form end -->
+
 {% endblock content %}
+
+<!-- <option value="{{data.city}} || {{data.area}} || {{data.zipcode}} || {{data.house_no}}" id="showAddress">
+  &nbsp;<div class="text-white bg-dark pt-2 rounded-3" style="width: 90%">
+    {{data.city}} || {{data.area}} || {{data.zipcode}} ||
+    {{data.house_no}}
+  </div> 
+</option> -->

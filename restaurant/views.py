@@ -85,7 +85,7 @@ def toDoList(request):
 # Rendering restaurant page & showing all restaurants to users.
 def restaurant(request):
     try:
-        city = Address.objects.get(user=request.user)
+        city = Address.objects.get(user=request.user, primary=True)
         if request.method == 'GET':
             restaurant_name = request.GET.get('search-restaurant')
             if restaurant_name:
