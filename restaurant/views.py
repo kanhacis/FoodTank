@@ -3,7 +3,7 @@ from .models import Restaurant, Notification, Todo
 from django.contrib import messages
 from user.models import User, Address
 from menu.models import Menu
-from order.models import Order
+from order.models import Order, OrderItem
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import JsonResponse
 from datetime import date
@@ -26,6 +26,13 @@ def adminDashboard(request):
     if not request.user.is_authenticated or not request.user.user_type == "Foodprovider":
         return redirect("/foodprovider/adminSignin/")
     
+    # Code for todo list start
+    if request.method == 'POST':
+        note = request.POST.get('note', '')
+        data = Todo.objects.create(user=request.user, note=note)
+        data.save()
+    # Code for todo list end
+    
     # Get the restaurant admin user object based on the currently logged-in user
     restaurant_admin = User.objects.get(username=request.user)
 
@@ -37,50 +44,43 @@ def adminDashboard(request):
     myOrders = Order.objects.filter(restaurant__in=userRestaurant)
 
     # Calculating total amount
+    totalOrder = 0
     totalAmount = 0
     for i in myOrders:
         if i.total_bill != None:
             totalAmount += i.total_bill
+            totalOrder += 1
 
     # Calculating today amount
     todayAmount = 0
+    todayOrder = 0
     today = date.today()
     for i in myOrders:
         if i.total_bill != None:
             if str(i.order_date)[0:10] == str(today):
                 todayAmount += i.total_bill
+                todayOrder += 1
     
     # Create a context dictionary with the restaurant data to pass to the template
     context = {
         'my_restaurant' : restaurant_data,
         'myOrders' : myOrders,
         'totalAmount' : totalAmount,
-        'todayAmount' : todayAmount
+        'todayAmount' : todayAmount,
+        'myTask' : Todo.objects.filter(user=request.user).order_by("-id"),
+        'totalOrder': totalOrder,
+        'todayOrder' : todayOrder
     }
 
     # Render the restaurant dashboard template with the context data
     # return render(request, 'foodprovider/restaurant_dashboard.html', context)
     return render(request, 'restaurant_admin/index.html', context)
 
-
-# Function to add today's task 
-def toDoList(request):
-    if request.method == "POST":
-        note = request.POST.get('note', '')
-        
-        data = Todo.objects.create(note=note)
-        data.save()
-        # return JsonResponse({"status":"ok"})
-    
-    # Get all tasks data
-    myTask = Todo.objects.all()
-
-    context = {
-        "myTask": myTask
-    }
-    
-    return render(request, "restaurant_admin/index.html", context)
-
+# Delete today's task
+def deleteTask(request, id):
+    data = Todo.objects.get(id=id)
+    data.delete()
+    return redirect('/foodprovider/dashboard/')
 
 # Rendering restaurant page & showing all restaurants to users.
 def restaurant(request):
@@ -210,6 +210,30 @@ def deleteRestaurant(request, id):
     restaurant.delete() 
     return redirect('/profile/') 
 
+
+# Restaurant orders details
+def restaurantOrder(request, id):
+    orderInfo = OrderItem.objects.filter(order__order_id=id)
+
+    order = Order.objects.get(order_id=id)
+    deliveryAdd = order.deliveryAddress
+
+    context = {
+        "orderInfo": orderInfo,
+        "deliveryAdd": deliveryAdd
+    }
+    return render(request, "restaurant_admin/restaurantOrder.html", context)
+ 
+ 
+# Confirm order 
+def confirmOrder(request, id): 
+    order = Order.objects.get(order_id=id) 
+    order.is_confirmed = True 
+    # order.save() 
+
+    dataList = [order.order_id, order.order_date, order.user.username, order.total_bill, order.is_confirmed]
+    return JsonResponse({"status":"success", "dataList":dataList})
+    return redirect('/foodprovider/dashboard/') 
 
 # Rendering restaurant information page & this shows the individual restaurant information to users.
 def restaurantInfo(request, id):

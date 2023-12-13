@@ -31,8 +31,8 @@
                     <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                         <i class="fa fa-chart-line fa-3x text-primary"></i>
                         <div class="ms-3">
-                            <p class="mb-2">Today Sale</p>
-                            <h6 class="mb-0">₹{{todayAmount}}</h6>
+                            <p class="mb-2">Today Orders</p>
+                            <h6 class="mb-0">{{todayOrder}}</h6>
                         </div>
                     </div>
                 </div>
@@ -40,8 +40,8 @@
                     <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                         <i class="fa fa-chart-bar fa-3x text-primary"></i>
                         <div class="ms-3">
-                            <p class="mb-2">Total Sale</p>
-                            <h6 class="mb-0">₹{{totalAmount}}</h6>
+                            <p class="mb-2">Total Orders</p>
+                            <h6 class="mb-0">{{totalOrder}}</h6>
                         </div>
                     </div>
                 </div>
@@ -49,8 +49,8 @@
                     <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                         <i class="fa fa-chart-area fa-3x text-primary"></i>
                         <div class="ms-3">
-                            <p class="mb-2">Today Revenue</p>
-                            <h6 class="mb-0">$1234</h6>
+                            <p class="mb-2">Today Sales</p>
+                            <h6 class="mb-0">₹{{todayAmount}}</h6>
                         </div>
                     </div>
                 </div>
@@ -58,8 +58,8 @@
                     <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                         <i class="fa fa-chart-pie fa-3x text-primary"></i>
                         <div class="ms-3">
-                            <p class="mb-2">Total Revenue</p>
-                            <h6 class="mb-0">$1234</h6>
+                            <p class="mb-2">Total Sale</p>
+                            <h6 class="mb-0">₹{{totalAmount}}</h6>
                         </div>
                     </div>
                 </div>
@@ -95,15 +95,15 @@
 
         <!-- Recent Sales Start -->
         <div class="container-fluid pt-4 px-4">
-            <div class="bg-secondary text-center rounded p-4">
+            <div class="bg-secondary text-center rounded p-4" style="height: 320px; overflow: auto;">
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Recent order</h6>
+                    <h6 class="mb-0">Order history</h6>
                     <form class="d-none d-md-flex ms-4">
                         <input class="form-control bg-dark border-0" type="search" placeholder="Search">
                     </form>
                 </div>
                 <div class="table-responsive">
-                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <table id="addData" class="table text-start align-middle table-bordered table-hover mb-0">
                         <thead>
                             <tr class="text-white">
                                 <th scope="col">Id</th>
@@ -116,14 +116,16 @@
                         </thead>
                         <tbody>
                             {% for data in myOrders %}
-                            <tr>
-                                <td>{{data.order_id}}</td>
-                                <td>{{ data.order_date|date:"M d, Y" }}</td>
-                                <td>{{data.user.username}}</td>
-                                <td>₹{{data.total_bill}}</td>
-                                <td>{{data.is_confirmed}}</td>
-                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                            </tr>
+                                {% if data.is_confirmed == True %}
+                                    <tr>
+                                        <td>{{data.order_id}}</td>
+                                        <td>{{data.order_date|date:"M d, Y"}}</td>
+                                        <td>{{data.user.username}}</td>
+                                        <td>₹{{data.total_bill}}</td>
+                                        <td>{{data.is_confirmed}}</td>
+                                        <td><a class="btn btn-sm btn-primary" href="/foodprovider/restaurantOrder/{{data.order_id}}">Detail</a></td>
+                                    </tr>
+                                {% endif %}
                             {% endfor %}
                         </tbody>
                     </table>
@@ -136,58 +138,46 @@
         <!-- Widgets Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="row g-4">
-                <div class="col-sm-12 col-md-6 col-xl-4">
-                    <div class="h-100 bg-secondary rounded p-4">
+                <!-- Confirm order start -->
+                <div class="col-sm-12 col-md-6 col-xl-4" style="height: 320px; overflow: auto;">
+                    <div class="h-100 rounded p-4 bg-secondary">
                         <div class="d-flex align-items-center justify-content-between mb-2">
-                            <h6 class="mb-0">Messages</h6>
-                            <a href="">Show All</a>
+                            <h6 class="mb-0">Confirm orders</h6>
+                            <a href="#">Show All</a>
                         </div>
-                        <div class="d-flex align-items-center border-bottom py-3">
-                            <img class="rounded-circle flex-shrink-0" src="{% static 'img2/user.jpg' %}" alt=""
-                                style="width: 40px; height: 40px;">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0">Jhon Doe</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
-                                <span>Short message goes here...</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-3">
-                            <img class="rounded-circle flex-shrink-0" src="{% static 'img2/user.jpg' %}" alt=""
-                                style="width: 40px; height: 40px;">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0">Jhon Doe</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
-                                <span>Short message goes here...</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center border-bottom py-3">
-                            <img class="rounded-circle flex-shrink-0" src="{% static 'img2/user.jpg' %}" alt=""
-                                style="width: 40px; height: 40px;">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0">Jhon Doe</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
-                                <span>Short message goes here...</span>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center pt-3">
-                            <img class="rounded-circle flex-shrink-0" src="{% static 'img2/user.jpg' %}" alt=""
-                                style="width: 40px; height: 40px;">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-0">Jhon Doe</h6>
-                                    <small>15 minutes ago</small>
-                                </div>
-                                <span>Short message goes here...</span>
+
+                        <div class="d-flex align-items-center py-3 bg-secondary">
+                            <div class="w-100">
+                                <table class="table text-start align-middle table-bordered table-hover mb-0">
+                                    <thead>
+                                        <tr class="text-white">
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Customer</th>
+                                            <th scope="col" class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for data in myOrders %}
+                                            {% if data.is_confirmed == False %}
+                                                <tr class="orderData">
+                                                    <td>{{data.order_id}}</td>
+                                                    <td>{{data.user.username}}</td>
+                                                    <td class="d-flex justify-content-evenly">
+                                                        <a href="/foodprovider/confirmOrder/{{data.order_id}}" class="btn btn-sm btn-primary orderConfirm" order-id="{{data.order_id}}">Confirm</a>
+                                                        <a href="/foodprovider/restaurantOrder/{{data.order_id}}" class="btn btn-sm btn-primary">Detail</a>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Confirm order end -->
+
+                <!-- Calender start -->
                 <div class="col-sm-12 col-md-6 col-xl-4">
                     <div class="h-100 bg-secondary rounded p-4">
                         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -197,10 +187,13 @@
                         <div id="calender"></div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-xl-4">
-                    <div class="h-100 bg-secondary rounded p-4">
+                <!-- Calender end -->
+
+                <!-- Todo list start -->
+                <div class="col-sm-12 col-md-6 col-xl-4" style="height: 320px; overflow: auto;">
+                    <div class="h-100 p-4 rounded bg-secondary">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h6 class="mb-0">To Do List</h6>
+                            <h6 class="mb-0">Today's task</h6>
                             <a href="">Show All</a>
                         </div>
                         <form action="#" method="POST">
@@ -211,53 +204,20 @@
                             </div>
                         </form>
                         
-                        <div class="d-flex align-items-center pt-2">
-                            <input class="form-check-input m-0" type="checkbox">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span>Short task goes here...</span>
-                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
+                        {% for data in myTask %}
+                            <div class="d-flex align-items-center pt-2">
+                                <input class="form-check-input m-0" type="checkbox">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 align-items-center justify-content-between">
+                                        <span>{{data.note}}</span>
+                                        <a href="/foodprovider/deleteTask/{{data.id}}" class="btn btn-sm"><i class="fa fa-times"></i></a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="d-flex align-items-center pt-2">
-                            <input class="form-check-input m-0" type="checkbox">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span>Short task goes here...</span>
-                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center pt-2">
-                            <input class="form-check-input m-0" type="checkbox">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span>Short task goes here...</span>
-                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center pt-2">
-                            <input class="form-check-input m-0" type="checkbox">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span>Short task goes here...</span>
-                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center pt-2">
-                            <input class="form-check-input m-0" type="checkbox">
-                            <div class="w-100 ms-3">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                    <span>Short task goes here...</span>
-                                    <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
+                <!-- Todo list end -->
             </div>
         </div>
         <!-- Widgets End -->
@@ -295,24 +255,39 @@
      })
 </script>
 
+
 <script>
-    // $("#addTask").click(function (event) { 
-    //     event.preventDefault();
+    $(".orderConfirm").click(function (event) { 
+        event.preventDefault();
 
-    //     let note = $("#note").val();
-    //     let csr = $("input[name=csrfmiddlewaretoken]").val();
-    //     let myData = {note:note, csrfmiddlewaretoken: csr}
+        let orderId = $(this).attr("order-id");
+        console.log(orderId)
+        $(this).closest(".orderData").remove();
+        
+        let myData = {orderId:orderId};
 
-    //     $.ajax({
-    //         url: "/foodprovider/todolist/",
-    //         method: "POST",
-    //         data: myData,
-    //         success: function (data) { 
-    //             if(data.status){
-    //                 Swal.fire({icon:"success", text:"Task added."});
-    //             }
-    //          }
-    //     })
-    //  })
+        $.ajax({
+            url: `/foodprovider/confirmOrder/${orderId}`,
+            method: "GET",
+            data: myData,
+            success:function(data){
+                const x = data.dataList;
+                
+                let result = `
+                            <tr>
+                                <td>${x[0]}</td>
+                                <td>${x[1].substring(0,10)}</td>
+                                <td>${x[2]}</td>
+                                <td>₹${x[3]}</td>
+                                <td>${x[4]}</td>
+                                <td><a class="btn btn-sm btn-primary" href="/foodprovider/restaurantOrder/${x[0]}">Detail</a></td>
+                            </tr>
+                ` 
+                let tbody = $('#addData').find('tbody').html()
+                tbody += result
+                $('#addData').find('tbody').html(tbody)
+            }
+        })
+     })
 </script>
 {% endblock content %}

@@ -23,7 +23,7 @@ def placeOrder(request):
     
     # Get the delivery address
     deliveryAdrs = Address.objects.get(user=request.user, city=myData[0][1].strip(), area=myData[0][2].strip(),
-                                          zipcode=myData[0][3].strip(), house_no=myData[0][4].strip())
+                                          zipcode=myData[0][3].strip(), house_no=int(myData[0][4].strip()))
 
     userBag = Bag.objects.get(user=request.user)
     bagItems = BagItem.objects.filter(bag=userBag)

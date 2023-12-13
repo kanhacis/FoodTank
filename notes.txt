@@ -84,6 +84,9 @@ Work Done Today:-
         - Fix many small small bugs.
         - Start adding ajax in admin dashboard.
 
+        - Add todo list(for today's task) in admin dashboard.
+        
+
         
 
 Day Start Time: 12:05

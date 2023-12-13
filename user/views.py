@@ -99,7 +99,7 @@ def profile(request):
             address.city = request.POST.get('city', '')
             address.area = request.POST.get('area', '')
             address.zipcode = request.POST.get('zipcode', '')
-            address.house_no = request.POST.get('house', '1')
+            address.house_no = request.POST.get('house', '')
             address.category = request.POST.get('category', '')
 
             address.save()

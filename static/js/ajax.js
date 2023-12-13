@@ -145,26 +145,29 @@ $("#updateProfile").click(function (event) {
     let category = $("#category").val();
     let csr = $("input[name=csrfmiddlewaretoken]").val();
 
-    console.log(uname, email, fname, state);
-
     let myData = {
         uname: uname, email: email, fname: fname, lname: lname, mobile: mobile,
         utype: utype, primary:'True', state: state, city: city, area: area, zipcode: zipcode,
         house: house, category: category, csrfmiddlewaretoken: csr
     }
 
-    $.ajax({
-        url: "/profile/",
-        method: "POST",
-        data: myData,
-        success: function (data) {
-            if (data.status) {
-                Swal.fire({ icon: "success", text: "Profile update successfuly!" })
+    if(!city || !area || !house){
+        Swal.fire({icon:"warning", text:"You can not empty city, area, house no."});
+    }
+    else{
+        $.ajax({
+            url: "/profile/",
+            method: "POST",
+            data: myData,
+            success: function (data) {
+                if (data.status) {
+                    Swal.fire({ icon: "success", text: "Profile update successfuly!" })
+                }
+                else {
+                    Swal.fire({ icon: "error", text: "Something went wrong try again!" })
+                }
             }
-            else {
-                Swal.fire({ icon: "error", text: "Something went wrong try again!" })
-            }
-        }
-    })
+        })
+    }
 })
 // Code end for profile update

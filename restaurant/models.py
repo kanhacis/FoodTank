@@ -47,5 +47,6 @@ class Notification(models.Model):
 
 # Code todo list model
 class Todo(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     done = models.BooleanField(default=False)
     note = models.CharField(max_length=255, blank=True, null=True)

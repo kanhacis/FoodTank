@@ -61,7 +61,13 @@
                                                 <td scope="row">{{data.quantity}}</td>
                                                 <td scope="row">₹{{data.item.price}}</td>
                                                 <td scope="row">{{data.order.restaurant}}</td>
-                                                <td scope="row">{{data.order.is_confirmed}}</td>
+                                                <td scope="row"> 
+                                                  {% if data.order.is_confirmed == False %}
+                                                    Not placed
+                                                  {% else %}
+                                                    placed
+                                                  {% endif %}
+                                                </td>
                                                 <td>
                                                     <p class="btn btn-primary btn-sm openForm" itemId="{{data.item_id}}">rate us</p>
                                                 </td>
