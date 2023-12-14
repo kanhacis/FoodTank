@@ -75,21 +75,58 @@ app-Driver
 
 ==========================================
 
-Task Name :- FoodTank Website (Django) / PHP
+Task Name :- FoodTank Website (Django)
 Time sheet filled : Yes
 
 Work Done Today:-
     1. Django
-        - Complete/Solve the multi Address problem.
-        - Fix many small small bugs.
-        - Start adding ajax in admin dashboard.
-
+        - Working with order is_confirmed
+        - Also implement ajax while order confirmed
         - Add todo list(for today's task) in admin dashboard.
         
+Day Start Time: 11:15
+Day End Time:  7:30
 
-        
+- 
 
-Day Start Time: 12:05
-Day End Time:  9:00 
 
-- Solve the multi address problem & fix many small small bugs.
+
+
+
+
+
+
+
+# Rendering add to bag page & write logic to add food in my bag.
+def addToBag(request, id):
+    # Check if the user is authenticated, if not, return a JSON response indicating the need for login
+    if not request.user.is_authenticated or not request.user.user_type == "Customer":
+        return redirect('/login/')
+
+    # Get the menu item
+    menuItem = Menu.objects.get(id=id)
+
+    # Check if the user has a bag
+    userBag, created = Bag.objects.get_or_create(user=request.user)
+
+    # Check if the item is already in the bag
+    bagItem, created = BagItem.objects.get_or_create(bag=userBag, item=menuItem)
+
+    if created or bagItem.quantity == 0:
+        # If the bag item is just created or the quantity is zero, set the quantity to 1
+        bagItem.quantity = 1
+    else:
+        # Send response (item already existing)
+        return JsonResponse({'status':'itemAddedAlready'})
+
+    bagItem.save()
+    
+    # Get the count of bagItems
+    bagItemCount = BagItem.objects.filter(bag=userBag).count()
+    bagFoods = BagItem.objects.filter(bag=userBag)
+    
+    bagFoodsName = []
+    for i in bagFoods:
+        bagFoodsName.append(i.item.name)
+    
+    return JsonResponse({'status': 'itemAdded', 'bagItemCount':bagItemCount, 'bagFoodsName':bagFoodsName})

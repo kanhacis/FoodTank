@@ -31,6 +31,7 @@ def adminDashboard(request):
         note = request.POST.get('note', '')
         data = Todo.objects.create(user=request.user, note=note)
         data.save()
+        return JsonResponse({"status":"success"})
     # Code for todo list end
     
     # Get the restaurant admin user object based on the currently logged-in user
@@ -49,7 +50,8 @@ def adminDashboard(request):
     for i in myOrders:
         if i.total_bill != None:
             totalAmount += i.total_bill
-            totalOrder += 1
+            if i.is_confirmed:
+                totalOrder += 1
 
     # Calculating today amount
     todayAmount = 0
@@ -80,7 +82,7 @@ def adminDashboard(request):
 def deleteTask(request, id):
     data = Todo.objects.get(id=id)
     data.delete()
-    return redirect('/foodprovider/dashboard/')
+    return JsonResponse({"status":"success"})
 
 # Rendering restaurant page & showing all restaurants to users.
 def restaurant(request):
@@ -90,6 +92,8 @@ def restaurant(request):
             restaurant_name = request.GET.get('search-restaurant')
             if restaurant_name:
                 restaurant = Restaurant.objects.filter(name__icontains=restaurant_name, city=city.city).annotate(avg_rating=Avg('menu__review__rating')).order_by('-avg_rating')
+            elif not city.city:
+                restaurant = Restaurant.objects.all()
             else:
                 restaurant = Restaurant.objects.filter(city=city.city).annotate(avg_rating=Avg('menu__review__rating')).order_by('-avg_rating')
 
@@ -233,7 +237,6 @@ def confirmOrder(request, id):
 
     dataList = [order.order_id, order.order_date, order.user.username, order.total_bill, order.is_confirmed]
     return JsonResponse({"status":"success", "dataList":dataList})
-    return redirect('/foodprovider/dashboard/') 
 
 # Rendering restaurant information page & this shows the individual restaurant information to users.
 def restaurantInfo(request, id):

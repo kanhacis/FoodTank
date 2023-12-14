@@ -10,10 +10,10 @@ $(document).ready(function () {
         let csr = $("input[name=csrfmiddlewaretoken]").val();
 
         if (!email) {
-            Swal.fire({ icon: 'warning', text: 'Email is required' });
+            Swal.fire({ icon: 'warning', text: 'Email is required', timer:1000, showCancelButton: false, showConfirmButton: false});
         }
         else if (!sbj) {
-            Swal.fire({ icon: 'warning', text: 'Subject is required' });
+            Swal.fire({ icon: 'warning', text: 'Subject is required', timer:1000, showCancelButton: false, showConfirmButton: false});
         }
         else {
             let myData = { name: name, email: email, subject: sbj, message: msg, csrfmiddlewaretoken: csr };
@@ -28,6 +28,7 @@ $(document).ready(function () {
                             icon: 'success',
                             title: 'Success',
                             text: 'Message sent successfully',
+                            timer:1000, showCancelButton: false, showConfirmButton: false
                         })
                     }
                 }
@@ -54,10 +55,10 @@ $("#signup").click(function (event) {
     let myData = { uname: uname, email: email, mobile: mobile, utype: utype, pwd: pwd, pwdc: pwdc, csrfmiddlewaretoken: csr }
 
     if (!uname || !email || !mobile || !utype || !pwd || !pwdc) {
-        Swal.fire({ icon: 'warning', text: 'All fields are required.' });
+        Swal.fire({ icon: 'warning', text: 'All fields are required.', timer:1000, showCancelButton: false, showConfirmButton: false});
     }
     else if(pwd != pwdc){
-        Swal.fire({icon:"error", text:"Password and confirm password does not match"})
+        Swal.fire({icon:"error", text:"Password and confirm password does not match", timer:1000, showCancelButton: false, showConfirmButton: false})
     }
     else{
         $.ajax({
@@ -100,10 +101,10 @@ $(document).ready(function () {
         let myData = { uname: uname, pwd: pwd, csrfmiddlewaretoken: csr };
 
         if (!uname) {
-            Swal.fire({ icon: "warning", text: "Please enter username!" })
+            Swal.fire({ icon: "warning", text: "Please enter username!", timer:1000, showCancelButton: false, showConfirmButton: false})
         }
         else if (!pwd) {
-            Swal.fire({ icon: "warning", text: "Please enter password!" })
+            Swal.fire({ icon: "warning", text: "Please enter password!", timer:1000, showCancelButton: false, showConfirmButton: false})
         }
         else {
             $.ajax({
@@ -112,12 +113,11 @@ $(document).ready(function () {
                 data: myData,
                 success: function (data) {
                     if (data.status === "signIn") {
-                        Swal.fire({ icon: 'success', text: 'Signin successfully' });
-                        $("form")[0].reset();
+                        window.location = '/';
                     }
 
                     else if (data.status === "invalidUser") {
-                        Swal.fire({ icon: "warning", text: "Invalid username or password. Please try again." })
+                        Swal.fire({ icon: "warning", text: "Invalid username or password. Please try again.", timer:1000, showCancelButton: false, showConfirmButton: false})
                     }
                 }
             });
@@ -152,7 +152,7 @@ $("#updateProfile").click(function (event) {
     }
 
     if(!city || !area || !house){
-        Swal.fire({icon:"warning", text:"You can not empty city, area, house no."});
+        Swal.fire({icon:"warning", text:"You can not empty city, area, house no.", timer:1000, showCancelButton: false, showConfirmButton: false});
     }
     else{
         $.ajax({
@@ -161,10 +161,10 @@ $("#updateProfile").click(function (event) {
             data: myData,
             success: function (data) {
                 if (data.status) {
-                    Swal.fire({ icon: "success", text: "Profile update successfuly!" })
+                    Swal.fire({ icon: "success", text: "Profile update successfuly!", timer:1000, showCancelButton: false, showConfirmButton: false })
                 }
                 else {
-                    Swal.fire({ icon: "error", text: "Something went wrong try again!" })
+                    Swal.fire({ icon: "error", text: "Something went wrong try again!", timer:1000, showCancelButton: false, showConfirmButton: false })
                 }
             }
         })

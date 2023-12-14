@@ -36,17 +36,17 @@
                         <h5 class="section-title ff-secondary text-start text-primary fw-normal">About</h5>
                         <h1 class="mb-4">Welcome to <i class="fa fa-utensils text-primary me-2"></i>{{restaurant.name}}</h1>
                         {% if restaurant.avg_rating|floatformat:0 == '5' %}
-                            <h6 class="text-primary mb-3">⭐⭐⭐⭐⭐</h6>
+                            <h5 class="text-primary mb-3">⭐⭐⭐⭐⭐</h5>
                         {% elif restaurant.avg_rating|floatformat:0 == '4' %}
-                            <h6 class="text-primary mb-3">⭐⭐⭐⭐</h6>
+                            <h5 class="text-primary mb-3">⭐⭐⭐⭐</h5>
                         {% elif restaurant.avg_rating|floatformat:0 == '3' %}
-                            <h6 class="text-primary mb-3">⭐⭐⭐</h6>
+                            <h5 class="text-primary mb-3">⭐⭐⭐</h5>
                         {% elif restaurant.avg_rating|floatformat:0 == '2' %}
-                            <h6 class="text-primary mb-3">⭐⭐</h6>
+                            <h5 class="text-primary mb-3">⭐⭐</h5>
                         {% elif restaurant.avg_rating|floatformat:0 == '1' %}
-                            <h6 class="text-primary mb-3">⭐</h6>
+                            <h5 class="text-primary mb-3">⭐</h5>
                         {% else %}
-                            <h6 class="text-primary mb-3">☆</h6>
+                            <h5 class="text-primary mb-3">☆</h5>
                         {% endif %}
 
                         <div class="row g-4 mb-4">
@@ -126,17 +126,17 @@
                         <h1 class="mb-4">Welcome to <i class="fa fa-utensils text-primary me-2"></i>{{restaurant.name}}</h1>
 
                         {% if restaurant.avg_rating|floatformat:0 == '5' %}
-                            <h6 class="text-primary mb-3">⭐⭐⭐⭐⭐</h6>
+                            <h5 class="text-primary mb-3">⭐⭐⭐⭐⭐</h5>
                         {% elif restaurant.avg_rating|floatformat:0 == '4' %}
-                            <h6 class="text-primary mb-3">⭐⭐⭐⭐</h6>
+                            <h5 class="text-primary mb-3">⭐⭐⭐⭐</h5>
                         {% elif restaurant.avg_rating|floatformat:0 == '3' %}
-                            <h6 class="text-primary mb-3">⭐⭐⭐</h6>
+                            <h5 class="text-primary mb-3">⭐⭐⭐</h5>
                         {% elif restaurant.avg_rating|floatformat:0 == '2' %}
-                            <h6 class="text-primary mb-3">⭐⭐</h6>
+                            <h5 class="text-primary mb-3">⭐⭐</h5>
                         {% elif restaurant.avg_rating|floatformat:0 == '1' %}
-                            <h6 class="text-primary mb-3">⭐</h6>
+                            <h5 class="text-primary mb-3">⭐</h5>
                         {% else %}
-                            <h6 class="text-primary mb-3">☆</h6>
+                            <h5 class="text-primary mb-3">☆</h5>
                         {% endif %}
 
                         <p class="mb-4">{{restaurant.desc}}</p>
@@ -183,7 +183,7 @@
     <span>&nbsp;&nbsp;</span>
 
     <span class="current">
-        <span class="btn btn-primary btn-sm">{{ page_obj.number }}</span> / <span class="btn btn-primary btn-sm">{{ page_obj.paginator.num_pages }}</span>
+        <span class="btn btn-primary">{{ page_obj.number }}</span> / <span class="btn btn-primary">{{ page_obj.paginator.num_pages }}</span>
     </span>
 </div> 
 </section>

@@ -44,15 +44,13 @@
 
                         <button type="submit" class="btn btn-primary py-3 w-100 mb-4" id="adminSignin">Sign In</button>
                         <p class="text-start mb-0">Don't have an Account? <a href="/foodprovider/adminSignup/">Sign Up</a></p>
-                        <p class="text-start mb-0">Go to <a href="/foodprovider/dashboard/">Dashboard</a></p>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Sign In End -->
-</div>
-
+                    </form> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+    <!-- Sign In End --> 
+</div> 
 
 <script>
     // Code start for signin page
@@ -62,14 +60,13 @@ $(document).ready(function () {
         let uname = $("#uname").val();
         let pwd = $("#pwd").val();
         let csr = $("input[name=csrfmiddlewaretoken]").val();
-
-        console.log(uname, pwd, csr);
         
         let myData = { uname:uname, pwd:pwd, csrfmiddlewaretoken: csr };
 
         if(!uname){
             Swal.fire({icon:"warning", text:"Please enter username!"})
         }
+        
         else if(!pwd){
             Swal.fire({icon:"warning", text:"Please enter password!"})
         }
@@ -81,7 +78,11 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.status === "signIn") {
                         Swal.fire({icon: 'success', text: 'Signin successfully' });
-                        $("form")[0].reset();
+                    }
+
+                    else if (data.status === "signInAdmin"){
+                        window.location = '/foodprovider/dashboard/';
+                        console.log("ok ho");
                     }
     
                     else if(data.status === "invalidUser"){

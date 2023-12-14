@@ -21,6 +21,9 @@ def home(request):
             # Get all restaurants in the user's city
             if not created:
                 userCityRestaurants = Restaurant.objects.filter(city=userAddress.city)
+                
+            if not userAddress.city:
+                userCityRestaurants = Restaurant.objects.all()
         else:
             # Show all menu items to anonymous users
             userCityRestaurants = Restaurant.objects.all()
@@ -177,7 +180,7 @@ def signUp(request):
 
     return render(request, 'account/signup.html')
 
-# Rendering signin page & And authenticated user.
+# Rendering signin page & And authenticate user.
 def signIn(request):
     if request.method == 'POST':
         uname = request.POST.get('uname')
@@ -185,17 +188,16 @@ def signIn(request):
 
         user = authenticate(request, username=uname, password=pwd)
 
-        print("Admin", user)
-
+        print(user)
         if user is not None:
             if user.user_type == "Customer":
                 login(request, user)
-                return JsonResponse({'status':'signIn'})
+                return JsonResponse({"status":"signIn"})
                 
             elif user.user_type == "Foodprovider":
                 login(request, user)
-                return JsonResponse({'status':'signIn'})
-                # return redirect('/foodprovider/dashboard/')
+                print("ok")
+                return JsonResponse({'status':'signInAdmin'})
                 
             elif user.user_type == "Driver":
                 login(request, user)

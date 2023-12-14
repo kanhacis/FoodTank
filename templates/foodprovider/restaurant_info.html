@@ -8,7 +8,45 @@
     img {
         height: 400px;
         margin-top: 30px;
-        object-fit: contain;
+        object-fit: cover;
+    }
+
+    .circle-container {
+        float: right;
+    }
+
+    .circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: rgb(255, 166, 0);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    #itemCount {
+        margin: 0;
+        color: #fff;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .list-container {
+        margin-top: 10px;
+        padding: 10px;
+        float: right;
+        margin-right: 10px;
+        border-radius: 10px;
+        color: white;
+        background-color: rgb(255, 160, 0);
+    }
+
+    .list-item {
+        margin-bottom: 5px;
     }
 </style>
 <!-- Navbar & Hero Start -->
@@ -188,6 +226,16 @@
                 </div>
             </div>
         </div>
+
+        <div class="circle-container">
+            <div class="circle" id="circle">
+                <h5 id="itemCount">0</h5>
+            </div>
+        </div>
+    
+        <div class="list-container hidden" id="listContainer">
+            <div class="list-item"></div>
+        </div>
     </div>
 </div>
 <!-- Menu End -->
@@ -203,25 +251,59 @@
         let myData = { id: id };
 
         /// Update only the clicked product's text
-        $(this).closest(".inBag").find(".addText").text("In the basket ➙");
+        $(this).closest(".inBag").find(".addText").text("Added move to bag ➙");
 
         $.ajax({
             url: '/bag/add-to-bag/' + id,
             data: myData,
-
             success: function (data) {
-
+                
                 if (data.status == "itemAdded") {
-                    Swal.fire({ icon: 'success', text: 'Item added!', timer:500});
+                    Swal.fire({ icon: 'success', text: 'Item added!', timer:500, showCancelButton: false, showConfirmButton: false});
+
+                    // Update the item count
+                    let count = data.bagItemCount;
+                    $("#itemCount").text(count);
+
+                    // Add newly added item name to the list
+                    let result = '';
+                    let x = data.bagFoodsName;
+                    for(let i=0; i<x.length; i++){
+                        result += `<div class="list-item">${x[i]}</div>`
+                    }
+
+                    $("#listContainer").html(result);
                 }
                 else {
-                    Swal.fire({ icon: 'error', text: 'Item already in the bag!', timer:500 });
+                    Swal.fire({ icon: 'error', text: 'Item already in the bag!', timer:500, showCancelButton: false, showConfirmButton: false});
                 }
             }
         });
     });
 </script>
 <!-- Code end for add to bag -->
+
+<script>
+    $(document).ready(function () {
+        var circle = $('#circle');
+        var listContainer = $('#listContainer');
+
+        circle.mouseenter(function () {
+            // Toggle the visibility of the list container
+            listContainer.slideDown();
+        });
+
+        circle.mouseleave(function () {
+            // Toggle the visibility of the list container
+            listContainer.slideUp();
+        });
+
+        circle.click(function () { 
+            // Move to the basket
+            window.location = "/bag/view_bag/";
+         })
+    });
+</script>
 
 {% endblock content %}
 

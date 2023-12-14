@@ -41,7 +41,7 @@
                         <i class="fa fa-chart-bar fa-3x text-primary"></i>
                         <div class="ms-3">
                             <p class="mb-2">Total Orders</p>
-                            <h6 class="mb-0">{{totalOrder}}</h6>
+                            <h6 class="mb-0" id="totalOrder">{{totalOrder}}</h6>
                         </div>
                     </div>
                 </div>
@@ -119,10 +119,14 @@
                                 {% if data.is_confirmed == True %}
                                     <tr>
                                         <td>{{data.order_id}}</td>
-                                        <td>{{data.order_date|date:"M d, Y"}}</td>
+                                        <td>{{data.order_date|date:"Y-m-d"}}</td>
                                         <td>{{data.user.username}}</td>
                                         <td>₹{{data.total_bill}}</td>
-                                        <td>{{data.is_confirmed}}</td>
+                                        <td>
+                                            {% if data.is_confirmed == True %}
+                                                Confirm
+                                            {% endif %}
+                                        </td>
                                         <td><a class="btn btn-sm btn-primary" href="/foodprovider/restaurantOrder/{{data.order_id}}">Detail</a></td>
                                     </tr>
                                 {% endif %}
@@ -204,17 +208,19 @@
                             </div>
                         </form>
                         
-                        {% for data in myTask %}
-                            <div class="d-flex align-items-center pt-2">
+                        <section id="todoData">
+                            {% for data in myTask %}
+                            <div class="d-flex align-items-center pt-2" id="removeDiv">
                                 <input class="form-check-input m-0" type="checkbox">
                                 <div class="w-100 ms-3">
                                     <div class="d-flex w-100 align-items-center justify-content-between">
                                         <span>{{data.note}}</span>
-                                        <a href="/foodprovider/deleteTask/{{data.id}}" class="btn btn-sm"><i class="fa fa-times"></i></a>
+                                        <a href="/foodprovider/deleteTask/{{data.id}}" class="btn btn-sm deleteTask" task-id="{{data.id}}"><i class="fa fa-times"></i></a>
                                     </div>
                                 </div>
                             </div>
                         {% endfor %}
+                        </section>
                     </div>
                 </div>
                 <!-- Todo list end -->
@@ -255,7 +261,7 @@
      })
 </script>
 
-
+<!-- Implement ajax with confirm order start -->
 <script>
     $(".orderConfirm").click(function (event) { 
         event.preventDefault();
@@ -272,22 +278,101 @@
             data: myData,
             success:function(data){
                 const x = data.dataList;
-                
+                console.log(`${x[4]}`);
                 let result = `
                             <tr>
                                 <td>${x[0]}</td>
                                 <td>${x[1].substring(0,10)}</td>
                                 <td>${x[2]}</td>
                                 <td>₹${x[3]}</td>
-                                <td>${x[4]}</td>
+                                <td>
+                                    ${x[4] ? "Confirm" : ""}   
+                                </td>
                                 <td><a class="btn btn-sm btn-primary" href="/foodprovider/restaurantOrder/${x[0]}">Detail</a></td>
                             </tr>
                 ` 
                 let tbody = $('#addData').find('tbody').html()
                 tbody += result
-                $('#addData').find('tbody').html(tbody)
+                $('#addData').find('tbody').html(tbody);
+
+                // Get totalOrder and update it
+                let totalOrder = $("#totalOrder").text();
+                $("#totalOrder").text(Number(totalOrder) + 1);
             }
-        })
+        });
      })
 </script>
+<!-- Implement ajax with confirm order end -->
+
+<!-- Implement ajax with todo list start -->
+<script>
+    $(function () { 
+        // Initialize global id
+        var id = '';
+        // Delete task using ajax
+        $(".deleteTask").click(function (event) { 
+            event.preventDefault();
+            
+            // Get the id
+            id = $(this).attr("task-id");
+            console.log(id);
+            let myData = {id:id};
+
+            // Remove that task
+            $(this).closest("#removeDiv").remove()
+            
+            $.ajax({
+                url: `/foodprovider/deleteTask/${id}`,
+                data: myData,
+                success:function(data){
+                    if(data.status){
+                        console.log("Delete");
+                    }
+                }
+            })
+         });
+
+         // Add task using ajax
+         $("#addTask").click(function (event) { 
+            event.preventDefault();
+
+            let note = $("#note").val();
+            let csr = $("input[name=csrfmiddlewaretoken]").val();
+
+            let myData = {note:note, csrfmiddlewaretoken:csr};
+
+            if(!note){
+                Swal.fire({icon:"warning", text:"Please add task.", timer:1000});
+            }
+            else{
+                $.ajax({
+                url: "/foodprovider/dashboard/",
+                method: "POST",
+                data: myData,
+                success:function(data){
+                    if(data.status){
+                        Swal.fire({icon:"success", text:"Task added successfuly!", timer:1000});
+
+                        let result = `
+                            <div class="d-flex align-items-center pt-2" id="removeDiv">
+                                <input class="form-check-input m-0" type="checkbox">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 align-items-center justify-content-between">
+                                        <span>${note}</span>
+                                        <a href="/foodprovider/deleteTask/${id}" class="btn btn-sm deleteTask" task-id="{{data.id}}"><i class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+                        let content = $("#todoData").html();
+                        result += content
+                        $("#todoData").html(result)
+                    }
+                }
+            })
+            }
+          })
+     })
+</script>
+<!-- Implement ajax with todo list end -->
 {% endblock content %}

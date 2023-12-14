@@ -256,7 +256,6 @@
       let paymentMethod = $("#payment-method").val(); // Get the selected payment method
       let address = $("#address").val();
 
-      console.log(address);
       let addressArr = address.split("||");
       let city = addressArr[0];
       let area = addressArr[1];
@@ -268,20 +267,26 @@
         payment: paymentMethod, city:city, area:area, zipcode:zipcode, 
         house_no:house_no
       };
-      $.ajax({
+      
+      if(city == " " || area == " " || zipcode == " " || house_no == " "){
+        Swal.fire({icon:"warning", text:"Please complete your profile or add address.", timer:1000, showCancelButton: false, showConfirmButton: false})
+      }
+      else{
+        $.ajax({
         type: "POST",
         url: "/order/placeOrder/",
         data: myData,
         success: function (data) {
           if (data.status) {
             $("#deleteBasket").remove();
-            Swal.fire({ icon: "success", text: "Order placed successfully" });
+            Swal.fire({ icon: "success", text: "Order placed successfully", timer:1000, showCancelButton: false, showConfirmButton: false});
             $("#appendEmptyBag").append(
               '<h2 class="text-center mt-2 mb-2">Bag is empty</h2><div class="pt-1 pb-2"><h6 class="mb-0 text-center"><a href="/" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i>Back to foods</a></h6> <h6 class="mb-0 mt-2 text-center"><a href="/orders/" class="text-body">View order&nbsp;<i class="fas fa-long-arrow-alt-right me-2"></i></a></h6></div>'
             );
           }
         },
       });
+      }
     });
   });
 </script>
@@ -317,7 +322,7 @@
     let myData = {city:city, area:area, zipcode:zipcode, house:house, csrfmiddlewaretoken: csr};
 
     if(!city || !area || !zipcode || !house){
-      Swal.fire({icon:"warning", text:"All fields are required!", timer:500})
+      Swal.fire({icon:"warning", text:"All fields are required!", timer:500, showCancelButton: false, showConfirmButton: false})
     }
     else{
       $.ajax({
@@ -326,7 +331,7 @@
       data: myData,
       success:function(data){
         if(data.status){
-          Swal.fire({icon:"success", text:"Add updated", timer:500});
+          Swal.fire({icon:"success", text:"Add updated", timer:500, showCancelButton: false, showConfirmButton: false});
           console.log(data.address);
           x = data.address
           let result = '';
@@ -346,10 +351,3 @@
 <!-- Address form end -->
 
 {% endblock content %}
-
-<!-- <option value="{{data.city}} || {{data.area}} || {{data.zipcode}} || {{data.house_no}}" id="showAddress">
-  &nbsp;<div class="text-white bg-dark pt-2 rounded-3" style="width: 90%">
-    {{data.city}} || {{data.area}} || {{data.zipcode}} ||
-    {{data.house_no}}
-  </div> 
-</option> -->

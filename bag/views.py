@@ -21,15 +21,24 @@ def addToBag(request, id):
     bagItem, created = BagItem.objects.get_or_create(bag=userBag, item=menuItem)
 
     if created or bagItem.quantity == 0:
-        # If the bag item is newly created or the quantity is zero, set the quantity to 1
+        # If the bag item is just created or the quantity is zero, set the quantity to 1
         bagItem.quantity = 1
     else:
         # Send response (item already existing)
         return JsonResponse({'status':'itemAddedAlready'})
 
     bagItem.save()
+    
+    # Get the count of bagItems
+    bagItemCount = BagItem.objects.filter(bag=userBag).count()
+    bagFoods = BagItem.objects.filter(bag=userBag)
+    
+    bagFoodsName = []
+    for i in bagFoods:
+        bagFoodsName.append(i.item.name)
+    
+    return JsonResponse({'status': 'itemAdded', 'bagItemCount':bagItemCount, 'bagFoodsName':bagFoodsName})
 
-    return JsonResponse({'status': 'itemAdded'})
 
 # Rendering view bag page where user can see their food bag.
 def viewBag(request):
