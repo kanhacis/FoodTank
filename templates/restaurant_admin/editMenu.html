@@ -22,7 +22,6 @@
     {% include './sidebar.html' %}
     <!-- Sidebar End -->
 
-
     <!-- Content Start -->
     <div class="content">
         <!-- Navbar Start -->
@@ -108,6 +107,14 @@
                                         <input type="file" class="form-control bg-dark" name="mimg1" id="img1" required>
                                     </div>
                                     <!-- Menu image end -->
+
+                                    <!-- Meny checkbox start -->
+                                    <div class="row">
+                                        <div class="form-floating mb-3 col-xl-12">
+                                            <input class="form-check-input m-0" name="menuStatus" id="menuStatus" type="checkbox" {% if menuItems.available %} checked {% endif %}><span>&nbsp;Is available?</span>
+                                        </div>
+                                    </div>
+                                    <!-- Menu checkbox end -->
 
                                     <!-- Restaurant description start -->
                                     <div class="form-floating">

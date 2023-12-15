@@ -23,7 +23,6 @@
         {% include './navbar.html' %}
         <!-- Navbar End -->
 
-
         <!-- Sale & Revenue Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="row g-4">
@@ -59,7 +58,7 @@
                         <i class="fa fa-chart-pie fa-3x text-primary"></i>
                         <div class="ms-3">
                             <p class="mb-2">Total Sale</p>
-                            <h6 class="mb-0">₹{{totalAmount}}</h6>
+                            <h6 class="mb-0" id="totalAmount">₹{{totalAmount}}</h6>
                         </div>
                     </div>
                 </div>
@@ -167,7 +166,7 @@
                                                     <td>{{data.order_id}}</td>
                                                     <td>{{data.user.username}}</td>
                                                     <td class="d-flex justify-content-evenly">
-                                                        <a href="/foodprovider/confirmOrder/{{data.order_id}}" class="btn btn-sm btn-primary orderConfirm" order-id="{{data.order_id}}">Confirm</a>
+                                                        <a href="/foodprovider/confirmOrder/{{data.order_id}}" class="btn btn-sm btn-primary orderConfirm" order-id="{{data.order_id}}" order-price="{{data.total_bill}}">Confirm</a>
                                                         <a href="/foodprovider/restaurantOrder/{{data.order_id}}" class="btn btn-sm btn-primary">Detail</a>
                                                     </td>
                                                 </tr>
@@ -267,7 +266,9 @@
         event.preventDefault();
 
         let orderId = $(this).attr("order-id");
-        console.log(orderId)
+
+        let currentOrderPrice = $(this).attr("order-price");
+
         $(this).closest(".orderData").remove();
         
         let myData = {orderId:orderId};
@@ -298,6 +299,12 @@
                 // Get totalOrder and update it
                 let totalOrder = $("#totalOrder").text();
                 $("#totalOrder").text(Number(totalOrder) + 1);
+
+                // Get totalSales and update it
+                let totalSale = $("#totalAmount").text().substring(1);
+
+                // Get the current confirm order price
+                $("#totalAmount").text(Number(totalSale) + Number(currentOrderPrice))
             }
         });
      })

@@ -49,9 +49,9 @@ def adminDashboard(request):
     totalAmount = 0
     for i in myOrders:
         if i.total_bill != None:
-            totalAmount += i.total_bill
             if i.is_confirmed:
                 totalOrder += 1
+                totalAmount += i.total_bill
 
     # Calculating today amount
     todayAmount = 0
@@ -93,13 +93,13 @@ def restaurant(request):
             if restaurant_name:
                 restaurant = Restaurant.objects.filter(name__icontains=restaurant_name, city=city.city).annotate(avg_rating=Avg('menu__review__rating')).order_by('-avg_rating')
             elif not city.city:
-                restaurant = Restaurant.objects.all()
+                restaurant = Restaurant.objects.all().annotate(avg_rating=Avg('menu__review__rating')).order_by('-avg_rating')
             else:
                 restaurant = Restaurant.objects.filter(city=city.city).annotate(avg_rating=Avg('menu__review__rating')).order_by('-avg_rating')
 
                 
     except:
-        restaurant = Restaurant.objects.all()
+        restaurant = Restaurant.objects.all().annotate(avg_rating=Avg('menu__review__rating')).order_by('-avg_rating')
 
     p = Paginator(restaurant, 10)
     page_number = request.GET.get('page')

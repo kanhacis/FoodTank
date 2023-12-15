@@ -62,25 +62,23 @@
             </div>
             <div class="row g-4 mt-2">
                 {% for menu in foods %}
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="service-item rounded pt-3">
-                            <div class="p-4">
-                                <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s" src="{{menu.img1.url}}" style="height: 200px; margin-top: -15px;">
-                                <h5 class="mt-2">{{menu.name}}</h5>
-                                <p>{{menu.restaurant}}</p>
-                                <p>₹{{menu.price}}</p>
-                                <!-- {% if menu.average_rating %}
-                                    <p>{{menu.average_rating|floatformat:0}} <span style="color: orange;">&#9733;</span></p>
-                                {% else %}
-                                    <p><span style="color: orange;">&#9734;</span></p> -->
-                                {% endif %}
-                                <p class="text" style="display: block; width: 250px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{menu.description}}</p>
+                    {% if menu.available %}
+                        <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="service-item rounded pt-3">
+                                <div class="p-4">
+                                    <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s" src="{{menu.img1.url}}" style="height: 200px; margin-top: -15px;">
+                                    <h5 class="mt-2">{{menu.name}}</h5>
+                                    <p>{{menu.restaurant}}</p>
+                                    <p>₹{{menu.price}}</p>
+                                    
+                                    <p class="text" style="display: block; width: 250px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{menu.description}}</p>
 
-                                <!-- <a href="/bag/add-to-bag/{{menu.id}}" class="btn btn-danger">Add to bag</a> -->
-                                <a href="/foodprovider/restaurant_info/{{menu.restaurant.id}}" class="btn btn-danger">Go ➙</a>
+                                    <!-- <a href="/bag/add-to-bag/{{menu.id}}" class="btn btn-danger">Add to bag</a> -->
+                                    <a href="/foodprovider/restaurant_info/{{menu.restaurant.id}}" class="btn btn-danger">Go ➙</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                 {% endfor %}
             </div>         
         </div>

@@ -148,59 +148,7 @@
                 <div id="tab-1" class="tab-pane fade show p-0 active">
                     <div class="row g-4">
                         {% for menu in restIdMenus %}
-                            <div class="col-lg-6">
-                                <div class="d-flex align-items-center inBag">
-                                    <img class="flex-shrink-0 img-fluid rounded" src="{{menu.img1.url}}" alt=""
-                                        style="width: 80px; height: 80px;">
-                                    <div class="w-100 d-flex flex-column text-start ps-4">
-                                        <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                            <span>{{menu.name}}</span>
-                                            <span class="text-primary">₹{{menu.price}}</span>
-                                        </h5>
-                                        <div class="d-flex justify-content-between border-bottom pb-2">
-                                            <small class="fst-italic">{{menu.description}}</small>&nbsp;&nbsp;
-                                            <span class="text-primary"><a class="btn btn-primary addToBag"
-                                                    href="/bag/add-to-bag/{{menu.id}}"
-                                                    data-menu-id="{{menu.id}}">Add</a></span>
-                                        </div>
-                                        <a href="/bag/view_bag/" class="fst-italic text-primary addText"></a>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div id="tab-2" class="tab-pane fade show p-0">
-                    <div class="row g-4">
-                        {% for menu in restIdMenus %}
-                            {% if menu.type == "Paneer" %}
-                            <div class="col-lg-6">
-                                <div class="d-flex align-items-center inBag">
-                                    <img class="flex-shrink-0 img-fluid rounded" src="{{menu.img1.url}}" alt=""
-                                        style="width: 80px; height: 80px;">
-                                    <div class="w-100 d-flex flex-column text-start ps-4">
-                                        <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                            <span>{{menu.name}}</span>
-                                            <span class="text-primary">₹{{menu.price}}</span>
-                                        </h5>
-                                        <div class="d-flex justify-content-between border-bottom pb-2">
-                                            <small class="fst-italic">{{menu.description}}</small>&nbsp;&nbsp;
-                                            <span class="text-primary"><a class="btn btn-primary addToBag"
-                                                    href="/bag/add-to-bag/{{menu.id}}"
-                                                    data-menu-id="{{menu.id}}">Add</a></span>
-                                        </div>
-                                        <p class="fst-italic text-danger addText"></p>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                <div id="tab-3" class="tab-pane fade show p-0">
-                    <div class="row g-4">
-                        {% for menu in restIdMenus %}
-                            {% if menu.type == "Dinner" %}
+                            {% if menu.available %}
                                 <div class="col-lg-6">
                                     <div class="d-flex align-items-center inBag">
                                         <img class="flex-shrink-0 img-fluid rounded" src="{{menu.img1.url}}" alt=""
@@ -216,10 +164,68 @@
                                                         href="/bag/add-to-bag/{{menu.id}}"
                                                         data-menu-id="{{menu.id}}">Add</a></span>
                                             </div>
-                                            <p class="fst-italic text-danger addText"></p>
+                                            <a href="/bag/view_bag/" class="fst-italic text-primary addText"></a>
                                         </div>
                                     </div>
                                 </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div id="tab-2" class="tab-pane fade show p-0">
+                    <div class="row g-4">
+                        {% for menu in restIdMenus %}
+                            {% if menu.type == "Paneer" %}
+                                {% if menu.available %}
+                                    <div class="col-lg-6">
+                                        <div class="d-flex align-items-center inBag">
+                                            <img class="flex-shrink-0 img-fluid rounded" src="{{menu.img1.url}}" alt=""
+                                                style="width: 80px; height: 80px;">
+                                            <div class="w-100 d-flex flex-column text-start ps-4">
+                                                <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                    <span>{{menu.name}}</span>
+                                                    <span class="text-primary">₹{{menu.price}}</span>
+                                                </h5>
+                                                <div class="d-flex justify-content-between border-bottom pb-2">
+                                                    <small class="fst-italic">{{menu.description}}</small>&nbsp;&nbsp;
+                                                    <span class="text-primary"><a class="btn btn-primary addToBag"
+                                                            href="/bag/add-to-bag/{{menu.id}}"
+                                                            data-menu-id="{{menu.id}}">Add</a></span>
+                                                </div>
+                                                <p class="fst-italic text-danger addText"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div id="tab-3" class="tab-pane fade show p-0">
+                    <div class="row g-4">
+                        {% for menu in restIdMenus %}
+                            {% if menu.type == "Dinner" %}
+                                {% if menu.available %}
+                                    <div class="col-lg-6">
+                                        <div class="d-flex align-items-center inBag">
+                                            <img class="flex-shrink-0 img-fluid rounded" src="{{menu.img1.url}}" alt=""
+                                                style="width: 80px; height: 80px;">
+                                            <div class="w-100 d-flex flex-column text-start ps-4">
+                                                <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                    <span>{{menu.name}}</span>
+                                                    <span class="text-primary">₹{{menu.price}}</span>
+                                                </h5>
+                                                <div class="d-flex justify-content-between border-bottom pb-2">
+                                                    <small class="fst-italic">{{menu.description}}</small>&nbsp;&nbsp;
+                                                    <span class="text-primary"><a class="btn btn-primary addToBag"
+                                                            href="/bag/add-to-bag/{{menu.id}}"
+                                                            data-menu-id="{{menu.id}}">Add</a></span>
+                                                </div>
+                                                <p class="fst-italic text-danger addText"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -242,44 +248,69 @@
 
 <!-- Code start for add to bag -->
 <script>
-    $(".addToBag").click(function (event) {
-        event.preventDefault(); // Prevent the default action of the link
+    // Function to update the item count and list in the UI
+function updateUI(data) {
+    let count = data.bagItemCount;
+    $("#itemCount").text(count);
 
-        // let id = $(".addToBag").attr("data-menu-id");
+    let result = '';
+    let x = data.bagFoodsName;
+    for(let i = 0; i < x.length; i++){
+        result += `<div class="list-item">${x[i]}</div>`;
+    }
 
-        let id = $(this).attr("data-menu-id");
-        let myData = { id: id };
+    $("#listContainer").html(result);
+}
 
-        /// Update only the clicked product's text
-        $(this).closest(".inBag").find(".addText").text("Added move to bag ➙");
+$(".addToBag").click(function (event) {
+    event.preventDefault();
 
-        $.ajax({
-            url: '/bag/add-to-bag/' + id,
-            data: myData,
-            success: function (data) {
-                
-                if (data.status == "itemAdded") {
-                    Swal.fire({ icon: 'success', text: 'Item added!', timer:500, showCancelButton: false, showConfirmButton: false});
+    let id = $(this).attr("data-menu-id");
+    let myData = { id: id };
 
-                    // Update the item count
-                    let count = data.bagItemCount;
-                    $("#itemCount").text(count);
+    $(this).closest(".inBag").find(".addText").text("Added move to bag ➙");
 
-                    // Add newly added item name to the list
-                    let result = '';
-                    let x = data.bagFoodsName;
-                    for(let i=0; i<x.length; i++){
-                        result += `<div class="list-item">${x[i]}</div>`
-                    }
+    $.ajax({
+        url: '/bag/add-to-bag/' + id,
+        data: myData,
+        success: function (data) {
+            if (data.status == "itemAdded") {
+                Swal.fire({ icon: 'success', text: 'Item added!', timer: 500, showCancelButton: false, showConfirmButton: false});
 
-                    $("#listContainer").html(result);
-                }
-                else {
-                    Swal.fire({ icon: 'error', text: 'Item already in the bag!', timer:500, showCancelButton: false, showConfirmButton: false});
-                }
+                // Update the item count in localStorage
+                localStorage.setItem('itemCount', data.bagItemCount);
+
+                // Update the list of items in localStorage
+                localStorage.setItem('bagFoodsName', JSON.stringify(data.bagFoodsName));
+
+                // Update the UI
+                updateUI(data);
             }
-        });
+            else {
+                Swal.fire({ icon: 'error', text: 'Item already in the bag!', timer: 500, showCancelButton: false, showConfirmButton: false});
+            }
+        }
     });
+});
+
+// Check if there is stored data on page load and update the UI
+$(document).ready(function() {
+    let storedCount = localStorage.getItem('itemCount');
+    let storedItems = localStorage.getItem('bagFoodsName');
+
+    if (storedCount && storedItems) {
+        let itemCount = parseInt(storedCount);
+        let itemsArray = JSON.parse(storedItems);
+
+        let storedData = {
+            bagItemCount: itemCount,
+            bagFoodsName: itemsArray
+        };
+
+        updateUI(storedData);
+    }
+});
+
 </script>
 <!-- Code end for add to bag -->
 
@@ -306,17 +337,3 @@
 </script>
 
 {% endblock content %}
-
-
-<!-- 
-    <div class="container-xxl py-5 bg-dark hero-header mb-5">
-        <div class="container text-center my-5 pt-5 pb-4">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">{{restId.name}}</h1>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb justify-content-center text-uppercase">
-                    <li class="breadcrumb-item"><a href="tel:{{restId.mobile}}"><i class="fa fa-phone fa-2x text-primary"></i></a></li>
-                </ol>
-            </nav>
-        </div>
-    </div>
- -->

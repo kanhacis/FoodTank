@@ -72,13 +72,20 @@ def editMenu(request, id):
         mprice = request.POST.get('mprice')
         mcuisine = request.POST.get('mcuisine')
         mimg1 = request.FILES.get('mimg1')
+        status = request.POST.get('menuStatus')
         mdesc = request.POST.get('mdesc')
+
+        if status:
+            status = True
+        else:
+            status = False
 
         menuItem.name = mname
         menuItem.type = mtype
         menuItem.price = mprice
         menuItem.cuisine = mcuisine
         menuItem.img1 = mimg1
+        menuItem.available = status
         menuItem.description = mdesc
 
         menuItem.save()

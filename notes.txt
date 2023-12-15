@@ -80,14 +80,15 @@ Time sheet filled : Yes
 
 Work Done Today:-
     1. Django
-        - Working with order is_confirmed
-        - Also implement ajax while order confirmed
-        - Add todo list(for today's task) in admin dashboard.
+        - Complete order is_confirmed (from admin dashboard)
+        - Implement ajax for the same (above task)
+        - Modify some code (login --> direct redirect to home page)
+        - Handle anonymous user
+        - Learn (Introduction of signals)
         
-Day Start Time: 11:15
-Day End Time:  7:30
+Day Start Time: 12:05
+Day End Time:  8:58
 
-- 
 
 
 
