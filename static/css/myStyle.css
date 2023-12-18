@@ -48,3 +48,51 @@
     border-radius: 5px;
   }
 /* Review add css end */
+
+
+
+/* Code start for listing current foodItem name and count */
+img {
+  height: 400px;
+  margin-top: 30px;
+  object-fit: cover;
+}
+
+.circle-container {
+  float: right;
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(255, 166, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+#itemCount {
+  margin: 0;
+  color: #fff;
+}
+
+.hidden {
+  display: none;
+}
+
+.list-container {
+  margin-top: 10px;
+  padding: 10px;
+  float: right;
+  margin-right: 10px;
+  border-radius: 10px;
+  color: white;
+  background-color: rgb(255, 160, 0);
+}
+
+.list-item {
+  margin-bottom: 5px;
+}
+/* Code end for listing current foodItem name and count */

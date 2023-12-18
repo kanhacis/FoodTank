@@ -10,6 +10,7 @@ USER_TYPE = (
 class User(AbstractUser):
     mobile = models.CharField(max_length=255, unique=True)
     user_type = models.CharField(max_length=255, choices=USER_TYPE)
+    profile = models.ImageField(upload_to="menu_images", blank=True, null=True)
         
 
 # Address Model

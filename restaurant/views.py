@@ -60,8 +60,9 @@ def adminDashboard(request):
     for i in myOrders:
         if i.total_bill != None:
             if str(i.order_date)[0:10] == str(today):
-                todayAmount += i.total_bill
-                todayOrder += 1
+                if i.is_confirmed:
+                    todayAmount += i.total_bill
+                    todayOrder += 1
     
     # Create a context dictionary with the restaurant data to pass to the template
     context = {
@@ -141,15 +142,12 @@ def addRestaurant(request):
         rimg4 = request.FILES.get('rimg4')
         desc = request.POST.get('desc')
 
-        print(uname, rname, raddress, rimg1)
-
         user_obj = User.objects.get(username=uname)
 
-        # restaurant = Restaurant.objects.create(user=user_obj, name=rname, city=rcity, 
-        #                         address=raddress, mobile=rmobile, veg_or_nonveg=rtype, no_of_chefs=nchefs,
-        #                         start_date=rdate, img1=rimg1, img2=rimg2, img3=rimg3, img4=rimg4, desc=desc)
-        # restaurant.save()
-        # message = messages.success(request, 'Restaurant created successfully!')
+        restaurant = Restaurant.objects.create(user=user_obj, name=rname, city=rcity, 
+                                address=raddress, mobile=rmobile, veg_or_nonveg=rtype, no_of_chefs=nchefs,
+                                start_date=rdate, img1=rimg1, img2=rimg2, img3=rimg3, img4=rimg4, desc=desc)
+        restaurant.save()
         return JsonResponse({"status":"restaurantAdded"})
         
 

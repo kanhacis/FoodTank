@@ -49,7 +49,7 @@
                       <tr class="deleteRow">
                         <th scope="row">
                           <img src="{{item.item.img1.url}}" class="img-fluid rounded-3" alt="food"
-                            style="width: 5rem; height: 4rem" />
+                            style="width: 5rem; height: 4rem; margin-top: -1px;" />
                         </th>
 
                         <td>{{item.item.name}}</td>
@@ -107,9 +107,7 @@
                       <div>
                         <select class="bg-dark rounded-3 text-white" name="payment" id="payment-method"
                           style="width: 91.5%; height: 40px">
-                          <option value="Cash on delivery">
-                            &nbsp;Cash on delivery
-                          </option>
+                          <option value="Cash on delivery">&nbsp;Cash on delivery</option>
                           <option value="Net banking">&nbsp;Net banking</option>
                           <option value="UPI">&nbsp;UPI</option>
                         </select>
@@ -131,7 +129,7 @@
                   <hr class="my-4" />
 
                   <div class="d-flex justify-content-between mb-4">
-                    <h5 class="text-uppercase" id="itemCount">items {{count}}</h5>
+                    <h5 class="text-uppercase" id="itemCount1">items {{count}}</h5>
                     <h5 class="totalPrice">₹{{total}}</h5>
                   </div>
 
@@ -201,7 +199,7 @@
       url: "/bag/deleteItem/" + id,
       data: myData,
       success: function (data) {
-        if (data.status === "itemDeleted") {
+        if (data.status === "itemDeleted") { 
           // Remove the complete row
           $(this).closest(".deleteRow").remove();
 
@@ -214,6 +212,9 @@
             localStorage.setItem('itemCount', String(itemCount - 1));
           }
 
+          // Update the counter of navbar
+          $("#counter").text(itemCount-=1);
+
           // Remove selected food name from localStorage
           let selectedFoodName = data.deletedFoodName; // Assuming it's retrieved from the server response
           let storedFoods = JSON.parse(localStorage.getItem('bagFoodsName')) || [];
@@ -221,11 +222,15 @@
           localStorage.setItem('bagFoodsName', JSON.stringify(updatedFoods));
 
           // Update the UI (if needed)
-          $("#itemCount").text("items " + String(parseInt(data.totalItem, 10) - 1));
+          $("#itemCount1").text("items " + String(parseInt(data.totalItem, 10) - 1));
         }
       }.bind(this)
     });
   });
+
+  $("#userLogout").click(function () { 
+    localStorage.clear();
+   })
 </script>
 <!-- End code to delete item -->
 

@@ -4,51 +4,7 @@
 {% load sweetify %}
 {% sweetify %}
 
-<style>
-    img {
-        height: 400px;
-        margin-top: 30px;
-        object-fit: cover;
-    }
 
-    .circle-container {
-        float: right;
-    }
-
-    .circle {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background-color: rgb(255, 166, 0);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-    }
-
-    #itemCount {
-        margin: 0;
-        color: #fff;
-    }
-
-    .hidden {
-        display: none;
-    }
-
-    .list-container {
-        margin-top: 10px;
-        padding: 10px;
-        float: right;
-        margin-right: 10px;
-        border-radius: 10px;
-        color: white;
-        background-color: rgb(255, 160, 0);
-    }
-
-    .list-item {
-        margin-bottom: 5px;
-    }
-</style>
 <!-- Navbar & Hero Start -->
 <div class="container-xxl position-relative p-0">
     <!-- Navbar include start -->
@@ -247,93 +203,12 @@
 <!-- Menu End -->
 
 <!-- Code start for add to bag -->
-<script>
-    // Function to update the item count and list in the UI
-function updateUI(data) {
-    let count = data.bagItemCount;
-    $("#itemCount").text(count);
-
-    let result = '';
-    let x = data.bagFoodsName;
-    for(let i = 0; i < x.length; i++){
-        result += `<div class="list-item">${x[i]}</div>`;
-    }
-
-    $("#listContainer").html(result);
-}
-
-$(".addToBag").click(function (event) {
-    event.preventDefault();
-
-    let id = $(this).attr("data-menu-id");
-    let myData = { id: id };
-
-    $(this).closest(".inBag").find(".addText").text("Added move to bag ➙");
-
-    $.ajax({
-        url: '/bag/add-to-bag/' + id,
-        data: myData,
-        success: function (data) {
-            if (data.status == "itemAdded") {
-                Swal.fire({ icon: 'success', text: 'Item added!', timer: 500, showCancelButton: false, showConfirmButton: false});
-
-                // Update the item count in localStorage
-                localStorage.setItem('itemCount', data.bagItemCount);
-
-                // Update the list of items in localStorage
-                localStorage.setItem('bagFoodsName', JSON.stringify(data.bagFoodsName));
-
-                // Update the UI
-                updateUI(data);
-            }
-            else {
-                Swal.fire({ icon: 'error', text: 'Item already in the bag!', timer: 500, showCancelButton: false, showConfirmButton: false});
-            }
-        }
-    });
-});
-
-// Check if there is stored data on page load and update the UI
-$(document).ready(function() {
-    let storedCount = localStorage.getItem('itemCount');
-    let storedItems = localStorage.getItem('bagFoodsName');
-
-    if (storedCount && storedItems) {
-        let itemCount = parseInt(storedCount);
-        let itemsArray = JSON.parse(storedItems);
-
-        let storedData = {
-            bagItemCount: itemCount,
-            bagFoodsName: itemsArray
-        };
-
-        updateUI(storedData);
-    }
-});
-
-</script>
+    <!-- Code written in ajax.js -->
 <!-- Code end for add to bag -->
 
-<script>
-    $(document).ready(function () {
-        var circle = $('#circle');
-        var listContainer = $('#listContainer');
 
-        circle.mouseenter(function () {
-            // Toggle the visibility of the list container
-            listContainer.slideDown();
-        });
-
-        circle.mouseleave(function () {
-            // Toggle the visibility of the list container
-            listContainer.slideUp();
-        });
-
-        circle.click(function () { 
-            // Move to the basket
-            window.location = "/bag/view_bag/";
-         })
-    });
-</script>
+<!-- Code start for listing current added item -->
+    <!-- Code written in ajax.js -->
+<!-- Code end for listing current added item -->
 
 {% endblock content %}

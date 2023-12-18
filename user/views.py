@@ -97,6 +97,7 @@ def profile(request):
             user.last_name = request.POST.get('lname', '')
             user.email = request.POST.get('email', '')
             user.mobile = request.POST.get('mobile', '')
+            user.profile = request.FILES.get('profile', '')
 
             address.state = request.POST.get('state', '')
             address.city = request.POST.get('city', '')
@@ -106,7 +107,7 @@ def profile(request):
             address.category = request.POST.get('category', '')
 
             address.save()
-            user.save()
+            # user.save()
             return JsonResponse({'status':'profileUpdate'})
         else:
             address = Address.objects.create(user=user, primary=False)
@@ -122,7 +123,7 @@ def profile(request):
             
             address = Address.objects.filter(user=user).values()
             address = list(address)
-            print(address)
+
             return JsonResponse({'status':'profileUpdate', 'address':address})
     
     userAddress, created = Address.objects.get_or_create(user=request.user, primary=True)

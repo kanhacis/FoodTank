@@ -80,17 +80,21 @@ Time sheet filled : Yes
 
 Work Done Today:-
     1. Django
-        - Complete order is_confirmed (from admin dashboard)
-        - Implement ajax for the same (above task)
-        - Modify some code (login --> direct redirect to home page)
-        - Handle anonymous user
-        - Learn (Introduction of signals)
+        - Learn about localStorage and Implement in my Django project.
+            - Implement bag counter.
+            - FoodItem counter.
+        - Working with profile picture upload (admin dashboard)
+        - Setup react-django real estate project.
+        - Separating the code.
         
 Day Start Time: 12:05
-Day End Time:  8:58
+Day End Time:  9:00
 
 
+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
 
+
+Implement localStorage || Setup react-django react estate project.
 
 
 

@@ -49,7 +49,7 @@
                         <i class="fa fa-chart-area fa-3x text-primary"></i>
                         <div class="ms-3">
                             <p class="mb-2">Today Sales</p>
-                            <h6 class="mb-0">₹{{todayAmount}}</h6>
+                            <h6 class="mb-0" id="todayAmount">₹{{todayAmount}}</h6>
                         </div>
                     </div>
                 </div>
@@ -304,7 +304,11 @@
                 let totalSale = $("#totalAmount").text().substring(1);
 
                 // Get the current confirm order price
-                $("#totalAmount").text(Number(totalSale) + Number(currentOrderPrice))
+                $("#totalAmount").text(`₹${Number(totalSale) + Number(currentOrderPrice)}`);
+
+                // Get todaySales and update it
+                let todaySales = $("#todayAmount").text().substring(1);
+                $("#todayAmount").text(`₹${Number(todaySales) + Number(currentOrderPrice)}`)
             }
         });
      })
