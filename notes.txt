@@ -91,8 +91,6 @@ Day Start Time: 12:05
 Day End Time:  9:00
 
 
-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
-
 
 Implement localStorage || Setup react-django react estate project.
 
